@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Items/abstract_scenes/Projectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Items/Projectiles/Sprites/Bullet.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+resource_local_to_scene = true
+extents = Vector2( 3.51836, 2.54391 )
+
+[node name="Bullet" instance=ExtResource( 1 )]
+mass = 3.0
+continuous_cd = 1
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource( 1 )
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource( 2 )
+
+[node name="SpawnOrigin" parent="." index="2"]
+position = Vector2( -3.52727, 0 )
+

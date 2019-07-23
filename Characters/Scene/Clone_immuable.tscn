@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Characters/abstract_scenes/Character.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Characters/Scripts/Clone_immuable.gd" type="Script" id=2]
+[ext_resource path="res://Characters/Scripts/ActionPlayerImmuable.gd" type="Script" id=3]
+
+[sub_resource type="CapsuleShape2D" id=1]
+resource_local_to_scene = true
+radius = 1.44157
+height = 25.4696
+
+[node name="Clone_immuable" index="0" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+brakePower = 5.0
+maxAppliableAngularV = 50.0
+movement_acceleration = 5.0
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource( 1 )
+
+[node name="Head" parent="BodyParts" index="0"]
+targetNodePath = NodePath("../../../Clone_immuable/Ghost/TorsoHeadAxle")
+
+[node name="ArmTop" parent="BodyParts" index="1"]
+targetNodePath = NodePath("../../../Clone_immuable/Ghost/TorsoAxle/TorsoArmAxle")
+
+[node name="ArmBottom" parent="BodyParts/ArmTop" index="2"]
+targetNodePath = NodePath("../../../../Clone_immuable/Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
+
+[node name="LegTop" parent="BodyParts" index="2"]
+targetNodePath = NodePath("../../../Clone_immuable/Ghost/TorsoLegAxle")
+
+[node name="LegBottom" parent="BodyParts/LegTop" index="2"]
+targetNodePath = NodePath("../../../../Clone_immuable/Ghost/TorsoLegAxle/LegTopBottomAxle")
+
+[node name="ArmTop2" parent="BodyParts" index="3"]
+targetNodePath = NodePath("../../../Clone_immuable/Ghost/TorsoAxle/TorsoArmAxle2")
+
+[node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2"]
+targetNodePath = NodePath("../../../../Clone_immuable/Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
+
+[node name="LegTop2" parent="BodyParts" index="4"]
+targetNodePath = NodePath("../../../Clone_immuable/Ghost/TorsoLegAxle2")
+
+[node name="LegBottom2" parent="BodyParts/LegTop2" index="2"]
+targetNodePath = NodePath("../../../../Clone_immuable/Ghost/TorsoLegAxle2/LegTopBottomAxle2")
+
+[node name="ItemManager" parent="." index="12"]
+_right_hand_path = NodePath("../../Clone_immuable/BodyParts/ArmTop/ArmBottom")
+_left_hand_path = NodePath("../../Clone_immuable/BodyParts/ArmTop2/ArmBottom2")
+_right_hand_grabPoint_path = NodePath("../../Clone_immuable/BodyParts/ArmTop/ArmBottom/HandPin")
+_left_hand_grabPoint_path = NodePath("../../Clone_immuable/BodyParts/ArmTop2/ArmBottom2/HandPin2")
+
+[node name="ActionPlayerImmuable" type="Node" parent="." index="13"]
+script = ExtResource( 3 )
+
