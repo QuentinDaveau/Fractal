@@ -1,0 +1,29 @@
+extends RayCast2D
+
+export(float) var GROUNDED_DELAY = 0.1
+
+var _grounded: bool = false
+
+func _ready():
+	$GroundedDelay.connect("timeout", self, "_grounded_timeout")
+
+func _physics_process(delta):
+	if _grounded:
+		if !is_colliding():
+			if $GroundedDelay.is_stopped():
+				$GroundedDelay.start(GROUNDED_DELAY)
+	else:
+		if is_colliding():
+			_grounded = true
+
+func is_grounded() -> bool:
+	return _grounded
+
+func add_collision_exception(bodies_array: Array) -> void:
+	for body in bodies_array:
+		add_exception(body)
+
+func _grounded_timeout() -> void:
+	if !is_colliding():
+		_grounded = false
+	

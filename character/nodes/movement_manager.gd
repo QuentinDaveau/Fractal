@@ -17,11 +17,12 @@ var _can_jump: bool = true
 
 
 func jump() -> void:
-	if stateMachine.possible_actions.CAN_JUMP:
-		if _can_jump:
-			print("jump")
-			character.jump(-abs(jump_power) * _jump_scaling_coeff, -abs(jump_hold_power)  * _jump_scaling_coeff)
-			_can_jump = false
+#	if stateMachine.possible_actions.CAN_JUMP:
+#		if _can_jump:
+#			print("jump")
+#			character.jump(-abs(jump_power) * _jump_scaling_coeff, -abs(jump_hold_power)  * _jump_scaling_coeff)
+#			_can_jump = false
+	pass
 
 
 func jump_released() -> void:
@@ -31,14 +32,15 @@ func jump_released() -> void:
 
 func update_movement(input_vect:Vector2) -> void:
 	
-	if input_vect.length() < movement_dead_zone:
-		character.forceVector = Vector2(0.0, 0.0)
-		torsoAxle.rotation_degrees = 0.0
-		return
-	
-	if stateMachine.possible_actions.CAN_WALK:
-		character.forceVector = input_vect * movement_speed / _movement_scaling_coeff
-		torsoAxle.rotation_degrees = lerp(-run_leaning_angle, run_leaning_angle, (1 + input_vect.x)/2)
+#	if input_vect.length() < movement_dead_zone:
+#		character.forceVector = Vector2(0.0, 0.0)
+#		torsoAxle.rotation_degrees = 0.0
+#		return
+#
+#	if stateMachine.possible_actions.CAN_WALK:
+#		character.forceVector = input_vect * movement_speed / _movement_scaling_coeff
+#		torsoAxle.rotation_degrees = lerp(-run_leaning_angle, run_leaning_angle, (1 + input_vect.x)/2)
+	pass
 
 
 func _on_RayCast2D_collision_entered() -> void:

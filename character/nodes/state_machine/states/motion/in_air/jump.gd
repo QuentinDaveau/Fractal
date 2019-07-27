@@ -1,4 +1,4 @@
-extends "../motion.gd"
+extends "in_air.gd"
 
 export(float) var BASE_MAX_HORIZONTAL_SPEED = 400.0
 
@@ -27,7 +27,7 @@ func initialize(speed, velocity):
 
 func enter():
 	var input_direction = get_input_direction()
-	update_look_direction(input_direction)
+#	update_look_direction(input_direction)
 
 	horizontal_velocity = enter_velocity if input_direction else Vector2()
 	vertical_speed = 600.0
@@ -35,13 +35,14 @@ func enter():
 	owner.get_node("AnimationPlayer").play("idle")
 
 func update(delta):
-	var input_direction = get_input_direction()
-	update_look_direction(input_direction)
-
-	move_horizontally(delta, input_direction)
-	animate_jump_height(delta)
-	if height <= 0.0:
-		emit_signal("finished", "previous")
+#	var input_direction = get_input_direction()
+#	update_look_direction(input_direction)
+#
+#	move_horizontally(delta, input_direction)
+#	animate_jump_height(delta)
+#	if height <= 0.0:
+#		emit_signal("finished", "previous")
+	pass
 
 func move_horizontally(delta, direction):
 	if direction:

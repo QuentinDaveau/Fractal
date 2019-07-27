@@ -1,4 +1,8 @@
-extends Node
+extends "in_air.gd"
 
-func _ready():
+func enter():
+	pass
+
+func update(delta):
+	.update(delta)
 	pass

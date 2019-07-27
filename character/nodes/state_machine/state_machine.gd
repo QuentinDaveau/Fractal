@@ -3,6 +3,9 @@ extends Node
 signal state_changed(current_state)
 
 export(NodePath) var START_STATE
+
+var device_id: int = 0
+
 var states_map = {}
 
 var states_stack = []
@@ -28,8 +31,9 @@ func set_active(value):
 		states_stack = []
 		current_state = null
 
-func _input(event):
-	current_state.handle_input(event)
+func _unhandled_input(event):
+	if event.device == device_id:
+		current_state.handle_input(event)
 
 func _physics_process(delta):
 	current_state.update(delta)
@@ -50,7 +54,11 @@ func _change_state(state_name):
 		states_stack[0] = states_map[state_name]
 	
 	current_state = states_stack[0]
+	
+	if current_state.has_method("init_input_direction"):
+		current_state.init_input_direction(device_id)
+	
 	emit_signal("state_changed", current_state)
 	
-	if state_name != "previous":
-		current_state.enter()
+#	if state_name != "previous":
+	current_state.enter()

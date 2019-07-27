@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://character/nodes/Body_parts/BodyPart.tscn" type="PackedScene" id=1]
 [ext_resource path="res://character/character.gd" type="Script" id=2]
@@ -9,10 +9,15 @@
 [ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegTop.tscn" type="PackedScene" id=7]
 [ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegBottom.tscn" type="PackedScene" id=8]
 [ext_resource path="res://character/nodes/movement_manager.gd" type="Script" id=9]
-[ext_resource path="res://character/nodes/DEPRECATED/StateMachine.gd" type="Script" id=10]
-[ext_resource path="res://character/nodes/animation_player.gd" type="Script" id=11]
-[ext_resource path="res://character/nodes/arms_manager.gd" type="Script" id=12]
-[ext_resource path="res://character/nodes/item_manager.gd" type="Script" id=13]
+[ext_resource path="res://character/nodes/state_machine/character_state_machine.gd" type="Script" id=10]
+[ext_resource path="res://character/nodes/state_machine/states/motion/on_ground/idle.gd" type="Script" id=11]
+[ext_resource path="res://character/nodes/state_machine/states/motion/on_ground/move.gd" type="Script" id=12]
+[ext_resource path="res://character/nodes/state_machine/states/motion/in_air/jump.gd" type="Script" id=13]
+[ext_resource path="res://character/nodes/state_machine/states/motion/in_air/fall.gd" type="Script" id=14]
+[ext_resource path="res://character/nodes/animation_player.gd" type="Script" id=15]
+[ext_resource path="res://character/nodes/arms_manager.gd" type="Script" id=16]
+[ext_resource path="res://character/nodes/item_manager.gd" type="Script" id=17]
+[ext_resource path="res://character/nodes/grounded_check/GroundedCheck.tscn" type="PackedScene" id=18]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.2
@@ -233,12 +238,14 @@ region_rect = Rect2( 86, 0, 11, 95 )
 shape = SubResource( 2 )
 
 [node name="RayCast2D" type="RayCast2D" parent="." index="2"]
+visible = false
 enabled = true
 cast_to = Vector2( 0, 55 )
 collision_mask = 2
 script = ExtResource( 3 )
 
 [node name="BodyParts" type="Node2D" parent="." index="3"]
+editor/display_folded = true
 
 [node name="Head" parent="BodyParts" index="0" instance=ExtResource( 4 )]
 editor/display_folded = true
@@ -248,10 +255,10 @@ collision_mask = 0
 mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
+targetNodePath = NodePath("../../Ghost/TorsoHeadAxle")
 power = 20.0
 brakePower = 1.0
 restrictionPower = 1.0
-targetNodePath = NodePath("../../Ghost/TorsoHeadAxle")
 maxAppliableAngularV = 15
 
 [node name="HeadTorsoPin" type="PinJoint2D" parent="BodyParts/Head" index="2"]
@@ -268,10 +275,10 @@ collision_mask = 0
 mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
+targetNodePath = NodePath("../../Ghost/TorsoAxle/TorsoArmAxle")
 power = 20.0
 brakePower = 1.0
 restrictionPower = 1.0
-targetNodePath = NodePath("../../Ghost/TorsoAxle/TorsoArmAxle")
 maxAppliableAngularV = 15
 
 [node name="TorsoArmPin" type="PinJoint2D" parent="BodyParts/ArmTop" index="2"]
@@ -286,11 +293,11 @@ position = Vector2( 0, 11.4021 )
 mass = 0.4
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
+targetNodePath = NodePath("../../../Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
 power = 20.0
 brakePower = 1.0
-restrictionPower = 1.0
-targetNodePath = NodePath("../../../Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
 minAngle = -3.0
+restrictionPower = 1.0
 maxAppliableAngularV = 15
 
 [node name="ArmTopBottomPin" type="PinJoint2D" parent="BodyParts/ArmTop/ArmBottom" index="2"]
@@ -311,14 +318,14 @@ collision_layer = 0
 collision_mask = 0
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
-power = 30.0
-brakePower = 1.0
-restrictionPower = 1.0
 targetNodePath = NodePath("../../Ghost/TorsoLegAxle")
+power = 30.0
 maxAppliedAngularV = 200.0
 maxAppliedDamp = 200.0
+brakePower = 1.0
 minAngle = -1.5
 maxAngle = 1.5
+restrictionPower = 1.0
 maxAppliableAngularV = 40
 
 [node name="TorsoLegPin" type="PinJoint2D" parent="BodyParts/LegTop" index="2"]
@@ -333,13 +340,13 @@ position = Vector2( 0, 17.4546 )
 mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
-power = 30.0
-brakePower = 1.0
-restrictionPower = 1.5
 targetNodePath = NodePath("../../../Ghost/TorsoLegAxle/LegTopBottomAxle")
+power = 30.0
 maxAppliedAngularV = 200.0
 maxAppliedDamp = 200.0
+brakePower = 1.0
 maxAngle = 2.0
+restrictionPower = 1.5
 maxAppliableAngularV = 40
 
 [node name="LegTopBottomPin" type="PinJoint2D" parent="BodyParts/LegTop/LegBottom" index="2"]
@@ -356,10 +363,10 @@ collision_mask = 0
 mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
+targetNodePath = NodePath("../../Ghost/TorsoAxle/TorsoArmAxle2")
 power = 20.0
 brakePower = 1.0
 restrictionPower = 1.0
-targetNodePath = NodePath("../../Ghost/TorsoAxle/TorsoArmAxle2")
 maxAppliableAngularV = 15
 
 [node name="TorsoArmPin2" type="PinJoint2D" parent="BodyParts/ArmTop2" index="2"]
@@ -373,11 +380,11 @@ position = Vector2( 0, 11.4021 )
 mass = 0.4
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
+targetNodePath = NodePath("../../../Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
 power = 20.0
 brakePower = 1.0
-restrictionPower = 1.0
-targetNodePath = NodePath("../../../Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
 minAngle = -3.0
+restrictionPower = 1.0
 maxAppliableAngularV = 15
 
 [node name="ArmTopBottomPin2" type="PinJoint2D" parent="BodyParts/ArmTop2/ArmBottom2" index="0"]
@@ -398,14 +405,14 @@ collision_layer = 0
 collision_mask = 0
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
-power = 30.0
-brakePower = 1.0
-restrictionPower = 1.0
 targetNodePath = NodePath("../../Ghost/TorsoLegAxle2")
+power = 30.0
 maxAppliedAngularV = 200.0
 maxAppliedDamp = 200.0
+brakePower = 1.0
 minAngle = -1.5
 maxAngle = 1.5
+restrictionPower = 1.0
 maxAppliableAngularV = 40
 
 [node name="TorsoLegPin2" type="PinJoint2D" parent="BodyParts/LegTop2" index="2"]
@@ -419,13 +426,13 @@ position = Vector2( 0, 17.4546 )
 mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
-power = 30.0
-brakePower = 1.0
-restrictionPower = 1.5
 targetNodePath = NodePath("../../../Ghost/TorsoLegAxle2/LegTopBottomAxle2")
+power = 30.0
 maxAppliedAngularV = 200.0
 maxAppliedDamp = 200.0
+brakePower = 1.0
 maxAngle = 2.0
+restrictionPower = 1.5
 maxAppliableAngularV = 40
 
 [node name="LegTopBottomPin2" type="PinJoint2D" parent="BodyParts/LegTop2/LegBottom2" index="2"]
@@ -474,6 +481,7 @@ position = Vector2( 5.36442e-007, 12.4927 )
 position = Vector2( 0, 16.907 )
 
 [node name="MovementManager" type="Node" parent="." index="6"]
+editor/display_folded = true
 script = ExtResource( 9 )
 movement_speed = 500.0
 jump_power = 4000.0
@@ -481,6 +489,25 @@ jump_hold_power = 2000.0
 
 [node name="StateMachine" type="Node" parent="." index="7"]
 script = ExtResource( 10 )
+START_STATE = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" index="0"]
+script = ExtResource( 11 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheck")
+MAX_VELOCITY = 0.0
+DAMPENING = 10000.0
+
+[node name="Move" type="Node" parent="StateMachine" index="1"]
+script = ExtResource( 12 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheck")
+DAMPENING = 10000.0
+
+[node name="Jump" type="Node" parent="StateMachine" index="2"]
+script = ExtResource( 13 )
+
+[node name="Fall" type="Node" parent="StateMachine" index="3"]
+script = ExtResource( 14 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheck")
 
 [node name="AnimationManager" type="AnimationPlayer" parent="." index="8"]
 root_node = NodePath("../Ghost")
@@ -488,7 +515,7 @@ playback_process_mode = 0
 anims/Idle = SubResource( 3 )
 anims/Running = SubResource( 4 )
 anims/RunningLeft = SubResource( 5 )
-script = ExtResource( 11 )
+script = ExtResource( 15 )
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="9"]
 tree_root = SubResource( 12 )
@@ -500,6 +527,7 @@ parameters/RunSpeed/scale = 2.0
 parameters/TimeScale/scale = 1.0
 
 [node name="GrabArea" type="Area2D" parent="." index="10"]
+editor/display_folded = true
 position = Vector2( 0, 20.6906 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea" index="0"]
@@ -508,14 +536,18 @@ position = Vector2( 0, 7.29973 )
 shape = SubResource( 13 )
 
 [node name="ArmsManager" type="Node" parent="." index="11"]
-script = ExtResource( 12 )
+script = ExtResource( 16 )
 
 [node name="ItemManager" type="Node" parent="." index="12"]
-script = ExtResource( 13 )
+script = ExtResource( 17 )
 _right_hand_path = NodePath("../BodyParts/ArmTop/ArmBottom")
 _left_hand_path = NodePath("../BodyParts/ArmTop2/ArmBottom2")
 _right_hand_grabPoint_path = NodePath("../BodyParts/ArmTop/ArmBottom/HandPin")
 _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/HandPin2")
+
+[node name="GroundedCheck" parent="." index="13" instance=ExtResource( 18 )]
+enabled = true
+cast_to = Vector2( 0, 65 )
 
 [connection signal="collision_entered" from="RayCast2D" to="MovementManager" method="_on_RayCast2D_collision_entered"]
 [connection signal="collision_exited" from="RayCast2D" to="MovementManager" method="_on_RayCast2D_collision_exited"]

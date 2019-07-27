@@ -25,8 +25,6 @@ onready var _starting_gravity_scale = gravity_scale
 
 var drawList = []
 
-var forceVector = Vector2(0.0, 0.0)
-
 var jumping: bool = true
 var jumping_held:bool = false
 
@@ -37,7 +35,13 @@ var _pins_list: Dictionary = {}
 
 var _scale_init_done = true
 
-var _mouvement_dampening: float = 10000.0
+
+
+
+var _motion_dampening: float
+var _max_velocity: float
+
+var _desired_direction = Vector2(0.0, 0.0)
 
 func _ready():
 	
@@ -47,11 +51,18 @@ func _ready():
 	
 	_set_collision_exception(_body_parts_list)
 	$RayCast2D.add_collision_exception(_body_parts_list)
+	$GroundedCheck.add_collision_exception(_body_parts_list)
 	
 	if is_scaled:
 		_scale_init_done = false
 		_custom_scale_self()
 
+func update_velocity_limitations(max_velocity: float, dampening: float):
+	_motion_dampening = dampening
+	_max_velocity = max_velocity
+
+func set_velocity(direction: Vector2):
+	_desired_direction = direction
 
 func _get_all_nodes(node:Node, array:Array) -> Array:
 	for N in node.get_children():
@@ -100,7 +111,7 @@ func _custom_scale_self() -> void:
 	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * body_scale_mult * scale_coeff)
 	
 #	movement_acceleration /= pow(scale_coeff * body_mass_mult, 2)
-#	_mouvement_dampening /= pow(scale_coeff * body_mass_mult, 2)
+#	_motion_dampening /= pow(scale_coeff * body_mass_mult, 2)
 	
 	print(movement_acceleration)
 	
@@ -147,8 +158,10 @@ func _define_layers() -> void:
 	for i in range(_layers_length):
 		if mask_array.has(i):
 			$RayCast2D.set_collision_mask_bit(i, true)
+			$GroundedCheck.set_collision_mask_bit(i, true)
 		else:
 			$RayCast2D.set_collision_mask_bit(i, false)
+			$GroundedCheck.set_collision_mask_bit(i, true)
 
 
 func _disable_pins() -> void:
@@ -211,6 +224,7 @@ func _integrate_forces(state):
 #		applied_force.y = 0
 	
 	$RayCast2D.global_rotation = 0.0
+	$GroundedCheck.global_rotation = 0.0
 	
 #	state.linear_velocity.x = 200
 #	if raycast.is_colliding():
@@ -219,30 +233,30 @@ func _integrate_forces(state):
 	_keep_body_straight(state)
 
 
-func _move_player(state: Physics2DDirectBodyState) -> void:
-	
-	var current_velocity = state.linear_velocity.x
-	var desired_velocity = forceVector.x
-	
-	if current_velocity == desired_velocity:
-		return
-	
-	var acceleration = desired_velocity - current_velocity
-	
-	if abs(current_velocity) < abs(desired_velocity):
-		if abs(acceleration) < movement_acceleration:
-			current_velocity += acceleration
-		else:
-			current_velocity += movement_acceleration * sign(acceleration)
-	
-#	print(current_velocity)
-	
-	if abs(current_velocity) > _mouvement_dampening:
-		current_velocity -= _mouvement_dampening * sign(state.linear_velocity.x)
-	else:
-		current_velocity = 0.0
-	
-	state.linear_velocity.x = current_velocity
+#func _move_player(state: Physics2DDirectBodyState) -> void:
+#
+#	var current_velocity = state.linear_velocity.x
+#	var desired_velocity = forceVector.x
+#
+#	if current_velocity == desired_velocity:
+#		return
+#
+#	var acceleration = desired_velocity - current_velocity
+#
+#	if abs(current_velocity) < abs(desired_velocity):
+#		if abs(acceleration) < movement_acceleration:
+#			current_velocity += acceleration
+#		else:
+#			current_velocity += movement_acceleration * sign(acceleration)
+#
+##	print(current_velocity)
+#
+#	if abs(current_velocity) > _motion_dampening:
+#		current_velocity -= _motion_dampening * sign(state.linear_velocity.x)
+#	else:
+#		current_velocity = 0.0
+#
+#	state.linear_velocity.x = current_velocity
 
 
 func _move_player_forces(state: Physics2DDirectBodyState) -> void:
@@ -250,13 +264,13 @@ func _move_player_forces(state: Physics2DDirectBodyState) -> void:
 	applied_force.x = 0.0
 	
 	var current_velocity = linear_velocity.x
-	var desired_velocity = forceVector.x
+	var desired_velocity = _desired_direction.x * _max_velocity
 	
 	if abs(current_velocity) < abs(desired_velocity):
 		add_central_force(Vector2(ease(inverse_lerp(0, desired_velocity, desired_velocity - current_velocity), 0.1) * movement_acceleration * sign(desired_velocity), .0))
 	
-	if abs(current_velocity) > 10:
-		add_central_force(Vector2(-_mouvement_dampening * sign(current_velocity), .0))
+	if abs(current_velocity) > _max_velocity:
+		add_central_force(Vector2(-_motion_dampening * sign(current_velocity), .0))
 	
 #	print(inverse_lerp(0, desired_velocity, desired_velocity - current_velocity) * movement_acceleration * sign(desired_velocity))
 

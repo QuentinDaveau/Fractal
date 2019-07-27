@@ -10,8 +10,8 @@ onready var _arm2_axle: Position2D = get_node("../Ghost/TorsoAxle/TorsoArmAxle2"
 
 func update_arms_direction(direction_to_match: Vector2) -> void:
 	
-	if !stateMachine.possible_actions.CAN_AIM:
-		return
+#	if !stateMachine.possible_actions.CAN_AIM:
+#		return
 	
 	if direction_to_match.length() < aiming_dead_zone:
 		_arm1_axle.rotation = 0.0
