@@ -1,21 +1,44 @@
 [gd_scene load_steps=38 format=2]
 
-[ext_resource path="res://Characters/Body_parts/BasicBodyPart.tscn" type="PackedScene" id=1]
+[ext_resource path="res://character/nodes/Body_parts/BodyPart.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Archives/Character3.gd" type="Script" id=2]
-[ext_resource path="res://Characters/Scripts/RayCast2D.gd" type="Script" id=3]
-[ext_resource path="res://Characters/Body_parts/Head.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Characters/Body_parts/ArmTop.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Characters/Body_parts/ArmBottom.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Characters/Body_parts/LegTop.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Characters/Body_parts/LegBottom.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Characters/Scripts/InputManager.gd" type="Script" id=9]
-[ext_resource path="res://Characters/Scripts/MovementManager.gd" type="Script" id=10]
-[ext_resource path="res://Characters/Scripts/StateMachine.gd" type="Script" id=11]
-[ext_resource path="res://Characters/Scripts/AnimationPlayer.gd" type="Script" id=12]
-[ext_resource path="res://Characters/Scripts/ArmsManager.gd" type="Script" id=13]
-[ext_resource path="res://Characters/Scripts/ActionManager.gd" type="Script" id=14]
-[ext_resource path="res://Characters/Scripts/ItemManager.gd" type="Script" id=15]
-[ext_resource path="res://Characters/Scripts/ActionLogger.gd" type="Script" id=16]
+[ext_resource path="res://character/nodes/raycast_2D.gd" type="Script" id=3]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/Head.tscn" type="PackedScene" id=4]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/ArmTop.tscn" type="PackedScene" id=5]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/ArmBottom.tscn" type="PackedScene" id=6]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegTop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegBottom.tscn" type="PackedScene" id=8]
+[ext_resource path="res://character/player/nodes/InputManager.gd" type="Script" id=9]
+[ext_resource path="res://character/nodes/movement_manager.gd" type="Script" id=10]
+[ext_resource path="res://character/nodes/DEPRECATED/StateMachine.gd" type="Script" id=11]
+[ext_resource path="res://character/nodes/animation_player.gd" type="Script" id=12]
+[ext_resource path="res://character/nodes/arms_manager.gd" type="Script" id=13]
+[ext_resource path="res://Character/Scripts/ActionManager.gd" type="Script" id=14]
+[ext_resource path="res://character/nodes/item_manager.gd" type="Script" id=15]
+[ext_resource path="res://character/nodes/DEPRECATED/ActionLogger.gd" type="Script" id=16]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.2

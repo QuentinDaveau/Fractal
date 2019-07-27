@@ -1,16 +1,28 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Archives/Character.gd" type="Script" id=1]
-[ext_resource path="res://Characters/Scripts/Body.gd" type="Script" id=2]
-[ext_resource path="res://Characters/Body_parts/Torso.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Characters/Body_parts/Torso.gd" type="Script" id=4]
-[ext_resource path="res://Characters/Body_parts/Head.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Characters/Body_parts/ArmTop.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Characters/Body_parts/ArmBottom.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Characters/Body_parts/LegTop.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Characters/Body_parts/LegBottom.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Characters/Scripts/Ghost.gd" type="Script" id=10]
+[ext_resource path="res://Character/Scripts/Body.gd" type="Script" id=2]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/Torso.tscn" type="PackedScene" id=3]
+[ext_resource path="res://character/nodes/DEPRECATED/Torso.gd" type="Script" id=4]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/Head.tscn" type="PackedScene" id=5]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/ArmTop.tscn" type="PackedScene" id=6]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/ArmBottom.tscn" type="PackedScene" id=7]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegTop.tscn" type="PackedScene" id=8]
+[ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegBottom.tscn" type="PackedScene" id=9]
+[ext_resource path="res://character/nodes/DEPRECATED/Ghost.gd" type="Script" id=10]
 [ext_resource path="res://icon.png" type="Texture" id=11]
+
+
+
+
+
+
+
+
+
+
+
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Walking"
