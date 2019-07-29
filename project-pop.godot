@@ -1,0 +1,171 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Position2D",
+"class": "BarrelExit",
+"language": "GDScript",
+"path": "res://Items/Scripts/BarrelExit.gd"
+}, {
+"base": "Damageable",
+"class": "BodyPart",
+"language": "GDScript",
+"path": "res://Characters/Body_parts/BasicBodyPart.gd"
+}, {
+"base": "Damageable",
+"class": "Character",
+"language": "GDScript",
+"path": "res://Characters/Scripts/Character.gd"
+}, {
+"base": "PhysicsScaler",
+"class": "Character3",
+"language": "GDScript",
+"path": "res://Archives/Character3.gd"
+}, {
+"base": "Character",
+"class": "Clone",
+"language": "GDScript",
+"path": "res://Characters/Scripts/Clone.gd"
+}, {
+"base": "PhysicsScaler",
+"class": "Clone_immuable",
+"language": "GDScript",
+"path": "res://Characters/Scripts/Clone_immuable.gd"
+}, {
+"base": "PhysicsScaler",
+"class": "Damageable",
+"language": "GDScript",
+"path": "res://Characters/Scripts/Damageable.gd"
+}, {
+"base": "Weapon",
+"class": "Gun",
+"language": "GDScript",
+"path": "res://Items/Scripts/Gun.gd"
+}, {
+"base": "LevelScaler",
+"class": "Level",
+"language": "GDScript",
+"path": "res://Levels/Scripts/Level.gd"
+}, {
+"base": "Node2D",
+"class": "LevelScaler",
+"language": "GDScript",
+"path": "res://Misc/Scripts/LevelScaler.gd"
+}, {
+"base": "RigidBody2D",
+"class": "PhysicsScaler",
+"language": "GDScript",
+"path": "res://Misc/Scripts/PhysicsScaler.gd"
+}, {
+"base": "PhysicsScaler",
+"class": "Pickable",
+"language": "GDScript",
+"path": "res://Items/Scripts/Pickable.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Pickable2",
+"language": "GDScript",
+"path": "res://TestScene.gd"
+}, {
+"base": "Character",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Characters/Scripts/Player.gd"
+}, {
+"base": "Position2D",
+"class": "PlayerSpawn",
+"language": "GDScript",
+"path": "res://Levels/Scripts/PlayerSpawn.gd"
+}, {
+"base": "PhysicsScaler",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://Items/Scripts/Projectile.gd"
+}, {
+"base": "Pickable",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://Items/Scripts/Weapon.gd"
+}, {
+"base": "RigidBody2D",
+"class": "ttt3",
+"language": "GDScript",
+"path": "res://2.gd"
+} ]
+_global_script_class_icons={
+"BarrelExit": "",
+"BodyPart": "",
+"Character": "",
+"Character3": "",
+"Clone": "",
+"Clone_immuable": "",
+"Damageable": "",
+"Gun": "",
+"Level": "",
+"LevelScaler": "",
+"PhysicsScaler": "",
+"Pickable": "",
+"Pickable2": "",
+"Player": "",
+"PlayerSpawn": "",
+"Projectile": "",
+"Weapon": "",
+"ttt3": ""
+}
+
+[application]
+
+config/name="Fractal"
+run/main_scene="res://Game manager/Scene/LevelManager.tscn"
+config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/test_width=1024
+window/size/test_height=600
+window/stretch/mode="2d"
+window/stretch/aspect="expand"
+
+[input]
+
+ui_accept={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"unicode":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777222,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+game_shoot={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+game_jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+game_grab_item={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+
+[physics]
+
+2d/default_gravity=490
+2d/default_linear_damp=0.0
+2d/default_angular_damp=0
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

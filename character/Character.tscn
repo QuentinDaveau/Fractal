@@ -493,21 +493,24 @@ START_STATE = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" index="0"]
 script = ExtResource( 11 )
-GROUNDED_CHECK_PATH = NodePath("../../GroundedCheck")
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckOnGround")
 MAX_VELOCITY = 0.0
-DAMPENING = 10000.0
+ACCELERATION = 10000.0
 
 [node name="Move" type="Node" parent="StateMachine" index="1"]
 script = ExtResource( 12 )
-GROUNDED_CHECK_PATH = NodePath("../../GroundedCheck")
-DAMPENING = 10000.0
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckOnGround")
+ACCELERATION = 20000.0
 
 [node name="Jump" type="Node" parent="StateMachine" index="2"]
 script = ExtResource( 13 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckInAir")
+ACCELERATION = 7500.0
 
 [node name="Fall" type="Node" parent="StateMachine" index="3"]
 script = ExtResource( 14 )
-GROUNDED_CHECK_PATH = NodePath("../../GroundedCheck")
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckInAir")
+ACCELERATION = 7500.0
 
 [node name="AnimationManager" type="AnimationPlayer" parent="." index="8"]
 root_node = NodePath("../Ghost")
@@ -545,9 +548,13 @@ _left_hand_path = NodePath("../BodyParts/ArmTop2/ArmBottom2")
 _right_hand_grabPoint_path = NodePath("../BodyParts/ArmTop/ArmBottom/HandPin")
 _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/HandPin2")
 
-[node name="GroundedCheck" parent="." index="13" instance=ExtResource( 18 )]
+[node name="GroundedCheckOnGround" parent="." index="13" instance=ExtResource( 18 )]
 enabled = true
-cast_to = Vector2( 0, 65 )
+cast_to = Vector2( 0, 70 )
+
+[node name="GroundedCheckInAir" parent="." index="14" instance=ExtResource( 18 )]
+enabled = true
+cast_to = Vector2( 0, 55 )
 
 [connection signal="collision_entered" from="RayCast2D" to="MovementManager" method="_on_RayCast2D_collision_entered"]
 [connection signal="collision_exited" from="RayCast2D" to="MovementManager" method="_on_RayCast2D_collision_exited"]

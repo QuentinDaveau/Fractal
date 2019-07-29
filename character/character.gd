@@ -38,10 +38,13 @@ var _scale_init_done = true
 
 
 
-var _motion_dampening: float
+var _motion_acceleration: float
 var _max_velocity: float
 
 var _desired_direction = Vector2(0.0, 0.0)
+
+var _jump_velocity: float
+var _jump: bool = false
 
 func _ready():
 	
@@ -51,14 +54,15 @@ func _ready():
 	
 	_set_collision_exception(_body_parts_list)
 	$RayCast2D.add_collision_exception(_body_parts_list)
-	$GroundedCheck.add_collision_exception(_body_parts_list)
+	$GroundedCheckOnGround.add_collision_exception(_body_parts_list)
+	$GroundedCheckInAir.add_collision_exception(_body_parts_list)
 	
 	if is_scaled:
 		_scale_init_done = false
 		_custom_scale_self()
 
-func update_velocity_limitations(max_velocity: float, dampening: float):
-	_motion_dampening = dampening
+func update_velocity_limitations(max_velocity: float, acceleration: float):
+	_motion_acceleration = acceleration
 	_max_velocity = max_velocity
 
 func set_velocity(direction: Vector2):
@@ -158,10 +162,12 @@ func _define_layers() -> void:
 	for i in range(_layers_length):
 		if mask_array.has(i):
 			$RayCast2D.set_collision_mask_bit(i, true)
-			$GroundedCheck.set_collision_mask_bit(i, true)
+			$GroundedCheckOnGround.set_collision_mask_bit(i, true)
+			$GroundedCheckInAir.set_collision_mask_bit(i, true)
 		else:
 			$RayCast2D.set_collision_mask_bit(i, false)
-			$GroundedCheck.set_collision_mask_bit(i, true)
+			$GroundedCheckOnGround.set_collision_mask_bit(i, true)
+			$GroundedCheckInAir.set_collision_mask_bit(i, true)
 
 
 func _disable_pins() -> void:
@@ -181,11 +187,12 @@ func _enable_pins() -> void:
 		pin.set_node_b(_pins_list[pin.get_name()][1])
 
 
-func jump(strength: float, held_strength: float) -> void:
-	jumping_strength = strength
-	jumping_held_strength = held_strength
-	jumping = true
-	jumping_held = true
+func jump(velocity: float) -> void:
+	_jump_velocity = velocity
+	_jump = true
+
+func update_jump_gravity(gravity_multiplier: float) -> void:
+	gravity_scale = gravity_multiplier
 
 
 func release_jump() -> void:
@@ -213,9 +220,10 @@ func _integrate_forces(state):
 #	_move_player(state)
 	_move_player_forces(state)
 	
-	if jumping:
-		apply_central_impulse(Vector2(0.0,jumping_strength - (linear_velocity.y * 7)))
-		jumping = false
+	if _jump:
+#		apply_central_impulse(Vector2(0.0,jumping_strength - (linear_velocity.y * 7)))
+		state.linear_velocity.y = -_jump_velocity
+		_jump = false
 	
 	
 #	if jumping_held:
@@ -224,7 +232,8 @@ func _integrate_forces(state):
 #		applied_force.y = 0
 	
 	$RayCast2D.global_rotation = 0.0
-	$GroundedCheck.global_rotation = 0.0
+	$GroundedCheckOnGround.global_rotation = 0.0
+	$GroundedCheckInAir.global_rotation = 0.0
 	
 #	state.linear_velocity.x = 200
 #	if raycast.is_colliding():
@@ -267,12 +276,10 @@ func _move_player_forces(state: Physics2DDirectBodyState) -> void:
 	var desired_velocity = _desired_direction.x * _max_velocity
 	
 	if abs(current_velocity) < abs(desired_velocity):
-		add_central_force(Vector2(ease(inverse_lerp(0, desired_velocity, desired_velocity - current_velocity), 0.1) * movement_acceleration * sign(desired_velocity), .0))
+		add_central_force(Vector2(ease(inverse_lerp(0, desired_velocity, desired_velocity - current_velocity), 0.1) * _motion_acceleration * sign(desired_velocity), .0))
 	
 	if abs(current_velocity) > _max_velocity:
-		add_central_force(Vector2(-_motion_dampening * sign(current_velocity), .0))
-	
-#	print(inverse_lerp(0, desired_velocity, desired_velocity - current_velocity) * movement_acceleration * sign(desired_velocity))
+		add_central_force(Vector2(ease(inverse_lerp(desired_velocity, desired_velocity + (_motion_acceleration/mass), abs(current_velocity)), 0.1) * -_motion_acceleration * sign(current_velocity), .0))
 
 func _keep_body_straight(state: Physics2DDirectBodyState) -> void:
 	

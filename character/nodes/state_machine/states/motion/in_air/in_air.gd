@@ -3,7 +3,7 @@ extends "../motion.gd"
 export(NodePath) var GROUNDED_CHECK_PATH
 
 export(float) var MAX_VELOCITY = 450.0
-export(float) var DAMPENING = 1000.0
+export(float) var ACCELERATION = 1000.0
 
 onready var GROUNDED_CHECK = get_node(GROUNDED_CHECK_PATH)
 

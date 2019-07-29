@@ -19,11 +19,18 @@ func _physics_process(delta):
 func is_grounded() -> bool:
 	return _grounded
 
+func jumping_disable(delay) -> void:
+	enabled = false
+	_grounded = false
+	$GroundedDelay.start(delay)
+
 func add_collision_exception(bodies_array: Array) -> void:
 	for body in bodies_array:
 		add_exception(body)
 
 func _grounded_timeout() -> void:
+	if !enabled:
+		enabled = true
 	if !is_colliding():
 		_grounded = false
 	
