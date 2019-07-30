@@ -4,15 +4,16 @@ signal state_changed(current_state)
 
 export(NodePath) var START_STATE
 
-var device_id: int = 0
-
 var states_map = {}
 
 var states_stack = []
 var current_state = null
 var _active = false setget set_active
 
+var _device_id: int
+
 func _ready():
+	owner.connect("device_set", self, "_set_device")
 	for child in get_children():
 		child.connect("finished", self, "_change_state")
 	initialize(START_STATE)
@@ -32,11 +33,14 @@ func set_active(value):
 		current_state = null
 
 func _unhandled_input(event):
-	if event.device == device_id:
+	if event.device == _device_id:
 		current_state.handle_input(event)
 
 func _physics_process(delta):
 	current_state.update(delta)
+
+func _set_device(device_id):
+	_device_id = device_id
 
 func _on_animation_finished(anim_name):
 	if not _active:
@@ -56,7 +60,7 @@ func _change_state(state_name):
 	current_state = states_stack[0]
 	
 	if current_state.has_method("init_input_direction"):
-		current_state.init_input_direction(device_id)
+		current_state.init_input_direction(_device_id)
 	
 	emit_signal("state_changed", current_state)
 	

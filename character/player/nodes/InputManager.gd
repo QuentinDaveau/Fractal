@@ -27,7 +27,7 @@ func _unhandled_input(event):
 			movement_manager.jump()
 			action_logger.log_button("game_jump", true)
 		
-		movement_manager.update_movement(_movement_input_axis)
+#		movement_manager.update_movement(_movement_input_axis)
 		animation_manager.move(_movement_input_axis.x)
 		action_logger.log_joystick(true, _movement_input_axis)
 	
@@ -52,21 +52,21 @@ func _unhandled_input(event):
 			_aiming_input_axis.y = event.axis_value
 	
 		if _is_movement:
-			movement_manager.update_movement(_movement_input_axis)
+#			movement_manager.update_movement(_movement_input_axis)
 			animation_manager.move(_movement_input_axis.x)
 			action_logger.log_joystick(true, _movement_input_axis)
 		else:
-			arms_manager.update_arms_direction(_aiming_input_axis)
+#			arms_manager.update_arms_direction(_aiming_input_axis)
 			action_logger.log_joystick(false, _aiming_input_axis)
 
 	elif(event is InputEventJoypadButton):
 		
 		if event.is_action_pressed("game_jump"):
-			movement_manager.jump()
+#			movement_manager.jump()
 			action_logger.log_button("game_jump", true)
 		
 		elif event.is_action_released("game_jump"):
-			movement_manager.jump_released()
+#			movement_manager.jump_released()
 			action_logger.log_button("game_jump", false)
 		
 		if event.is_action_pressed("game_shoot"):

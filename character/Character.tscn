@@ -1,23 +1,22 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://character/nodes/Body_parts/BodyPart.tscn" type="PackedScene" id=1]
 [ext_resource path="res://character/character.gd" type="Script" id=2]
-[ext_resource path="res://character/nodes/raycast_2D.gd" type="Script" id=3]
+[ext_resource path="res://character/character_settings.gd" type="Script" id=3]
 [ext_resource path="res://character/nodes/Body_parts/damageable/parts/Head.tscn" type="PackedScene" id=4]
 [ext_resource path="res://character/nodes/Body_parts/damageable/parts/ArmTop.tscn" type="PackedScene" id=5]
 [ext_resource path="res://character/nodes/Body_parts/damageable/parts/ArmBottom.tscn" type="PackedScene" id=6]
 [ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegTop.tscn" type="PackedScene" id=7]
 [ext_resource path="res://character/nodes/Body_parts/damageable/parts/LegBottom.tscn" type="PackedScene" id=8]
-[ext_resource path="res://character/nodes/movement_manager.gd" type="Script" id=9]
-[ext_resource path="res://character/nodes/state_machine/character_state_machine.gd" type="Script" id=10]
-[ext_resource path="res://character/nodes/state_machine/states/motion/on_ground/idle.gd" type="Script" id=11]
-[ext_resource path="res://character/nodes/state_machine/states/motion/on_ground/move.gd" type="Script" id=12]
-[ext_resource path="res://character/nodes/state_machine/states/motion/in_air/jump.gd" type="Script" id=13]
-[ext_resource path="res://character/nodes/state_machine/states/motion/in_air/fall.gd" type="Script" id=14]
-[ext_resource path="res://character/nodes/animation_player.gd" type="Script" id=15]
-[ext_resource path="res://character/nodes/arms_manager.gd" type="Script" id=16]
-[ext_resource path="res://character/nodes/item_manager.gd" type="Script" id=17]
-[ext_resource path="res://character/nodes/grounded_check/GroundedCheck.tscn" type="PackedScene" id=18]
+[ext_resource path="res://character/nodes/state_machine/character_state_machine.gd" type="Script" id=9]
+[ext_resource path="res://character/nodes/state_machine/states/motion/on_ground/idle.gd" type="Script" id=10]
+[ext_resource path="res://character/nodes/state_machine/states/motion/on_ground/move.gd" type="Script" id=11]
+[ext_resource path="res://character/nodes/state_machine/states/motion/in_air/jump.gd" type="Script" id=12]
+[ext_resource path="res://character/nodes/state_machine/states/motion/in_air/fall.gd" type="Script" id=13]
+[ext_resource path="res://character/nodes/animation_player.gd" type="Script" id=14]
+[ext_resource path="res://character/nodes/arms_manager.gd" type="Script" id=15]
+[ext_resource path="res://character/nodes/item_manager.gd" type="Script" id=16]
+[ext_resource path="res://character/nodes/grounded_check/GroundedCheck.tscn" type="PackedScene" id=17]
 
 [sub_resource type="PhysicsMaterial" id=1]
 friction = 0.2
@@ -213,7 +212,7 @@ nodes/RunSpeed/position = Vector2( 500, 20 )
 nodes/TimeScale/node = SubResource( 11 )
 nodes/TimeScale/position = Vector2( 300, 0 )
 nodes/output/position = Vector2( 740, 20 )
-node_connections = [ "output", 0, "RunSpeed", "TimeScale", 0, "BlendSpace1D", "RunSpeed", 0, "TimeScale" ]
+node_connections = [ "output", 0, "RunSpeed", "RunSpeed", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
 
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 54.5216, 62.7088 )
@@ -237,11 +236,7 @@ region_rect = Rect2( 86, 0, 11, 95 )
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 2 )
 
-[node name="RayCast2D" type="RayCast2D" parent="." index="2"]
-visible = false
-enabled = true
-cast_to = Vector2( 0, 55 )
-collision_mask = 2
+[node name="CharacterProperties" type="Node" parent="." index="2"]
 script = ExtResource( 3 )
 
 [node name="BodyParts" type="Node2D" parent="." index="3"]
@@ -288,7 +283,6 @@ node_a = NodePath("../../..")
 node_b = NodePath("..")
 
 [node name="ArmBottom" parent="BodyParts/ArmTop" index="3" instance=ExtResource( 6 )]
-editor/display_folded = true
 position = Vector2( 0, 11.4021 )
 mass = 0.4
 physics_material_override = SubResource( 1 )
@@ -309,6 +303,7 @@ node_b = NodePath("..")
 [node name="HandPin" type="PinJoint2D" parent="BodyParts/ArmTop/ArmBottom" index="3"]
 visible = false
 position = Vector2( 0, 15.7739 )
+node_a = NodePath("..")
 bias = 0.9
 
 [node name="LegTop" parent="BodyParts" index="2" instance=ExtResource( 7 )]
@@ -375,7 +370,6 @@ node_a = NodePath("../../..")
 node_b = NodePath("..")
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="3" instance=ExtResource( 6 )]
-editor/display_folded = true
 position = Vector2( 0, 11.4021 )
 mass = 0.4
 physics_material_override = SubResource( 1 )
@@ -396,6 +390,7 @@ node_b = NodePath("..")
 [node name="HandPin2" type="PinJoint2D" parent="BodyParts/ArmTop2/ArmBottom2" index="3"]
 visible = false
 position = Vector2( 0, 15.7739 )
+node_a = NodePath("..")
 bias = 0.9
 
 [node name="LegTop2" parent="BodyParts" index="4" instance=ExtResource( 7 )]
@@ -441,10 +436,7 @@ position = Vector2( 0, 0.000200272 )
 node_a = NodePath("../..")
 node_b = NodePath("..")
 
-[node name="Pins" type="Node2D" parent="." index="4"]
-visible = false
-
-[node name="Ghost" type="Node2D" parent="." index="5"]
+[node name="Ghost" type="Node2D" parent="." index="4"]
 editor/display_folded = true
 
 [node name="TorsoHeadAxle" type="Position2D" parent="Ghost" index="0"]
@@ -480,47 +472,40 @@ position = Vector2( 5.36442e-007, 12.4927 )
 [node name="LegTopBottomAxle2" type="Position2D" parent="Ghost/TorsoLegAxle2" index="0"]
 position = Vector2( 0, 16.907 )
 
-[node name="MovementManager" type="Node" parent="." index="6"]
-editor/display_folded = true
+[node name="StateMachine" type="Node" parent="." index="5"]
 script = ExtResource( 9 )
-movement_speed = 500.0
-jump_power = 4000.0
-jump_hold_power = 2000.0
-
-[node name="StateMachine" type="Node" parent="." index="7"]
-script = ExtResource( 10 )
 START_STATE = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" index="0"]
-script = ExtResource( 11 )
-GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckOnGround")
+script = ExtResource( 10 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckOnGround")
 MAX_VELOCITY = 0.0
 ACCELERATION = 10000.0
 
 [node name="Move" type="Node" parent="StateMachine" index="1"]
-script = ExtResource( 12 )
-GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckOnGround")
+script = ExtResource( 11 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckOnGround")
 ACCELERATION = 20000.0
 
 [node name="Jump" type="Node" parent="StateMachine" index="2"]
-script = ExtResource( 13 )
-GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckInAir")
+script = ExtResource( 12 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckInAir")
 ACCELERATION = 7500.0
 
 [node name="Fall" type="Node" parent="StateMachine" index="3"]
-script = ExtResource( 14 )
-GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckInAir")
+script = ExtResource( 13 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckInAir")
 ACCELERATION = 7500.0
 
-[node name="AnimationManager" type="AnimationPlayer" parent="." index="8"]
+[node name="AnimationManager" type="AnimationPlayer" parent="." index="6"]
 root_node = NodePath("../Ghost")
 playback_process_mode = 0
 anims/Idle = SubResource( 3 )
 anims/Running = SubResource( 4 )
 anims/RunningLeft = SubResource( 5 )
-script = ExtResource( 15 )
+script = ExtResource( 14 )
 
-[node name="AnimationTree" type="AnimationTree" parent="." index="9"]
+[node name="AnimationTree" type="AnimationTree" parent="." index="7"]
 tree_root = SubResource( 12 )
 anim_player = NodePath("../AnimationManager")
 active = true
@@ -529,7 +514,7 @@ parameters/BlendSpace1D/blend_position = 0.0
 parameters/RunSpeed/scale = 2.0
 parameters/TimeScale/scale = 1.0
 
-[node name="GrabArea" type="Area2D" parent="." index="10"]
+[node name="GrabArea" type="Area2D" parent="." index="8"]
 editor/display_folded = true
 position = Vector2( 0, 20.6906 )
 
@@ -538,23 +523,22 @@ visible = false
 position = Vector2( 0, 7.29973 )
 shape = SubResource( 13 )
 
-[node name="ArmsManager" type="Node" parent="." index="11"]
-script = ExtResource( 16 )
+[node name="ArmsStateMachine" type="Node" parent="." index="9"]
+script = ExtResource( 15 )
 
-[node name="ItemManager" type="Node" parent="." index="12"]
-script = ExtResource( 17 )
-_right_hand_path = NodePath("../BodyParts/ArmTop/ArmBottom")
-_left_hand_path = NodePath("../BodyParts/ArmTop2/ArmBottom2")
+[node name="ItemManager" type="Node" parent="." index="10"]
+script = ExtResource( 16 )
 _right_hand_grabPoint_path = NodePath("../BodyParts/ArmTop/ArmBottom/HandPin")
 _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/HandPin2")
 
-[node name="GroundedCheckOnGround" parent="." index="13" instance=ExtResource( 18 )]
+[node name="GroundedCheckers" type="Node2D" parent="." index="11"]
+editor/display_folded = true
+
+[node name="GroundedCheckOnGround" parent="GroundedCheckers" index="0" instance=ExtResource( 17 )]
 enabled = true
 cast_to = Vector2( 0, 70 )
 
-[node name="GroundedCheckInAir" parent="." index="14" instance=ExtResource( 18 )]
+[node name="GroundedCheckInAir" parent="GroundedCheckers" index="1" instance=ExtResource( 17 )]
 enabled = true
 cast_to = Vector2( 0, 55 )
 
-[connection signal="collision_entered" from="RayCast2D" to="MovementManager" method="_on_RayCast2D_collision_entered"]
-[connection signal="collision_exited" from="RayCast2D" to="MovementManager" method="_on_RayCast2D_collision_exited"]

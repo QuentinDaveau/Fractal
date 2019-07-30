@@ -1,7 +1,7 @@
 extends Damageable
 class_name Character
 
-onready var raycast = $RayCast2D
+#onready var raycast = $RayCast2D
 onready var animationManager = $AnimationManager
 
 export(bool) var enabled: bool = true
@@ -36,7 +36,7 @@ var _pins_list: Dictionary = {}
 var _scale_init_done = true
 
 
-
+signal device_set(device_id)
 
 var _motion_acceleration: float
 var _max_velocity: float
@@ -53,13 +53,15 @@ func _ready():
 	_set_body_parts_layers(_body_parts_list)
 	
 	_set_collision_exception(_body_parts_list)
-	$RayCast2D.add_collision_exception(_body_parts_list)
-	$GroundedCheckOnGround.add_collision_exception(_body_parts_list)
-	$GroundedCheckInAir.add_collision_exception(_body_parts_list)
+#	$RayCast2D.add_collision_exception(_body_parts_list)
+	$GroundedCheckers/GroundedCheckOnGround.add_collision_exception(_body_parts_list)
+	$GroundedCheckers/GroundedCheckInAir.add_collision_exception(_body_parts_list)
 	
 	if is_scaled:
 		_scale_init_done = false
 		_custom_scale_self()
+	
+	emit_signal("device_set", get_property("DEVICE_ID"))
 
 func update_velocity_limitations(max_velocity: float, acceleration: float):
 	_motion_acceleration = acceleration
@@ -67,6 +69,14 @@ func update_velocity_limitations(max_velocity: float, acceleration: float):
 
 func set_velocity(direction: Vector2):
 	_desired_direction = direction
+
+func get_property(property_name):
+	
+	if not $CharacterProperties.get(property_name) == null:
+		return $CharacterProperties.get(property_name)
+	else:
+		print("Uknown given property !")
+		get_tree().quit()
 
 func _get_all_nodes(node:Node, array:Array) -> Array:
 	for N in node.get_children():
@@ -106,7 +116,7 @@ func _set_body_parts_layers(array: Array) -> void:
 
 func _custom_scale_self() -> void:
 	
-	raycast.cast_to.y *= body_scale_mult * scale_coeff
+#	raycast.cast_to.y *= body_scale_mult * scale_coeff
 	animationManager.set_play_speed(speed_coeff * scale_coeff)
 	
 	$BodyParts/ArmTop/ArmBottom/HandPin.position *= body_scale_mult * scale_coeff
@@ -161,13 +171,13 @@ func _define_layers() -> void:
 	._define_layers()
 	for i in range(_layers_length):
 		if mask_array.has(i):
-			$RayCast2D.set_collision_mask_bit(i, true)
-			$GroundedCheckOnGround.set_collision_mask_bit(i, true)
-			$GroundedCheckInAir.set_collision_mask_bit(i, true)
+#			$RayCast2D.set_collision_mask_bit(i, true)
+			$GroundedCheckers/GroundedCheckOnGround.set_collision_mask_bit(i, true)
+			$GroundedCheckers/GroundedCheckInAir.set_collision_mask_bit(i, true)
 		else:
-			$RayCast2D.set_collision_mask_bit(i, false)
-			$GroundedCheckOnGround.set_collision_mask_bit(i, true)
-			$GroundedCheckInAir.set_collision_mask_bit(i, true)
+#			$RayCast2D.set_collision_mask_bit(i, false)
+			$GroundedCheckers/GroundedCheckOnGround.set_collision_mask_bit(i, true)
+			$GroundedCheckers/GroundedCheckInAir.set_collision_mask_bit(i, true)
 
 
 func _disable_pins() -> void:
@@ -231,9 +241,9 @@ func _integrate_forces(state):
 #	else:
 #		applied_force.y = 0
 	
-	$RayCast2D.global_rotation = 0.0
-	$GroundedCheckOnGround.global_rotation = 0.0
-	$GroundedCheckInAir.global_rotation = 0.0
+#	$RayCast2D.global_rotation = 0.0
+	$GroundedCheckers/GroundedCheckOnGround.global_rotation = 0.0
+	$GroundedCheckers/GroundedCheckInAir.global_rotation = 0.0
 	
 #	state.linear_velocity.x = 200
 #	if raycast.is_colliding():

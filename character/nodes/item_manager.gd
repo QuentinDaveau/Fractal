@@ -1,7 +1,7 @@
 extends Node
 
-export(NodePath) var _right_hand_path: NodePath
-export(NodePath) var _left_hand_path: NodePath
+#export(NodePath) var _right_hand_path: NodePath
+#export(NodePath) var _left_hand_path: NodePath
 export(NodePath) var _right_hand_grabPoint_path: NodePath
 export(NodePath) var _left_hand_grabPoint_path: NodePath
 
@@ -15,9 +15,9 @@ var _left_hand_held_item: Pickable = null
 
 var _waiting_item_in_hand: bool = false
 
-func _ready():
-	_right_hand_grabPoint.set_node_a(get_node(_right_hand_path).get_path())
-	_left_hand_grabPoint.set_node_a(get_node(_left_hand_path).get_path())
+#func _ready():
+#	_right_hand_grabPoint.set_node_a(get_node(_right_hand_path).get_path())
+#	_left_hand_grabPoint.set_node_a(get_node(_left_hand_path).get_path())
 
 func use_item() -> void:
 	if _right_hand_held_item is Weapon:

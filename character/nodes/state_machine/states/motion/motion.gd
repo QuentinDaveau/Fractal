@@ -1,7 +1,6 @@
-# Collection of important methods to handle direction and animation
 extends "../state.gd"
 
-var DEAD_ZONE: float = 0.2
+onready var DEAD_ZONE: float = owner.get_property("DEAD_ZONE")
 var _input_direction: = Vector2()
 
 func handle_input(event):
