@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://character/nodes/grab_point/grab_point.gd" type="Script" id=1]
+
+[node name="GrabPoint" type="PinJoint2D"]
+visible = false
+position = Vector2( 0, 15.7739 )
+node_a = NodePath("..")
+bias = 0.9
+script = ExtResource( 1 )
+

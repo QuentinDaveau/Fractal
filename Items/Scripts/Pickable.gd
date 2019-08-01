@@ -1,6 +1,6 @@
 class_name Pickable extends PhysicsScaler
 
-signal is_on_position
+signal is_on_position(pickable_path)
 
 onready var rightHandle: Position2D = $RightHandlePosition
 
@@ -42,7 +42,7 @@ func _integrate_forces(state):
 		if dist_vector.length() <= magnetization_snap_dist:
 			var t = state.get_transform()
 			state.set_transform(t.translated(((_magnet_node.global_position - _aimed_position) + _magnet_node.global_position - _previous_magnet_position).rotated(-global_rotation)))
-			emit_signal("is_on_position")
+			emit_signal("is_on_position", get_path())
 			_magnetized = false
 			is_picked = true
 			return

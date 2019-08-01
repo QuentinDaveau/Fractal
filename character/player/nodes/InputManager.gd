@@ -70,11 +70,11 @@ func _unhandled_input(event):
 			action_logger.log_button("game_jump", false)
 		
 		if event.is_action_pressed("game_shoot"):
-			item_manager.use_item()
+#			item_manager.use_item()
 			action_logger.log_button("game_shoot", true)
 		
 		if event.is_action_pressed("game_grab_item"):
-			item_manager.grab_or_drop_item()
+#			item_manager.grab_or_drop_item()
 			action_logger.log_button("game_grab_item", true)
 #			action_logger.print_log()
 

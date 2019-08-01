@@ -103,6 +103,5 @@ func _update_input_direction(event) -> void:
 			_input_direction.y = event.axis_value
 
 func _update_arms_direction(direction) -> void:
-	print(direction)
 	RIGHT_ARM_AXLE.rotation = direction.angle() - (PI/2)
 	LEFT_ARM_AXLE.rotation = direction.angle() - (PI/2)
