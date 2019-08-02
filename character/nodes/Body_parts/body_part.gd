@@ -2,7 +2,9 @@ extends Damageable
 class_name BodyPart
 
 export(NodePath) var targetNodePath
+export(NodePath) var REFERENCE_NODE_PATH
 onready var targetNode = get_node(targetNodePath)
+var _reference_node
 
 export(bool) var enabled: bool = true
 
@@ -18,6 +20,9 @@ export(float) var restrictionPower = 5
 
 export(int) var maxAppliableAngularV = 10
 
+func _ready():
+	if REFERENCE_NODE_PATH:
+		_reference_node = get_node(REFERENCE_NODE_PATH)
 
 func recalculate_layers() -> void:
 	_define_layers()
@@ -28,7 +33,15 @@ func _integrate_forces(state):
 	if !enabled:
 		return
 	
-	var targetAngle = targetNode.rotation
+	var targetAngle
+	
+	if not _reference_node:
+	 	targetAngle = targetNode.rotation
+	else:
+		targetAngle = targetNode.rotation + _reference_node.rotation
+	
+	
+	
 	var selfAngle = rotation
 	
 	var current_velocity = state.angular_velocity

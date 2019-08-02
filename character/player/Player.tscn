@@ -10,32 +10,14 @@ resource_local_to_scene = true
 radius = 1.44157
 height = 25.4696
 
-[node name="Player" index="0" instance=ExtResource( 1 )]
+[node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 1 )
 
-[node name="Head" parent="BodyParts" index="0"]
-targetNodePath = NodePath("../../../Player/Ghost/TorsoHeadAxle")
-
-[node name="ArmTop" parent="BodyParts" index="1"]
-targetNodePath = NodePath("../../../Player/Ghost/TorsoAxle/TorsoArmAxle")
-
-[node name="ArmBottom" parent="BodyParts/ArmTop" index="3"]
-targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
-
-[node name="LegTop" parent="BodyParts" index="2"]
-targetNodePath = NodePath("../../../Player/Ghost/TorsoLegAxle")
-
 [node name="LegBottom" parent="BodyParts/LegTop" index="3"]
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoLegAxle/LegTopBottomAxle")
-
-[node name="ArmTop2" parent="BodyParts" index="3"]
-targetNodePath = NodePath("../../../Player/Ghost/TorsoAxle/TorsoArmAxle2")
-
-[node name="ArmBottom2" parent="BodyParts/ArmTop2" index="3"]
-targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
 
 [node name="LegTop2" parent="BodyParts" index="4"]
 targetNodePath = NodePath("../../../Player/Ghost/TorsoLegAxle2")

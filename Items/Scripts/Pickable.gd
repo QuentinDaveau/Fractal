@@ -17,7 +17,8 @@ var is_being_picked: bool = false
 var _owner: Character
 
 var _magnetized: bool = false
-var _magnet_node: Node2D
+var _magnet_node1: Node2D
+var _magnet_node2: Node2D
 
 var _aimed_position: Vector2 = Vector2(0.0, 0.0)
 var _aimed_rotation: float = 0.0
@@ -28,54 +29,58 @@ var _previous_magnet_position: Vector2 = Vector2(0.0, 0.0)
 func _integrate_forces(state):
 	
 	if is_picked:
-		_aimed_rotation = _magnet_node.global_rotation + (PI/2)
+		_aimed_rotation = ($RightHandlePosition.position - $LeftHandlePosition.position).abs().angle() - (_magnet_node1.global_position - _magnet_node2.global_position).abs().angle()
 		state = _set_rotation(state)
 		return
 	
 	if !_magnetized:
 		return
 
-	if is_being_picked && _magnet_node != null:
+	if is_being_picked && _magnet_node1 != null:
 		_aimed_position = global_position + (rightHandle.position.rotated(global_rotation))
-		var dist_vector: Vector2 = _magnet_node.global_position - _aimed_position
+		var dist_vector: Vector2 = _magnet_node1.global_position - _aimed_position
 		
 		if dist_vector.length() <= magnetization_snap_dist:
 			var t = state.get_transform()
-			state.set_transform(t.translated(((_magnet_node.global_position - _aimed_position) + _magnet_node.global_position - _previous_magnet_position).rotated(-global_rotation)))
+			state.set_transform(t.translated(((_magnet_node1.global_position - _aimed_position) + _magnet_node1.global_position - _previous_magnet_position).rotated(-global_rotation)))
 			emit_signal("is_on_position", get_path())
 			_magnetized = false
 			is_picked = true
 			return
 		
-		_aimed_rotation = _magnet_node.global_rotation + (PI/2)
+		_aimed_rotation = ($RightHandlePosition.position - $LeftHandlePosition.position).abs().angle() - (_magnet_node1.global_position - _magnet_node2.global_position).abs().angle()
 		state.linear_velocity = dist_vector.normalized() * ease(inverse_lerp(0, magnetization_power, dist_vector.length()), 0.008) * magnetization_power / (scale_coeff * speed_coeff)
 		state = _set_rotation(state)
 		
-		_previous_magnet_position = _magnet_node.global_position
+		_previous_magnet_position = _magnet_node1.global_position
 
 
-func pick(new_owner: Character, grab_point_node: Node2D) -> bool:
+func pick(new_owner: Character, grab_point_nodes: Array) -> bool:
 	if is_picked || is_being_picked:
 		return false
 	
 	_owner = new_owner
 	
 	_update_collision_exceptions(true)
-	_magnet_node = grab_point_node
+	_magnet_node1 = grab_point_nodes[0]
+	_magnet_node2 = grab_point_nodes[1]
 	_magnetized = true
 	
 	is_being_picked = true
 	
-	_previous_magnet_position = _magnet_node.global_position
+	_previous_magnet_position = _magnet_node1.global_position
 	
 	return true
 
+func get_handles_positions_from_shoulder() -> Array:
+	return [$RightHandlePosition.position - $ShoulderPlacement.position,
+	 $LeftHandlePosition.position - $ShoulderPlacement.position]
 
 func drop() -> void:
 	_update_collision_exceptions(false)
 	_owner = null
 	_magnetized = false
-	_magnet_node = null
+	_magnet_node1 = null
 	is_picked = false
 	is_being_picked = false
 

@@ -1,10 +1,11 @@
 extends Node
 
-export(NodePath) var _right_hand_grabPoint_path: NodePath
-export(NodePath) var _left_hand_grabPoint_path: NodePath
+export(NodePath) var RIGHT_HAND_GRABPOINT_PATH: NodePath
+export(NodePath) var LEFT_HAND_GRABPOINT_PATH: NodePath
+export(NodePath) var ARMS_POSITION_MANAGER_PATH: NodePath
 
 onready var grabArea = get_node("../GrabArea")
-onready var _grab_points = [get_node(_right_hand_grabPoint_path), get_node(_left_hand_grabPoint_path)]
+onready var _grab_points = [get_node(RIGHT_HAND_GRABPOINT_PATH), get_node(LEFT_HAND_GRABPOINT_PATH)]
 
 var _picked_item: Pickable
 
@@ -25,9 +26,11 @@ func _grab_item():
 		var item_to_grab: Pickable = grabArea.find_closest_item(_grab_points[0].global_position)
 		if not item_to_grab:
 			return
-		item_to_grab.pick(owner, _grab_points[0])
+		item_to_grab.pick(owner, _grab_points)
 		_grab_points_pick_item(item_to_grab)
 		_picked_item = item_to_grab
+		if ARMS_POSITION_MANAGER_PATH:
+			get_node(ARMS_POSITION_MANAGER_PATH).set_positions(item_to_grab.get_handles_positions_from_shoulder())
 		$ItemPickingTimer.start()
 
 func _drop_item():
@@ -58,5 +61,3 @@ func _grab_points_pick_item(item):
 func _grab_points_drop_item():
 	for grab_point in _grab_points:
 		grab_point.drop_item()
-
-
