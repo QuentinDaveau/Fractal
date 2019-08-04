@@ -14,7 +14,7 @@ export(float) var max_rotation_velocity: float = 15.0
 var is_picked: bool = false
 var is_being_picked: bool = false
 
-var _owner: Character
+var _possessor: Character
 
 var _magnetized: bool = false
 var _magnet_node: Node2D
@@ -53,27 +53,26 @@ func _integrate_forces(state):
 		
 		_previous_magnet_position = _magnet_node.global_position
 
-
-func pick(new_owner: Character, grab_point_node: Node2D) -> bool:
+func is_free() -> bool:
 	if is_picked || is_being_picked:
 		return false
-	
-	_owner = new_owner
-	
-	_update_collision_exceptions(true)
-	_magnet_node = grab_point_node
-	_magnetized = true
-	
-	is_being_picked = true
-	
-	_previous_magnet_position = _magnet_node.global_position
-	
 	return true
 
+func pick(possessor: Character, item_manager, grab_point: Node2D) -> void:
+	if is_picked || is_being_picked:
+		return
+	_possessor = possessor
+	_update_collision_exceptions(true)
+	_magnet_node = grab_point
+	_magnetized = true
+	is_being_picked = true
+	_previous_magnet_position = _magnet_node.global_position
+	item_manager.connect("drop_item", self, "_drop", [], CONNECT_ONESHOT)
 
-func drop() -> void:
+
+func _drop() -> void:
 	_update_collision_exceptions(false)
-	_owner = null
+	_possessor = null
 	_magnetized = false
 	_magnet_node = null
 	is_picked = false
@@ -83,10 +82,10 @@ func drop() -> void:
 func _update_collision_exceptions(add: bool) -> void:
 	
 	if add:
-		for body_part in _owner.get_body_parts():
+		for body_part in _possessor.get_body_parts():
 			body_part.add_collision_exception_with(self)
 	else:
-		for body_part in _owner.get_body_parts():
+		for body_part in _possessor.get_body_parts():
 			body_part.remove_collision_exception_with(self)
 
 

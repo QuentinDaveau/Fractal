@@ -10,7 +10,7 @@ func _ready():
 		_set_barrel_layers(barrel)
 
 
-func attack() -> void:
+func _attack() -> void:
 	print("attack2")
 	for barrel in _barrels_array:
 		barrel.fire_from_barrel()
