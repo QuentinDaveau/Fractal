@@ -23,28 +23,19 @@ export(float) var movement_acceleration: float = 20000.0
 onready var _body_parts_list: Array = [self]
 onready var _starting_gravity_scale = gravity_scale
 
-var drawList = []
-
-var jumping: bool = true
-var jumping_held:bool = false
-
-var jumping_strength: float
-var jumping_held_strength: float
-
 var _pins_list: Dictionary = {}
 
 var _scale_init_done = true
 
 
-signal device_set(device_id)
 
-var _motion_acceleration: float
-var _max_velocity: float
 
-var _desired_direction = Vector2(0.0, 0.0)
 
-var _jump_velocity: float
-var _jump: bool = false
+
+
+func setup(properties: Dictionary) -> void:
+	.setup(properties)
+	
 
 func _ready():
 	
@@ -61,22 +52,11 @@ func _ready():
 		_scale_init_done = false
 		_custom_scale_self()
 	
-	emit_signal("device_set", get_property("DEVICE_ID"))
 
-func update_velocity_limitations(max_velocity: float, acceleration: float) -> void:
-	_motion_acceleration = acceleration
-	_max_velocity = max_velocity
 
-func set_velocity(direction: Vector2) -> void:
-	_desired_direction = direction
 
-func get_property(property_name):
-	
-	if not $CharacterProperties.get(property_name) == null:
-		return $CharacterProperties.get(property_name)
-	else:
-		print("Uknown given property !")
-		get_tree().quit()
+
+
 
 func _get_all_nodes(node:Node, array:Array) -> Array:
 	for N in node.get_children():
@@ -165,17 +145,7 @@ func _custom_scale_self() -> void:
 
 
 func _define_layers() -> void:
-	
 	._define_layers()
-	for i in range(LAYERS_LENGTH):
-		if _mask_array.has(i):
-#			$RayCast2D.set_collision_mask_bit(i, true)
-			$GroundedCheckers/GroundedCheckOnGround.set_collision_mask_bit(i, true)
-			$GroundedCheckers/GroundedCheckInAir.set_collision_mask_bit(i, true)
-		else:
-#			$RayCast2D.set_collision_mask_bit(i, false)
-			$GroundedCheckers/GroundedCheckOnGround.set_collision_mask_bit(i, true)
-			$GroundedCheckers/GroundedCheckInAir.set_collision_mask_bit(i, true)
 
 
 func _disable_pins() -> void:
@@ -194,60 +164,19 @@ func _enable_pins() -> void:
 		pin.set_node_a(_pins_list[pin.get_name()][0])
 		pin.set_node_b(_pins_list[pin.get_name()][1])
 
-
-func jump(velocity: float) -> void:
-	_jump_velocity = velocity
-	_jump = true
-
-func update_jump_gravity(gravity_multiplier: float) -> void:
-	gravity_scale = gravity_multiplier
-
-
-func release_jump() -> void:
-	jumping_held = false
-
-
 func _integrate_forces(state):
-	
-	if !_scale_init_done:
-		_enable_pins()
-		for body_part in _body_parts_list:
-			body_part.gravity_scale = _starting_gravity_scale / (_scale_coeff * _scale_coeff * _scale_coeff)
-#			body_part.gravity_scale = 1.0
-			body_part.enabled = true
-		_scale_init_done = true
-	
-	if !enabled:
-		return
-	
-#	applied_force.x = 0.0
-#
-#	add_central_force(Vector2(forceVector.x, 0.0))
+	#	if !_scale_init_done:
+#		_enable_pins()
+#		for body_part in _body_parts_list:
+#			body_part.gravity_scale = _starting_gravity_scale / (_scale_coeff * _scale_coeff * _scale_coeff)
+##			body_part.gravity_scale = 1.0
+#			body_part.enabled = true
+#		_scale_init_done = true
+	pass
 
-#	state.linear_velocity.x = forceVector.x
-#	_move_player(state)
-	_move_player_forces(state)
-	
-	if _jump:
-#		apply_central_impulse(Vector2(0.0,jumping_strength - (linear_velocity.y * 7)))
-		state.linear_velocity.y = -_jump_velocity
-		_jump = false
-	
-	
-#	if jumping_held:
-#		applied_force.y = jumping_held_strength
-#	else:
-#		applied_force.y = 0
-	
-#	$RayCast2D.global_rotation = 0.0
-	$GroundedCheckers/GroundedCheckOnGround.global_rotation = 0.0
-	$GroundedCheckers/GroundedCheckInAir.global_rotation = 0.0
-	
-#	state.linear_velocity.x = 200
-#	if raycast.is_colliding():
-#		gravity_scale = 1
-	
-	_keep_body_straight(state)
+
+
+
 
 
 #func _move_player(state: Physics2DDirectBodyState) -> void:
@@ -274,20 +203,6 @@ func _integrate_forces(state):
 #		current_velocity = 0.0
 #
 #	state.linear_velocity.x = current_velocity
-
-
-func _move_player_forces(state: Physics2DDirectBodyState) -> void:
-	
-	applied_force.x = 0.0
-	
-	var current_velocity = linear_velocity.x
-	var desired_velocity = _desired_direction.x * _max_velocity
-	
-	if abs(current_velocity) < abs(desired_velocity):
-		add_central_force(Vector2(ease(inverse_lerp(0, desired_velocity, desired_velocity - current_velocity), 0.1) * _motion_acceleration * sign(desired_velocity), .0))
-	
-	if abs(current_velocity) > _max_velocity:
-		add_central_force(Vector2(ease(inverse_lerp(desired_velocity, desired_velocity + (_motion_acceleration/mass), abs(current_velocity)), 0.1) * -_motion_acceleration * sign(current_velocity), .0))
 
 func _keep_body_straight(state: Physics2DDirectBodyState) -> void:
 	
@@ -329,4 +244,3 @@ func _keep_body_straight(state: Physics2DDirectBodyState) -> void:
 			tempDamp = maxAppliedDamp
 	
 		state.angular_velocity -= tempDamp
-	

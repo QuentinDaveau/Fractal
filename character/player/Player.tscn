@@ -1,17 +1,32 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://character/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://character/player/Player.gd" type="Script" id=2]
 [ext_resource path="res://character/player/nodes/ActionLoggerImmuable.gd" type="Script" id=3]
 [ext_resource path="res://character/player/nodes/InputManager.gd" type="Script" id=4]
+[ext_resource path="res://character/player/nodes/grounded_check/GroundedCheck.tscn" type="PackedScene" id=5]
+[ext_resource path="res://character/player/nodes/state_machine/character_state_machine.gd" type="Script" id=6]
+[ext_resource path="res://character/player/nodes/state_machine/states/motion/on_ground/idle.gd" type="Script" id=7]
+[ext_resource path="res://character/player/nodes/state_machine/states/motion/on_ground/move.gd" type="Script" id=8]
+[ext_resource path="res://character/player/nodes/state_machine/states/motion/in_air/jump.gd" type="Script" id=9]
+[ext_resource path="res://character/player/nodes/state_machine/states/motion/in_air/fall.gd" type="Script" id=10]
 
 [sub_resource type="CapsuleShape2D" id=1]
 resource_local_to_scene = true
 radius = 1.44157
 height = 25.4696
 
+[sub_resource type="GDScript" id=2]
+script/source = "# Stores all character settings defined by the player
+extends Node
+
+# INPUT
+var DEVICE_ID: int = 0
+var DEAD_ZONE: float = 0.2"
+
 [node name="Player" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+targetNodePath = NodePath("Ghost/TorsoAxle")
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 1 )
@@ -43,9 +58,49 @@ targetNodePath = NodePath("../../../Player/Ghost/TorsoLegAxle2")
 [node name="LegBottom2" parent="BodyParts/LegTop2" index="3"]
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoLegAxle2/LegTopBottomAxle2")
 
-[node name="ActionLogger" type="Node" parent="." index="12"]
+[node name="ActionLogger" type="Node" parent="." index="9"]
 script = ExtResource( 3 )
 
-[node name="InputManager" type="Node" parent="." index="13"]
+[node name="InputManager" type="Node" parent="." index="10"]
 script = ExtResource( 4 )
+
+[node name="GroundedCheckers" type="Node2D" parent="." index="11"]
+editor/display_folded = true
+
+[node name="GroundedCheckOnGround" parent="GroundedCheckers" index="0" instance=ExtResource( 5 )]
+enabled = true
+cast_to = Vector2( 0, 70 )
+
+[node name="GroundedCheckInAir" parent="GroundedCheckers" index="1" instance=ExtResource( 5 )]
+enabled = true
+cast_to = Vector2( 0, 55 )
+
+[node name="StateMachine" type="Node" parent="." index="12"]
+editor/display_folded = true
+script = ExtResource( 6 )
+START_STATE = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" index="0"]
+script = ExtResource( 7 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckOnGround")
+MAX_VELOCITY = 0.0
+ACCELERATION = 10000.0
+
+[node name="Move" type="Node" parent="StateMachine" index="1"]
+script = ExtResource( 8 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckOnGround")
+ACCELERATION = 20000.0
+
+[node name="Jump" type="Node" parent="StateMachine" index="2"]
+script = ExtResource( 9 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckInAir")
+ACCELERATION = 7500.0
+
+[node name="Fall" type="Node" parent="StateMachine" index="3"]
+script = ExtResource( 10 )
+GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckInAir")
+ACCELERATION = 7500.0
+
+[node name="PlayerProperties" type="Node" parent="." index="13"]
+script = SubResource( 2 )
 

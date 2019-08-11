@@ -20,7 +20,6 @@ func _ready():
 	
 	if !is_scaled:
 		_spawn_players()
-#		_spawn_players2()
 		return
 	
 	if characters_logs.size() > 0:
@@ -65,21 +64,6 @@ func _spawn_players() -> void:
 	player_instance._scale_coeff = 1.0
 	player_instance.is_scaled = false
 	player_instance.position = $PlayerSpawn.position
-	
-	_set_character_layers(player_instance)
-	
-	_characters_list.append(player_instance)
-	
-	add_child(player_instance)
-
-
-func _spawn_players2() -> void:
-	
-	var player_instance = PlayerScene.instance()
-	
-	player_instance.scale_coeff = 1.0
-	player_instance.is_scaled = false
-	player_instance.position = $PlayerSpawn2.position
 	
 	_set_character_layers(player_instance)
 	

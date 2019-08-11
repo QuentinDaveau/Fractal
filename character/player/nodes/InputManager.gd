@@ -1,7 +1,5 @@
 extends Node
 
-onready var arms_manager: Node = get_node("../ArmsManager")
-onready var movement_manager: Node = get_node("../MovementManager")
 onready var animation_manager: Node = get_node("../AnimationManager")
 onready var item_manager: Node = get_node("../ItemManager")
 onready var action_logger: Node = get_node("../ActionLogger")
@@ -24,7 +22,7 @@ func _unhandled_input(event):
 		elif event.is_action_released("ui_right") && _movement_input_axis.x == 1:
 			_movement_input_axis.x = 0
 		elif event.is_action_pressed("ui_select"):
-			movement_manager.jump()
+#			movement_manager.jump()
 			action_logger.log_button("game_jump", true)
 		
 #		movement_manager.update_movement(_movement_input_axis)

@@ -26,6 +26,9 @@ func update_scale_coeff(scale_coeff: float) -> void:
 		_scale_coeff = scale_coeff
 	_scale_self()
 
+func _scale_self() -> void:
+	pass
+
 func _scale_vector(unscaled_vector) -> void:
 	unscaled_vector *= _scale_coeff
 
@@ -34,9 +37,6 @@ func _scale_mass(unscaled_mass: float) -> void:
 
 func _scale_speed(unscaled_speed: float) -> void:
 	unscaled_speed /= pow(_scale_coeff, 2)
-
-func _scale_self() -> void:
-	pass
 
 func _define_layers() -> void:
 	for i in range(LAYERS_LENGTH):
