@@ -18,11 +18,6 @@ export(float) var restrictionPower = 5
 
 export(int) var maxAppliableAngularV = 10
 
-
-func recalculate_layers() -> void:
-	_define_layers()
-
-
 func _integrate_forces(state):
 	
 	if !enabled:

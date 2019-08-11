@@ -30,8 +30,7 @@ func _define_layers() -> void:
 		if body is PhysicsBody2D:
 		
 			if body is PhysicsScaler:
-				body.layer_array = layer_array
-				body.mask_array = mask_array
+				body.setup({"layer_array": layer_array, "mask_array": mask_array, "scale_coeff": level_scale})
 				return
 			
 			for i in range(_layers_length):
@@ -56,7 +55,7 @@ func _scale_bodies() -> void:
 			_set_body_position(body)
 			
 			if body is PhysicsScaler:
-				body.scale_coeff = level_scale
+				body.setup({"layer_array": layer_array, "mask_array": mask_array, "scale_coeff": level_scale})
 				return
 			
 			if body is RigidBody2D:

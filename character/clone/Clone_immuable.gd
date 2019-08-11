@@ -103,71 +103,70 @@ func _set_body_parts_layers(array: Array) -> void:
 	
 	for element in array:
 		if element is BodyPart:
-			element.layer_array = layer_array
-			element.mask_array = mask_array
-			element.recalculate_layers()
+			element.update_layers_and_masks(_layer_array, _mask_array)
 
 
 func _custom_scale_self() -> void:
 	
-	raycast.cast_to.y *= body_scale_mult * scale_coeff
-	animationManager.set_play_speed(speed_coeff * scale_coeff)
-	
-	$BodyParts/ArmTop/ArmBottom/HandPin.position *= body_scale_mult * scale_coeff
-	$BodyParts/ArmTop2/ArmBottom2/HandPin2.position *= body_scale_mult * scale_coeff
-	
-	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * body_scale_mult * scale_coeff)
-	
-#	movement_acceleration /= pow(scale_coeff * body_mass_mult, 2)
-#	_mouvement_dampening /= pow(scale_coeff * body_mass_mult, 2)
-	
-#	print(movement_acceleration)
-	
-	_disable_pins()
-	
-	$Pins.position *= body_scale_mult * scale_coeff
-
-	for pin in $Pins.get_children():
-
-		pin.position *= body_scale_mult * scale_coeff
-	
-	for body_part in _body_parts_list:
-		
-		body_part.enabled = false
-		
-		var body_part_collision_shape = body_part.get_node("./CollisionShape2D").get_shape()
-		
-		if body_part_collision_shape is CapsuleShape2D:
-			body_part_collision_shape.set_height(body_part_collision_shape.get_height() * body_scale_mult * scale_coeff)
-			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * body_scale_mult * scale_coeff)
-
-		if body_part_collision_shape is CircleShape2D:
-			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * body_scale_mult * scale_coeff)
-			
-		body_part.get_node("./CollisionShape2D").position *= body_scale_mult * scale_coeff
-		
-		body_part.get_node("Sprite").scale *= body_scale_mult * scale_coeff
-		body_part.get_node("Sprite").position *= body_scale_mult * scale_coeff
-		
-
-		
-		if body_part != self:
-			body_part.position *= body_scale_mult * scale_coeff
-			body_part.power /= body_mass_mult * scale_coeff * speed_coeff
-		else:
-			body_part.power /= body_mass_mult * scale_coeff * speed_coeff * speed_coeff
-		
-		body_part.mass *= body_mass_mult * scale_coeff
-		body_part.brakePower /= body_mass_mult * scale_coeff * speed_coeff
-		body_part.maxAppliableAngularV /= body_mass_mult * scale_coeff * speed_coeff
-		body_part.gravity_scale = 0
+#	raycast.cast_to.y *= body_scale_mult * scale_coeff
+#	animationManager.set_play_speed(speed_coeff * scale_coeff)
+#
+#	$BodyParts/ArmTop/ArmBottom/HandPin.position *= body_scale_mult * scale_coeff
+#	$BodyParts/ArmTop2/ArmBottom2/HandPin2.position *= body_scale_mult * scale_coeff
+#
+#	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * body_scale_mult * scale_coeff)
+#
+##	movement_acceleration /= pow(scale_coeff * body_mass_mult, 2)
+##	_mouvement_dampening /= pow(scale_coeff * body_mass_mult, 2)
+#
+##	print(movement_acceleration)
+#
+#	_disable_pins()
+#
+#	$Pins.position *= body_scale_mult * scale_coeff
+#
+#	for pin in $Pins.get_children():
+#
+#		pin.position *= body_scale_mult * scale_coeff
+#
+#	for body_part in _body_parts_list:
+#
+#		body_part.enabled = false
+#
+#		var body_part_collision_shape = body_part.get_node("./CollisionShape2D").get_shape()
+#
+#		if body_part_collision_shape is CapsuleShape2D:
+#			body_part_collision_shape.set_height(body_part_collision_shape.get_height() * body_scale_mult * scale_coeff)
+#			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * body_scale_mult * scale_coeff)
+#
+#		if body_part_collision_shape is CircleShape2D:
+#			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * body_scale_mult * scale_coeff)
+#
+#		body_part.get_node("./CollisionShape2D").position *= body_scale_mult * scale_coeff
+#
+#		body_part.get_node("Sprite").scale *= body_scale_mult * scale_coeff
+#		body_part.get_node("Sprite").position *= body_scale_mult * scale_coeff
+#
+#
+#
+#		if body_part != self:
+#			body_part.position *= body_scale_mult * scale_coeff
+#			body_part.power /= body_mass_mult * scale_coeff * speed_coeff
+#		else:
+#			body_part.power /= body_mass_mult * scale_coeff * speed_coeff * speed_coeff
+#
+#		body_part.mass *= body_mass_mult * scale_coeff
+#		body_part.brakePower /= body_mass_mult * scale_coeff * speed_coeff
+#		body_part.maxAppliableAngularV /= body_mass_mult * scale_coeff * speed_coeff
+#		body_part.gravity_scale = 0
+	pass
 
 
 func _define_layers() -> void:
 	
 	._define_layers()
-	for i in range(_layers_length):
-		if mask_array.has(i):
+	for i in range(LAYERS_LENGTH):
+		if _mask_array.has(i):
 			$RayCast2D.set_collision_mask_bit(i, true)
 		else:
 			$RayCast2D.set_collision_mask_bit(i, false)
@@ -327,7 +326,7 @@ func update_movement(new_position: Vector2, next_position: Vector2, delay: int, 
 
 
 func _get_scaled_position(position_to_scale: Vector2) -> Vector2:
-	return zoom_position - ((zoom_position - position_to_scale) * scale_coeff)
+	return zoom_position - ((zoom_position - position_to_scale) * _scale_coeff)
 
 
 func _move_player(state: Physics2DDirectBodyState) -> void:

@@ -62,7 +62,7 @@ func _spawn_players() -> void:
 	
 	var player_instance = PlayerScene.instance()
 	
-	player_instance.scale_coeff = 1.0
+	player_instance._scale_coeff = 1.0
 	player_instance.is_scaled = false
 	player_instance.position = $PlayerSpawn.position
 	
@@ -92,8 +92,8 @@ func _set_character_layers(character: PhysicsScaler) -> void:
 	
 	var layers_array = _get_character_layers()
 	
-	character.layer_array = layers_array[0]
-	character.mask_array = layers_array[1]
+	character._layer_array = layers_array[0]
+	character._mask_array = layers_array[1]
 
 
 func _get_character_layers() -> Array:

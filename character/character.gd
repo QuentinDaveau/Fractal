@@ -63,11 +63,11 @@ func _ready():
 	
 	emit_signal("device_set", get_property("DEVICE_ID"))
 
-func update_velocity_limitations(max_velocity: float, acceleration: float):
+func update_velocity_limitations(max_velocity: float, acceleration: float) -> void:
 	_motion_acceleration = acceleration
 	_max_velocity = max_velocity
 
-func set_velocity(direction: Vector2):
+func set_velocity(direction: Vector2) -> void:
 	_desired_direction = direction
 
 func get_property(property_name):
@@ -109,20 +109,18 @@ func _set_body_parts_layers(array: Array) -> void:
 	
 	for element in array:
 		if element is BodyPart:
-			element.layer_array = layer_array
-			element.mask_array = mask_array
-			element.recalculate_layers()
+			element.update_layers_and_masks(_layer_array, _mask_array)
 
 
 func _custom_scale_self() -> void:
 	
 #	raycast.cast_to.y *= body_scale_mult * scale_coeff
-	animationManager.set_play_speed(speed_coeff * scale_coeff)
+	animationManager.set_play_speed(_scale_coeff)
 	
-	$BodyParts/ArmTop/ArmBottom/HandPin.position *= body_scale_mult * scale_coeff
-	$BodyParts/ArmTop2/ArmBottom2/HandPin2.position *= body_scale_mult * scale_coeff
+	$BodyParts/ArmTop/ArmBottom/HandPin.position *= _scale_coeff
+	$BodyParts/ArmTop2/ArmBottom2/HandPin2.position *= _scale_coeff
 	
-	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * body_scale_mult * scale_coeff)
+	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * _scale_coeff)
 	
 #	movement_acceleration /= pow(scale_coeff * body_mass_mult, 2)
 #	_motion_dampening /= pow(scale_coeff * body_mass_mult, 2)
@@ -131,11 +129,11 @@ func _custom_scale_self() -> void:
 	
 	_disable_pins()
 	
-	$Pins.position *= body_scale_mult * scale_coeff
+	$Pins.position *= _scale_coeff
 
 	for pin in $Pins.get_children():
 
-		pin.position *= body_scale_mult * scale_coeff
+		pin.position *= _scale_coeff
 	
 	for body_part in _body_parts_list:
 		
@@ -144,24 +142,24 @@ func _custom_scale_self() -> void:
 		var body_part_collision_shape = body_part.get_node("./CollisionShape2D").get_shape()
 		
 		if body_part_collision_shape is CapsuleShape2D:
-			body_part_collision_shape.set_height(body_part_collision_shape.get_height() * body_scale_mult * scale_coeff)
-			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * body_scale_mult * scale_coeff)
+			body_part_collision_shape.set_height(body_part_collision_shape.get_height() * _scale_coeff)
+			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * _scale_coeff)
 
 		if body_part_collision_shape is CircleShape2D:
-			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * body_scale_mult * scale_coeff)
+			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * _scale_coeff)
 			
-		body_part.get_node("./CollisionShape2D").position *= body_scale_mult * scale_coeff
+		body_part.get_node("./CollisionShape2D").position *= _scale_coeff
 		
-		body_part.get_node("Sprite").scale *= body_scale_mult * scale_coeff
-		body_part.get_node("Sprite").position *= body_scale_mult * scale_coeff
+		body_part.get_node("Sprite").scale *= _scale_coeff
+		body_part.get_node("Sprite").position *= _scale_coeff
 		
-		body_part.mass *= body_mass_mult * scale_coeff
-		body_part.power /= body_mass_mult * scale_coeff * speed_coeff
-		body_part.brakePower /= body_mass_mult * scale_coeff * speed_coeff
-		body_part.maxAppliableAngularV /= body_mass_mult * scale_coeff * speed_coeff
+		body_part.mass *= _scale_coeff
+		body_part.power /= _scale_coeff * _scale_coeff
+		body_part.brakePower /= _scale_coeff * _scale_coeff
+		body_part.maxAppliableAngularV /= _scale_coeff * _scale_coeff
 		
 		if body_part != self:
-			body_part.position *= body_scale_mult * scale_coeff
+			body_part.position *= _scale_coeff
 		
 		body_part.gravity_scale = 0
 
@@ -169,8 +167,8 @@ func _custom_scale_self() -> void:
 func _define_layers() -> void:
 	
 	._define_layers()
-	for i in range(_layers_length):
-		if mask_array.has(i):
+	for i in range(LAYERS_LENGTH):
+		if _mask_array.has(i):
 #			$RayCast2D.set_collision_mask_bit(i, true)
 			$GroundedCheckers/GroundedCheckOnGround.set_collision_mask_bit(i, true)
 			$GroundedCheckers/GroundedCheckInAir.set_collision_mask_bit(i, true)
@@ -214,7 +212,7 @@ func _integrate_forces(state):
 	if !_scale_init_done:
 		_enable_pins()
 		for body_part in _body_parts_list:
-			body_part.gravity_scale = _starting_gravity_scale / (speed_coeff * scale_coeff * scale_coeff)
+			body_part.gravity_scale = _starting_gravity_scale / (_scale_coeff * _scale_coeff * _scale_coeff)
 #			body_part.gravity_scale = 1.0
 			body_part.enabled = true
 		_scale_init_done = true
