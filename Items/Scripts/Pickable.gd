@@ -16,16 +16,12 @@ var _magnet_node: Node2D
 var _aimed_position: Vector2 = Vector2(0.0, 0.0)
 var _previous_magnet_position: Vector2 = Vector2(0.0, 0.0)
 
+
 func setup(properties: Dictionary) -> void:
 	.setup(properties)
-	_scale_speed(magnetization_power)
-	_scale_vector(magnetization_snap_dist)
-	_scale_speed(rotation_power)
-	_scale_speed(max_rotation_velocity_variation)
-	_scale_speed(max_rotation_velocity)
 
 
-func _integrate_forces(state):
+func _integrate_forces(state) -> void:
 	
 	if _current_state == STATES.FREE:
 		return
@@ -46,10 +42,33 @@ func _integrate_forces(state):
 	
 	_set_rotation(state, _magnet_node.global_rotation + (PI/2))
 
+
+func _scale_self() -> void:
+	
+	magnetization_power = _scale_speed(magnetization_power)
+	magnetization_snap_dist = _scale_vector(magnetization_snap_dist)
+	rotation_power = _scale_speed(rotation_power)
+	max_rotation_velocity_variation = _scale_speed(max_rotation_velocity_variation)
+	max_rotation_velocity = _scale_speed(max_rotation_velocity)
+	
+	mass = _scale_mass(mass)
+	gravity_scale = _scale_speed(gravity_scale)
+	$Sprite.scale = _scale_vector($Sprite.scale)
+	
+	$RightHandlePosition.position = _scale_vector($RightHandlePosition.position)
+	$LeftHandlePosition.position = _scale_vector($LeftHandlePosition.position)
+	
+	var vertex_buffer: = []
+	for vertex in $CollisionPolygon2D.polygon:
+		vertex_buffer.append(_scale_vector(vertex))
+	$CollisionPolygon2D.set_polygon(vertex_buffer)
+
+
 func is_free() -> bool:
 	if _current_state == STATES.FREE:
 		return true
 	return false
+
 
 func pick(possessor: Character, item_manager, grab_point: Node2D) -> void:
 	if not _current_state == STATES.FREE:
@@ -102,25 +121,3 @@ func _set_rotation(state: Physics2DDirectBodyState, aimed_rotation: float) -> vo
 		velocity_variation = sign(velocity_variation) * max_rotation_velocity_variation
 	
 	state.angular_velocity += velocity_variation
-
-
-func _scale_self() -> void:
-	
-	_scale_mass(mass)
-	_scale_speed(gravity_scale)
-	_scale_vector($Sprite.scale)
-	
-	_scale_vector($RightHandlePosition.position)
-	_scale_vector($LeftHandlePosition.position)
-	
-	var shape: Shape2D = $CollisionShape2D.get_shape()
-	
-	if shape is CapsuleShape2D:
-		_scale_vector(shape.height)
-		_scale_vector(shape.radius)
-		
-	elif shape is CircleShape2D:
-		_scale_vector(shape.radius)
-		
-	elif shape is RectangleShape2D:
-		_scale_vector(shape.extents)

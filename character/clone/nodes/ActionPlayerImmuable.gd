@@ -9,7 +9,7 @@ onready var item_manager: Node = get_node("../ItemManager")
 
 onready var _start_time: int = OS.get_ticks_msec()
 
-onready var _input_scaling_coeff: float = get_parent().speed_coeff * pow(get_parent().scale_coeff, 2)
+onready var _input_scaling_coeff: float = 2
 
 var _current_action_step: int = 0
 var _current_movement_step: int = 0
@@ -17,8 +17,9 @@ var _current_movement_step: int = 0
 
 func _process(delta):
 	
-	_check_action_log(OS.get_ticks_msec() - _start_time)
-	_check_position(OS.get_ticks_msec() - _start_time)
+#	_check_action_log(OS.get_ticks_msec() - _start_time)
+#	_check_position(OS.get_ticks_msec() - _start_time)
+	pass
 
 
 func get_actions_log() -> Array:

@@ -24,6 +24,9 @@ var projectile_mass_mult: float = 1.0
 var projectile_layer_array: Array = []
 var projectile_mask_array: Array = []
 
+
+var SCALE_COEFF: float = 1.0
+
 var _is_projectile_class: bool = false
 var _is_shooting: bool = false
 var _is_on_cooldown: bool = false
@@ -31,6 +34,7 @@ var _is_on_cooldown: bool = false
 func _ready():
 	$CooldownTimer.wait_time = barrel_cooldown
 	$CooldownTimer.one_shot = true
+
 
 func fire_from_barrel() -> void:
 	if _is_on_cooldown:

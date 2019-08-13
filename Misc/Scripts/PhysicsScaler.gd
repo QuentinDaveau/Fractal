@@ -1,9 +1,11 @@
 class_name PhysicsScaler extends RigidBody2D
 
-var _scale_coeff: float = 1.0
+const LAYERS_LENGTH: int = 32
+
+var _scale_coeff: float = 4.0
 var _layer_array: Array
 var _mask_array: Array
-var LAYERS_LENGTH: int = 32
+
 
 func setup(properties: Dictionary) -> void:
 	_scale_coeff = properties.scale_coeff
@@ -29,14 +31,14 @@ func update_scale_coeff(scale_coeff: float) -> void:
 func _scale_self() -> void:
 	pass
 
-func _scale_vector(unscaled_vector) -> void:
-	unscaled_vector *= _scale_coeff
+func _scale_vector(unscaled_vector):
+	return unscaled_vector * _scale_coeff
 
-func _scale_mass(unscaled_mass: float) -> void:
-	unscaled_mass = pow(unscaled_mass, _scale_coeff)
+func _scale_mass(unscaled_mass: float) -> float:
+	return pow(unscaled_mass, _scale_coeff)
 
-func _scale_speed(unscaled_speed: float) -> void:
-	unscaled_speed /= pow(_scale_coeff, 2)
+func _scale_speed(unscaled_speed: float) -> float:
+	return unscaled_speed / pow(_scale_coeff, 2)
 
 func _define_layers() -> void:
 	for i in range(LAYERS_LENGTH):

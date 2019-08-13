@@ -12,13 +12,13 @@ var o = 0
 
 func _input(event):
 	if event.is_action_pressed("ui_accept") and o == 0:
-#		_new_gen()
+		_new_gen()
 		get_node("./Level/Player/BodyParts/ArmTop")._die()
 		o += 1
 		return
 	
 	if event.is_action_pressed("ui_accept") and o == 1:
-#		_new_gen()
+		_new_gen()
 		get_node("./Level/Player/BodyParts/LegTop")._die()
 		o += 1
 		return

@@ -34,6 +34,7 @@ var _scale_init_done = true
 
 
 func setup(properties: Dictionary) -> void:
+	position = properties.position
 	.setup(properties)
 	
 

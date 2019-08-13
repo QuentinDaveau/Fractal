@@ -3,12 +3,11 @@ class_name Gun extends Weapon
 onready var _barrels_array: Array = _get_all_barrels()
 
 
-func _ready():
-#	for barrel in _barrels_array:
-#		barrel.position *= scale_coeff * body_scale_mult
-#		_set_barrel_scale_coeff(barrel)
-#		_set_barrel_layers(barrel)
-	pass
+func _scale_self() -> void:
+	for barrel in _get_all_barrels():
+		barrel.position  = _scale_vector(barrel.position)
+		barrel.SCALE_COEFF = _scale_coeff
+	._scale_self()
 
 
 func _attack() -> void:
