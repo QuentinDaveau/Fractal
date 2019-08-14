@@ -1,7 +1,10 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Items/abstract_scenes/Projectile.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Items/Projectiles/Sprites/Bullet.png" type="Texture" id=2]
+[ext_resource path="res://projectile/Projectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://projectile/physic_projectile/bullet/Bullet.png" type="Texture" id=2]
+
+
+
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true

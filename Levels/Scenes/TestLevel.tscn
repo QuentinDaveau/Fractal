@@ -5,7 +5,9 @@
 [ext_resource path="res://character/clone/Clone_immuable.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Scenes/Box.tscn" type="PackedScene" id=4]
 [ext_resource path="res://icon.png" type="Texture" id=5]
-[ext_resource path="res://Items/Guns/Scenes/TestGun.tscn" type="PackedScene" id=6]
+[ext_resource path="res://pickable/weapon/firearm/test_gun/TestGun.tscn" type="PackedScene" id=6]
+
+
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true

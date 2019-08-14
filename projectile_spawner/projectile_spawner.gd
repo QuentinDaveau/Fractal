@@ -1,5 +1,5 @@
 extends Position2D
-class_name BarrelExit
+class_name ProjectileSpawner
 
 enum BarrelTypeEnum {SINGLE_FIRE, AUTO_FIRE, BURST_FIRE, CHARGING}
 
@@ -26,6 +26,7 @@ var projectile_mask_array: Array = []
 
 
 var SCALE_COEFF: float = 1.0
+var LAYERS: Dictionary = {}
 
 var _is_projectile_class: bool = false
 var _is_shooting: bool = false
