@@ -165,6 +165,7 @@ func _enable_pins() -> void:
 		pin.set_node_a(_pins_list[pin.get_name()][0])
 		pin.set_node_b(_pins_list[pin.get_name()][1])
 
+
 func _integrate_forces(state):
 	#	if !_scale_init_done:
 #		_enable_pins()

@@ -31,6 +31,7 @@ var _is_projectile_class: bool = false
 var _is_shooting: bool = false
 var _is_on_cooldown: bool = false
 
+
 func _ready():
 	$CooldownTimer.wait_time = barrel_cooldown
 	$CooldownTimer.one_shot = true
