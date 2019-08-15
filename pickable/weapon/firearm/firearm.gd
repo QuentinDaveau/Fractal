@@ -11,15 +11,19 @@ func _scale_self() -> void:
 	._scale_self()
 
 
-func _attack() -> void:
-	for barrel in _barrels_array:
-		barrel.fire_from_barrel()
+func _attack(state) -> void:
+	if state:
+		for barrel in _barrels_array:
+			barrel.fire()
+	else:
+		for barrel in _barrels_array:
+			barrel.release()
 
 
 func _get_all_barrels() -> Array:
 	var temp_barrel_aray = Array()
 	
 	for node in get_children():
-		if node is ProjectileSpawner:
+		if node is Barrel:
 			temp_barrel_aray.append(node)
 	return temp_barrel_aray

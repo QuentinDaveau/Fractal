@@ -27,7 +27,10 @@ func _unhandled_input(event):
 			_drop_item()
 	if event.is_action_pressed("game_shoot"):
 		if _has_item:
-			emit_signal("use_item")
+			emit_signal("use_item", true)
+	if event.is_action_released("game_shoot"):
+		if _has_item:
+			emit_signal("use_item", false)
 
 func allow_item_picking(value: bool) -> void:
 	_can_grab_items = value

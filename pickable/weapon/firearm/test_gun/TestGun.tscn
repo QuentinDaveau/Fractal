@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://pickable/weapon/firearm/Firearm.tscn" type="PackedScene" id=1]
 [ext_resource path="res://pickable/weapon/firearm/test_gun/Gun.png" type="Texture" id=2]
-[ext_resource path="res://projectile_spawner/ProjectileSpawner.tscn" type="PackedScene" id=3]
-[ext_resource path="res://projectile/physic_projectile/bullet/Bullet.tscn" type="PackedScene" id=4]
+[ext_resource path="res://barrel/trigger_mechanism/single_fire/SingleFireBarrel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://barrel/projectile_spawner/physic_spawner/PhysicSpawner.tscn" type="PackedScene" id=4]
+[ext_resource path="res://projectile/physic_projectile/bullet/Bullet.tscn" type="PackedScene" id=5]
 
 [node name="TestGun" index="0" instance=ExtResource( 1 )]
 position = Vector2( 4.07813, 1.42735 )
@@ -24,9 +25,11 @@ position = Vector2( -11.8302, 5.33518 )
 [node name="LeftHandlePosition" parent="." index="3"]
 position = Vector2( -11.8302, 5.33518 )
 
-[node name="ProjectileSpawner" parent="." index="4" instance=ExtResource( 3 )]
-position = Vector2( 15.6906, -4.26165 )
-projectile_type = ExtResource( 4 )
-projectile_velocity = 100.0
-barrel_knockback = Vector2( 10, 20 )
+[node name="SingleFireBarrel" parent="." index="4" instance=ExtResource( 3 )]
+position = Vector2( 15.2947, -4.24601 )
+knockback = Vector2( 100, 200 )
+
+[node name="PhysicSpawner" parent="SingleFireBarrel" index="1" instance=ExtResource( 4 )]
+PROJECTILE = ExtResource( 5 )
+VELOCITY = 1000.0
 

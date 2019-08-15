@@ -12,9 +12,11 @@ func setup(properties: Dictionary) -> void:
 	_layer_array = properties.layer_array
 	_mask_array = properties.mask_array
 
+
 func _ready():
 	_scale_self()
 	_define_layers()
+
 
 func update_layers_and_masks(layer_array: Array = [], mask_array: Array = []) -> void:
 	if layer_array:
@@ -23,22 +25,28 @@ func update_layers_and_masks(layer_array: Array = [], mask_array: Array = []) ->
 		_mask_array = mask_array
 	_define_layers()
 
+
 func update_scale_coeff(scale_coeff: float) -> void:
 	if scale_coeff > 0:
 		_scale_coeff = scale_coeff
 	_scale_self()
 
+
 func _scale_self() -> void:
 	pass
+
 
 func _scale_vector(unscaled_vector):
 	return unscaled_vector * _scale_coeff
 
+
 func _scale_mass(unscaled_mass: float) -> float:
-	return pow(unscaled_mass, _scale_coeff)
+	return unscaled_mass * pow(_scale_coeff, 2)
+
 
 func _scale_speed(unscaled_speed: float) -> float:
 	return unscaled_speed / pow(_scale_coeff, 2)
+
 
 func _define_layers() -> void:
 	for i in range(LAYERS_LENGTH):
