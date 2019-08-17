@@ -13,6 +13,8 @@ var _jump: bool = false
 
 func _ready():
 	emit_signal("device_set", get_property("DEVICE_ID"))
+	$GroundedCheckers/GroundedCheckOnGround.add_collision_exception(_body_parts_list)
+	$GroundedCheckers/GroundedCheckInAir.add_collision_exception(_body_parts_list)
 
 
 func _integrate_forces(state):

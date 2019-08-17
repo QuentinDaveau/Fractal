@@ -32,12 +32,12 @@ _global_script_classes=[ {
 "base": "Character",
 "class": "Clone",
 "language": "GDScript",
-"path": "res://character/nodes/DEPRECATED/Clone.gd"
+"path": "res://character/clone/clone.gd"
 }, {
-"base": "PhysicsScaler",
-"class": "Clone_immuable",
+"base": "Character",
+"class": "Clone_test",
 "language": "GDScript",
-"path": "res://character/clone/Clone_immuable.gd"
+"path": "res://character/nodes/DEPRECATED/Clone.gd"
 }, {
 "base": "PhysicsScaler",
 "class": "Damageable",
@@ -110,7 +110,7 @@ _global_script_class_icons={
 "Character": "",
 "Character3": "",
 "Clone": "",
-"Clone_immuable": "",
+"Clone_test": "",
 "Damageable": "",
 "Firearm": "",
 "Level": "",

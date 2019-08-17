@@ -1,41 +1,17 @@
-extends PhysicsScaler
-class_name Clone_immuable
+extends Character
+class_name Clone
 
-onready var raycast = $RayCast2D
-onready var animationManager = $AnimationManager
 
-export(bool) var enabled: bool = true
 
-export(NodePath) var targetNodePath
-onready var targetNode = get_node(targetNodePath)
 
-export(float) var power = 3
-export(float) var maxAppliedTorque = 100
-export(float) var maxAppliedDamp = 100
-export(float) var brakePower = 5
-#export(float) var bodyPower = 1
-export(float) var maxAppliableAngularV = 50
 
-export(bool) var is_scaled: bool = false
 
-export(float) var movement_acceleration: float = 0.0001
 
-onready var _body_parts_list: Array = [self]
-onready var _starting_gravity_scale = gravity_scale
 
-var drawList = []
 
-var forceVector = Vector2(0.0, 0.0)
 
-var jumping: bool = true
-var jumping_held:bool = false
 
-var jumping_strength: float
-var jumping_held_strength: float
 
-var _pins_list: Dictionary = {}
-
-var _scale_init_done = true
 
 var _movement_dampening: float = 25.0
 
@@ -56,26 +32,61 @@ var position_to_reach: Vector2 = Vector2.ZERO
 var local_start_count: int = 0
 
 
-func set_replay(actions_log: Array) -> void:
-	print(actions_log[0])
-	$ActionPlayerImmuable.actions_log = actions_log
+func setup(properties: Dictionary) -> void:
+	$ActionPlayer.set_actions_log(properties.replay)
+	print(properties.replay[0])
+
+
+func _scale_self() -> void:
+	$AnimationManager.set_play_speed(_scale_coeff)
 	
+	$BodyParts/ArmTop/ArmBottom/RightGrabPoint.position = _scale_vector($BodyParts/ArmTop/ArmBottom/RightGrabPoint.position)
+	$BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint.position = _scale_vector($BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint.position)
+	
+	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * _scale_coeff)
+	
+#	movement_acceleration /= pow(scale_coeff * body_mass_mult, 2)
+#	_motion_dampening /= pow(scale_coeff * body_mass_mult, 2)
+	
+	print(movement_acceleration)
+	
+#	_disable_pins()
+	
+#	$Pins.position *= _scale_coeff
+#
+#	for pin in $Pins.get_children():
+#
+#		pin.position *= _scale_coeff
+	
+	for body_part in _get_all_nodes($BodyParts, _body_parts_list):
+		
+		body_part.enabled = false
+		
+		var body_part_collision_shape = body_part.get_node("./CollisionShape2D").get_shape()
+		
+		if body_part_collision_shape is CapsuleShape2D:
+			body_part_collision_shape.set_height(body_part_collision_shape.get_height() * _scale_coeff)
+			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * _scale_coeff)
+
+		if body_part_collision_shape is CircleShape2D:
+			body_part_collision_shape.set_radius(body_part_collision_shape.get_radius() * _scale_coeff)
+			
+		body_part.get_node("./CollisionShape2D").position *= _scale_coeff
+		
+		body_part.get_node("Sprite").scale *= _scale_coeff
+		body_part.get_node("Sprite").position *= _scale_coeff
+		
+		body_part.mass *= _scale_coeff
+		body_part.power /= _scale_coeff * _scale_coeff
+		body_part.brakePower /= _scale_coeff * _scale_coeff
+		body_part.maxAppliableAngularV /= _scale_coeff * _scale_coeff
+		
+		if body_part != self:
+			body_part.position *= _scale_coeff
+		
+		body_part.gravity_scale = 0
 
 
-#func _ready():
-#
-#	_body_parts_list = _get_all_nodes($BodyParts, _body_parts_list)
-#
-#	_set_body_parts_layers(_body_parts_list)
-#
-#	_set_collision_exception(_body_parts_list)
-#	$RayCast2D.add_collision_exception(_body_parts_list)
-#
-#	if is_scaled:
-#		_scale_init_done = false
-#		_custom_scale_self()
-#
-#
 #func _get_all_nodes(node:Node, array:Array) -> Array:
 #	for N in node.get_children():
 #		if N.is_class("RigidBody2D"):
@@ -287,9 +298,9 @@ func set_replay(actions_log: Array) -> void:
 #
 ##		state.linear_velocity = velocity_to_apply
 #
-##	if desired_position != Vector2(.1234, .1234):
-###		print(zoom_position, "   ", _get_scaled_position(desired_position), "    ", global_position)
-##		state.linear_velocity = _get_scaled_position(desired_position) - global_position
+#	if desired_position != Vector2(.1234, .1234):
+##		print(zoom_position, "   ", _get_scaled_position(desired_position), "    ", global_position)
+#		state.linear_velocity = _get_scaled_position(desired_position) - global_position
 #
 #
 #func update_movement(new_position: Vector2, next_position: Vector2, delay: int, next_delay: int) -> void:
@@ -319,11 +330,11 @@ func set_replay(actions_log: Array) -> void:
 #	start_count = OS.get_ticks_msec()
 #	time_left = delay
 #	desired_position = new_position
-#
-##	if delay > 1:
-##		velocity_to_apply = (_get_scaled_position(new_position) - global_position) * 1000 / delay
-##		print(velocity_to_apply,"   ", global_position - new_position,"   ",  delay)
-#
+
+#	if delay > 1:
+#		velocity_to_apply = (_get_scaled_position(new_position) - global_position) * 1000 / delay
+#		print(velocity_to_apply,"   ", global_position - new_position,"   ",  delay)
+
 #
 #func _get_scaled_position(position_to_scale: Vector2) -> Vector2:
 #	return zoom_position - ((zoom_position - position_to_scale) * _scale_coeff)

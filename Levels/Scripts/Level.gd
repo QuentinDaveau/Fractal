@@ -45,9 +45,10 @@ func _spawn_clone(character_datas: Array) -> void:
 	
 	var layers_array = _get_character_layers()
 	character_instance.setup({"position": _get_scaled_position(character_datas[0]),
-	 "scale_coeff": level_scale,
-	 "layer_array": layers_array[0],
-	 "mask_array": layers_array[0]})
+		"scale_coeff": level_scale,
+		"layer_array": layers_array[0],
+		"mask_array": layers_array[0],
+		"replay": character_datas[1]})
 	
 #	character_instance.position = _get_scaled_position(character_datas[0])
 #
@@ -58,8 +59,6 @@ func _spawn_clone(character_datas: Array) -> void:
 	character_instance.zoom_position = zoom_position
 	
 	_set_character_layers(character_instance)
-	
-	character_instance.set_replay(character_datas[1])
 	
 	add_child(character_instance)
 

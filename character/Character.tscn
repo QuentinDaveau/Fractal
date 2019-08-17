@@ -206,7 +206,7 @@ nodes/RunSpeed/position = Vector2( 500, 20 )
 nodes/TimeScale/node = SubResource( 11 )
 nodes/TimeScale/position = Vector2( 300, 0 )
 nodes/output/position = Vector2( 740, 20 )
-node_connections = [ "output", 0, "RunSpeed", "RunSpeed", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+node_connections = [ "output", 0, "RunSpeed", "TimeScale", 0, "BlendSpace1D", "RunSpeed", 0, "TimeScale" ]
 
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 54.5216, 62.7088 )
