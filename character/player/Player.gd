@@ -30,14 +30,6 @@ func _integrate_forces(state):
 	._integrate_forces(state)
 
 
-func get_property(property_name):
-	if not $PlayerProperties.get(property_name) == null:
-		return $PlayerProperties.get(property_name)
-	else:
-		print("Uknown given property !")
-		get_tree().quit()
-
-
 func get_replay() -> Array:
 	return [$ActionLogger.get_start_position(), $ActionLogger.get_log()]
 

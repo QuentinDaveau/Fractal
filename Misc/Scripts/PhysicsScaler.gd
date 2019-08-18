@@ -14,8 +14,7 @@ func setup(properties: Dictionary) -> void:
 
 
 func _ready():
-	if _scale_coeff != 1.0:
-		_scale_self()
+	_scale_self()
 	_define_layers()
 
 

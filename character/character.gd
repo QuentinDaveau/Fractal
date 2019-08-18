@@ -21,7 +21,6 @@ export(bool) var is_scaled: bool = false
 export(float) var movement_acceleration: float = 20000.0
 
 var _body_parts_list: Array = [self]
-var _starting_gravity_scale = gravity_scale
 
 var _pins_list: Dictionary = {}
 
@@ -44,6 +43,26 @@ func _ready():
 	_set_collision_exception(_body_parts_list)
 
 
+func _integrate_forces(state):
+	_keep_body_straight(state)
+
+
+func get_property(property_name):
+	if not $Properties.get(property_name) == null:
+		return $Properties.get(property_name)
+	else:
+		print("Uknown given property !")
+		get_tree().quit()
+
+
+func get_body_parts() -> Array:
+	return _body_parts_list
+
+
+func clear_exception_with(body: RigidBody2D):
+	remove_collision_exception_with(body)
+
+
 func _get_all_nodes(node:Node, array:Array) -> Array:
 	for N in node.get_children():
 		if N.is_class("RigidBody2D"):
@@ -53,14 +72,6 @@ func _get_all_nodes(node:Node, array:Array) -> Array:
 			else:
 				array.append(N)
 	return array
-
-
-func get_body_parts() -> Array:
-	return _body_parts_list
-
-
-func clear_exception_with(body: RigidBody2D):
-	remove_collision_exception_with(body)
 
 
 func _set_collision_exception(array:Array) -> void:
@@ -80,10 +91,6 @@ func _set_body_parts_layers(array: Array) -> void:
 
 func _define_layers() -> void:
 	._define_layers()
-
-
-func _integrate_forces(state):
-	_keep_body_straight(state)
 
 
 func _keep_body_straight(state: Physics2DDirectBodyState) -> void:

@@ -12,13 +12,16 @@ onready var GRAB_POINTS = [get_node(_right_hand_grabPoint_path), get_node(_left_
 var _can_grab_items: bool = true
 var _has_item: bool = false
 
+
 func _ready():
 	$ItemPickingTimer.connect("timeout", self, "_item_picking_timeout")
 	for grab_point in GRAB_POINTS:
 		grab_point.connect("item_grabbed", self, "_item_grabbed")
 
+
 func _unhandled_input(event):
-	if not _can_grab_items:
+	print(event.device, "   ", event.is_action("game_grab_item"))
+	if not _can_grab_items or event.device != owner.get_property("DEVICE_ID"):
 		return
 	if event.is_action_pressed("game_grab_item"):
 		if not _has_item:

@@ -209,9 +209,10 @@ nodes/output/position = Vector2( 740, 20 )
 node_connections = [ "output", 0, "RunSpeed", "TimeScale", 0, "BlendSpace1D", "RunSpeed", 0, "TimeScale" ]
 
 [sub_resource type="RectangleShape2D" id=13]
+resource_local_to_scene = true
 extents = Vector2( 54.5216, 62.7088 )
 
-[node name="Character" index="0" instance=ExtResource( 1 )]
+[node name="Character" instance=ExtResource( 1 )]
 collision_layer = 0
 collision_mask = 0
 mass = 5.5
@@ -447,12 +448,10 @@ _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/LeftGrabPo
 one_shot = true
 
 [node name="GrabArea" type="Area2D" parent="." index="7"]
-editor/display_folded = true
 position = Vector2( 0, 20.6906 )
 script = ExtResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrabArea" index="0"]
-visible = false
 position = Vector2( 0, 7.29973 )
 shape = SubResource( 13 )
 
