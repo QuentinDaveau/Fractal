@@ -206,7 +206,7 @@ nodes/RunSpeed/position = Vector2( 500, 20 )
 nodes/TimeScale/node = SubResource( 11 )
 nodes/TimeScale/position = Vector2( 300, 0 )
 nodes/output/position = Vector2( 740, 20 )
-node_connections = [ "output", 0, "RunSpeed", "RunSpeed", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+node_connections = [ "output", 0, "RunSpeed", "TimeScale", 0, "BlendSpace1D", "RunSpeed", 0, "TimeScale" ]
 
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 54.5216, 62.7088 )
@@ -240,10 +240,6 @@ mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../Ghost/TorsoHeadAxle")
-power = 20.0
-brakePower = 1.0
-restrictionPower = 1.0
-maxAppliableAngularV = 15
 
 [node name="HeadTorsoPin" type="PinJoint2D" parent="BodyParts/Head" index="2"]
 visible = false
@@ -260,10 +256,6 @@ mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../Ghost/TorsoAxle/TorsoArmAxle")
-power = 20.0
-brakePower = 1.0
-restrictionPower = 1.0
-maxAppliableAngularV = 15
 
 [node name="TorsoArmPin" type="PinJoint2D" parent="BodyParts/ArmTop" index="2"]
 visible = false
@@ -278,11 +270,6 @@ mass = 0.4
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../../Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
-power = 20.0
-brakePower = 1.0
-minAngle = -3.0
-restrictionPower = 1.0
-maxAppliableAngularV = 15
 
 [node name="ArmTopBottomPin" type="PinJoint2D" parent="BodyParts/ArmTop/ArmBottom" index="2"]
 visible = false
@@ -300,14 +287,10 @@ collision_mask = 0
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../Ghost/TorsoLegAxle")
-power = 30.0
-maxAppliedAngularV = 200.0
-maxAppliedDamp = 200.0
-brakePower = 1.0
-minAngle = -1.5
-maxAngle = 1.5
-restrictionPower = 1.0
-maxAppliableAngularV = 40
+POWER = 30.0
+MAX_APPLIED_AVELOCITY = 200.0
+MAX_APPLIED_DAMPENING = 200.0
+MAX_AVELOCITY_VARIATION = 40
 
 [node name="TorsoLegPin" type="PinJoint2D" parent="BodyParts/LegTop" index="2"]
 visible = false
@@ -322,13 +305,10 @@ mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../../Ghost/TorsoLegAxle/LegTopBottomAxle")
-power = 30.0
-maxAppliedAngularV = 200.0
-maxAppliedDamp = 200.0
-brakePower = 1.0
-maxAngle = 2.0
-restrictionPower = 1.5
-maxAppliableAngularV = 40
+POWER = 30.0
+MAX_APPLIED_AVELOCITY = 200.0
+MAX_APPLIED_DAMPENING = 200.0
+MAX_AVELOCITY_VARIATION = 40
 
 [node name="LegTopBottomPin" type="PinJoint2D" parent="BodyParts/LegTop/LegBottom" index="2"]
 visible = false
@@ -345,10 +325,6 @@ mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../Ghost/TorsoAxle/TorsoArmAxle2")
-power = 20.0
-brakePower = 1.0
-restrictionPower = 1.0
-maxAppliableAngularV = 15
 
 [node name="TorsoArmPin2" type="PinJoint2D" parent="BodyParts/ArmTop2" index="2"]
 visible = false
@@ -362,11 +338,6 @@ mass = 0.4
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../../Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
-power = 20.0
-brakePower = 1.0
-minAngle = -3.0
-restrictionPower = 1.0
-maxAppliableAngularV = 15
 
 [node name="ArmTopBottomPin2" type="PinJoint2D" parent="BodyParts/ArmTop2/ArmBottom2" index="0"]
 visible = false
@@ -384,14 +355,10 @@ collision_mask = 0
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../Ghost/TorsoLegAxle2")
-power = 30.0
-maxAppliedAngularV = 200.0
-maxAppliedDamp = 200.0
-brakePower = 1.0
-minAngle = -1.5
-maxAngle = 1.5
-restrictionPower = 1.0
-maxAppliableAngularV = 40
+POWER = 30.0
+MAX_APPLIED_AVELOCITY = 200.0
+MAX_APPLIED_DAMPENING = 200.0
+MAX_AVELOCITY_VARIATION = 40
 
 [node name="TorsoLegPin2" type="PinJoint2D" parent="BodyParts/LegTop2" index="2"]
 visible = false
@@ -400,18 +367,16 @@ node_a = NodePath("../../..")
 node_b = NodePath("..")
 
 [node name="LegBottom2" parent="BodyParts/LegTop2" index="3" instance=ExtResource( 8 )]
+editor/display_folded = true
 position = Vector2( 0, 17.4546 )
 mass = 0.6
 physics_material_override = SubResource( 1 )
 continuous_cd = 1
 targetNodePath = NodePath("../../../Ghost/TorsoLegAxle2/LegTopBottomAxle2")
-power = 30.0
-maxAppliedAngularV = 200.0
-maxAppliedDamp = 200.0
-brakePower = 1.0
-maxAngle = 2.0
-restrictionPower = 1.5
-maxAppliableAngularV = 40
+POWER = 30.0
+MAX_APPLIED_AVELOCITY = 200.0
+MAX_APPLIED_DAMPENING = 200.0
+MAX_AVELOCITY_VARIATION = 40
 
 [node name="LegTopBottomPin2" type="PinJoint2D" parent="BodyParts/LegTop2/LegBottom2" index="2"]
 visible = false
