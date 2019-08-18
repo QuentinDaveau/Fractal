@@ -2,7 +2,7 @@ class_name PhysicsScaler extends RigidBody2D
 
 const LAYERS_LENGTH: int = 32
 
-var _scale_coeff: float = 4.0
+var _scale_coeff: float = 1.0
 var _layer_array: Array
 var _mask_array: Array
 
@@ -14,7 +14,8 @@ func setup(properties: Dictionary) -> void:
 
 
 func _ready():
-	_scale_self()
+	if _scale_coeff != 1.0:
+		_scale_self()
 	_define_layers()
 
 

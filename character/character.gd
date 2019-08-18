@@ -39,19 +39,9 @@ func setup(properties: Dictionary) -> void:
 	
 
 func _ready():
-	
 	_body_parts_list = _get_all_nodes($BodyParts, _body_parts_list)
-	
-	_body_parts_list = _get_all_nodes($BodyParts, _body_parts_list)
-	
 	_set_body_parts_layers(_body_parts_list)
-	
 	_set_collision_exception(_body_parts_list)
-
-	
-	if is_scaled:
-		_scale_init_done = false
-#		_custom_scale_self()
 
 
 func _get_all_nodes(node:Node, array:Array) -> Array:
@@ -88,70 +78,13 @@ func _set_body_parts_layers(array: Array) -> void:
 			element.update_layers_and_masks(_layer_array, _mask_array)
 
 
-func _scale_self() -> void:
-	pass
-
-
 func _define_layers() -> void:
 	._define_layers()
 
 
-func _disable_pins() -> void:
-	
-	for pin in $Pins.get_children():
-		
-		_pins_list[pin.get_name()] = [pin.get_node_a(), pin.get_node_b()]
-		pin.set_node_a("")
-		pin.set_node_b("")
-
-
-func _enable_pins() -> void:
-	
-	for pin in $Pins.get_children():
-		
-		pin.set_node_a(_pins_list[pin.get_name()][0])
-		pin.set_node_b(_pins_list[pin.get_name()][1])
-
-
 func _integrate_forces(state):
-	#	if !_scale_init_done:
-#		_enable_pins()
-#		for body_part in _body_parts_list:
-#			body_part.gravity_scale = _starting_gravity_scale / (_scale_coeff * _scale_coeff * _scale_coeff)
-##			body_part.gravity_scale = 1.0
-#			body_part.enabled = true
-#		_scale_init_done = true
-	pass
+	_keep_body_straight(state)
 
-
-
-
-
-
-#func _move_player(state: Physics2DDirectBodyState) -> void:
-#
-#	var current_velocity = state.linear_velocity.x
-#	var desired_velocity = forceVector.x
-#
-#	if current_velocity == desired_velocity:
-#		return
-#
-#	var acceleration = desired_velocity - current_velocity
-#
-#	if abs(current_velocity) < abs(desired_velocity):
-#		if abs(acceleration) < movement_acceleration:
-#			current_velocity += acceleration
-#		else:
-#			current_velocity += movement_acceleration * sign(acceleration)
-#
-##	print(current_velocity)
-#
-#	if abs(current_velocity) > _motion_dampening:
-#		current_velocity -= _motion_dampening * sign(state.linear_velocity.x)
-#	else:
-#		current_velocity = 0.0
-#
-#	state.linear_velocity.x = current_velocity
 
 func _keep_body_straight(state: Physics2DDirectBodyState) -> void:
 	

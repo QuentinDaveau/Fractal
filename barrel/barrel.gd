@@ -3,7 +3,7 @@ class_name Barrel
 
 enum STATES {IDLE, COOLDOWN, SHOOTING}
 
-export(float) var cooldown: float
+export(float) var cooldown: float = 0.01
 export(Vector2) var knockback: = Vector2.ZERO
 
 

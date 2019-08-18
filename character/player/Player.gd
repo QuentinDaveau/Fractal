@@ -27,7 +27,7 @@ func _integrate_forces(state):
 		state.linear_velocity.y = -_jump_velocity
 		_jump = false
 	_move_player(state)
-	_keep_body_straight(state)
+	._integrate_forces(state)
 
 
 func get_property(property_name):

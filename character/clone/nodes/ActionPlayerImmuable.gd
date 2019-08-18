@@ -51,11 +51,11 @@ func _check_action_log(time: int):
 func _do_action(action_array: Array):
 	match action_array[1]:
 		
-		"Aim":
-			arms_manager.update_arms_direction(action_array[2])
-
+#		"Aim":
+#			arms_manager.update_arms_direction(action_array[2])
+#
 		"Move":
-			movement_manager.update_movement(action_array[2])
+#			movement_manager.update_movement(action_array[2])
 			animation_manager.move(action_array[2].x)
 #
 #		"game_jump":

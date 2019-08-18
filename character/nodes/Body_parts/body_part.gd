@@ -6,17 +6,37 @@ onready var targetNode = get_node(targetNodePath)
 
 export(bool) var enabled: bool = true
 
-export(float) var power = 2
-export(float) var maxAppliedAngularV = 100
-export(float) var maxAppliedDamp = 100
-export(float) var brakePower = 5
+export(float) var POWER = 2
+export(float) var MAX_APPLIED_AVELOCITY = 100
+export(float) var MAX_APPLIED_DAMPENING = 100
+export(float) var BRAKE_POWER = 5
 
-export(bool) var AngleRestriction = false
-export(float) var minAngle = -0
-export(float) var maxAngle = -0
-export(float) var restrictionPower = 5
+export(bool) var ANGLE_RESTRICTION = false
+export(float) var MIN_ANGLE = -0
+export(float) var MAX_ANGLE = -0
+export(float) var RESTRICTION_POWER = 5
 
-export(int) var maxAppliableAngularV = 10
+export(int) var MAX_AVELOCITY_VARIATION = 10
+
+
+func _scale_self() -> void:
+	var collision_shape = get_node("./CollisionShape2D").get_shape()
+	if collision_shape is CapsuleShape2D:
+		collision_shape.set_height(_scale_vector(collision_shape.get_height()))
+		collision_shape.set_radius(_scale_vector(collision_shape.get_radius()))
+	elif collision_shape is CircleShape2D:
+		collision_shape.set_radius(_scale_vector(collision_shape.get_radius()))
+
+	get_node("./CollisionShape2D").position = _scale_vector(get_node("./CollisionShape2D").position)
+	get_node("Sprite").scale = _scale_vector(get_node("Sprite").scale)
+	get_node("Sprite").position = _scale_vector(get_node("Sprite").position)
+
+	position = _scale_vector(position)
+	mass = _scale_mass(mass)
+	POWER = _scale_speed(POWER)
+	BRAKE_POWER = _scale_speed(BRAKE_POWER)
+	MAX_AVELOCITY_VARIATION = _scale_speed(MAX_AVELOCITY_VARIATION)
+
 
 func _integrate_forces(state):
 	
@@ -27,17 +47,17 @@ func _integrate_forces(state):
 	var selfAngle = rotation
 	
 	var current_velocity = state.angular_velocity
-	var tempPower = power
+	var temp_power = POWER
 	
-	if(AngleRestriction):
-		if(minAngle < maxAngle):
-			if(selfAngle < minAngle):
-				tempPower += restrictionPower * abs(abs(minAngle) - abs(selfAngle))
-			elif(selfAngle > maxAngle):
-				tempPower += restrictionPower * abs(abs(minAngle) - abs(selfAngle))
+	if(ANGLE_RESTRICTION):
+		if(MIN_ANGLE < MAX_ANGLE):
+			if(selfAngle < MIN_ANGLE):
+				temp_power += RESTRICTION_POWER * abs(abs(MIN_ANGLE) - abs(selfAngle))
+			elif(selfAngle > MAX_ANGLE):
+				temp_power += RESTRICTION_POWER * abs(abs(MIN_ANGLE) - abs(selfAngle))
 		else:
-			if(selfAngle < minAngle && selfAngle > maxAngle):
-				tempPower += restrictionPower * abs(abs(minAngle) - abs(selfAngle))
+			if(selfAngle < MIN_ANGLE && selfAngle > MAX_ANGLE):
+				temp_power += RESTRICTION_POWER * abs(abs(MIN_ANGLE) - abs(selfAngle))
 	
 	var diffAngle = 0
 	
@@ -47,21 +67,21 @@ func _integrate_forces(state):
 	else:
 		diffAngle = targetAngle - selfAngle
 	
-	var angularVToAim = sign(diffAngle) * ease(inverse_lerp(0, 3.14, abs(diffAngle)), 0.2) * tempPower
+	var angularVToAim = sign(diffAngle) * ease(inverse_lerp(0, 3.14, abs(diffAngle)), 0.2) * temp_power
 	
 	if(sign(angularVToAim) != sign(angular_velocity)):
-		angularVToAim += brakePower * (abs(abs(angularVToAim) - abs(angular_velocity))) * sign(angularVToAim)
+		angularVToAim += BRAKE_POWER * (abs(abs(angularVToAim) - abs(angular_velocity))) * sign(angularVToAim)
 	
-	if(abs(angularVToAim) > maxAppliableAngularV):
-		angularVToAim = maxAppliableAngularV * sign(angularVToAim)
+	if(abs(angularVToAim) > MAX_AVELOCITY_VARIATION):
+		angularVToAim = MAX_AVELOCITY_VARIATION * sign(angularVToAim)
 	
 	
 	if(current_velocity < angularVToAim):
 		
 		var tempVelocity = angularVToAim - current_velocity
 	
-		if tempVelocity > maxAppliedAngularV:
-			tempVelocity = maxAppliedAngularV
+		if tempVelocity > MAX_APPLIED_AVELOCITY:
+			tempVelocity = MAX_APPLIED_AVELOCITY
 	
 		state.angular_velocity += tempVelocity
 	
@@ -69,8 +89,8 @@ func _integrate_forces(state):
 	
 		var tempDamp = current_velocity - angularVToAim
 	
-		if tempDamp > maxAppliedDamp:
-			tempDamp = maxAppliedDamp
+		if tempDamp > MAX_APPLIED_DAMPENING:
+			tempDamp = MAX_APPLIED_DAMPENING
 	
 		state.angular_velocity -= tempDamp
 
@@ -91,6 +111,7 @@ func become_inert(exceptions: Array = []):
 			body.clear_exception_with(self)
 			
 	print(get_collision_exceptions(), "   r")
+
 
 func _die():
 	

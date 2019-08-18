@@ -41,26 +41,26 @@ func get_logs() -> Array:
 
 func _spawn_clone(character_datas: Array) -> void:
 	
-	var character_instance = CloneScene.instance()
+	var clone_instance = CloneScene.instance()
 	
 	var layers_array = _get_character_layers()
-	character_instance.setup({"position": _get_scaled_position(character_datas[0]),
+	clone_instance.setup({"position": _get_scaled_position(character_datas[0]),
 		"scale_coeff": level_scale,
 		"layer_array": layers_array[0],
 		"mask_array": layers_array[0],
 		"replay": character_datas[1]})
 	
-#	character_instance.position = _get_scaled_position(character_datas[0])
+	clone_instance.position = _get_scaled_position(character_datas[0])
 #
 #	character_instance.speed_coeff = level_scale
 #	character_instance.is_scaled = true
 #	character_instance.scale_coeff = level_scale
 	
-	character_instance.zoom_position = zoom_position
+	clone_instance.zoom_position = zoom_position
 	
-	_set_character_layers(character_instance)
+	_set_character_layers(clone_instance)
 	
-	add_child(character_instance)
+	add_child(clone_instance)
 
 
 func _spawn_players() -> void:
