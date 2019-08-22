@@ -2,6 +2,7 @@ extends Node
 
 signal use_item
 signal drop_item
+signal item_picked
 
 export(NodePath) var _right_hand_grabPoint_path: NodePath
 export(NodePath) var _left_hand_grabPoint_path: NodePath
@@ -11,6 +12,7 @@ onready var GRAB_POINTS = [get_node(_right_hand_grabPoint_path), get_node(_left_
 
 var _can_grab_items: bool = true
 var _has_item: bool = false
+var _grabbed_item_id: int = 0
 
 
 func _ready():
@@ -20,7 +22,6 @@ func _ready():
 
 
 func _unhandled_input(event):
-	print(event.device, "   ", event.is_action("game_grab_item"))
 	if not _can_grab_items or event.device != owner.get_property("DEVICE_ID"):
 		return
 	if event.is_action_pressed("game_grab_item"):
@@ -47,6 +48,7 @@ func _grab_item():
 			return
 		item_to_grab.pick(owner, self, GRAB_POINTS[0])
 		_grab_points_pick_item(item_to_grab)
+		_grabbed_item_id = item_to_grab.get_id()
 		$ItemPickingTimer.start()
 
 func _drop_item():
@@ -57,6 +59,7 @@ func _drop_item():
 func _item_grabbed():
 	if not $ItemPickingTimer.is_stopped():
 		$ItemPickingTimer.stop()
+		emit_signal("item_picked", _grabbed_item_id)
 		_has_item = true
 
 func _item_picking_timeout():

@@ -1,6 +1,8 @@
 extends Damageable
 class_name Character
 
+signal device_set(device_id)
+
 #onready var raycast = $RayCast2D
 onready var animationManager = $AnimationManager
 
@@ -27,17 +29,13 @@ var _pins_list: Dictionary = {}
 var _scale_init_done = true
 
 
-
-
-
-
-
 func setup(properties: Dictionary) -> void:
 	position = properties.position
 	.setup(properties)
 	
 
 func _ready():
+	emit_signal("device_set", get_property("DEVICE_ID"))
 	_body_parts_list = _get_all_nodes($BodyParts, _body_parts_list)
 	_set_body_parts_layers(_body_parts_list)
 	_set_collision_exception(_body_parts_list)

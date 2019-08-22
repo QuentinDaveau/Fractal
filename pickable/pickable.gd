@@ -42,6 +42,10 @@ func _integrate_forces(state) -> void:
 	_set_rotation(state, _magnet_node.global_rotation + (PI/2))
 
 
+func get_id() -> int:
+	return SCALABLE_ID
+
+
 func is_free() -> bool:
 	if _current_state == STATES.FREE:
 		return true

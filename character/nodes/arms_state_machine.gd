@@ -1,6 +1,8 @@
 extends Node
 
 signal state_changed(current_state)
+signal direction_changed(direction)
+
 export(String, "idle", "aiming", "stagger") var START_STATE: String = "idle"
 
 onready var DEAD_ZONE: float = owner.get_property("DEAD_ZONE")
@@ -71,8 +73,6 @@ func _change_state(state_name):
 	
 	emit_signal("state_changed", current_state)
 	
-	print(current_state)
-	
 	_enter_current_state()
 
 func _exit_current_state() -> void:
@@ -103,5 +103,6 @@ func _update_input_direction(event) -> void:
 			_input_direction.y = event.axis_value
 
 func _update_arms_direction(direction) -> void:
+	emit_signal("direction_changed", direction)
 	RIGHT_ARM_AXLE.rotation = direction.angle() - (PI/2)
 	LEFT_ARM_AXLE.rotation = direction.angle() - (PI/2)

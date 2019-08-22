@@ -1,5 +1,6 @@
 class_name PhysicsScaler extends RigidBody2D
 
+const SCALABLE_ID: int = 0
 const LAYERS_LENGTH: int = 32
 
 var _scale_coeff: float = 1.0

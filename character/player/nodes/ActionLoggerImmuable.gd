@@ -1,6 +1,6 @@
 extends Node
 
-export(float) var min_direction_step: float = 0.01
+export(float) var MIN_DIRECTION_STEP: float = 0.01
 export(bool) var is_logging: bool = true
 export(float) var position_log_delay_ms: float = 100
 
@@ -16,37 +16,53 @@ var _previous_move_direction: Vector2 = Vector2(0.0, 0.0)
 var _movement_log_step: int = 0
 
 
+func _ready() -> void:
+	owner.get_node("ItemManager").connect("use_item", self, "_item_used")
+	owner.get_node("ItemManager").connect("drop_item", self, "_item_dropped")
+	owner.get_node("ItemManager").connect("item_picked", self, "_item_picked")
+	owner.get_node("ArmsStateMachine").connect("direction_changed", self, "_arms_direction_changed")
+	owner.get_node("AnimationManager").connect("direction_changed", self, "_movement_direction_changed")
+
+
 func _physics_process(delta):
-	
 	if OS.get_ticks_msec() - _start_time > position_log_delay_ms * _movement_log_step:
-		log_movement()
+		_log_movement()
 		_movement_log_step += 1
 
 
-func log_movement() -> void:
+func _log_movement() -> void:
 	_movements_log.append([OS.get_ticks_msec() - _start_time, get_parent().global_position])
 
 
-func log_joystick(move_joystick: bool, direction: Vector2) -> void:
-	
-	if is_logging:
-	
-		if !move_joystick:
-			if ((_previous_aim_direction - direction).abs()).length() > min_direction_step:
-				_previous_aim_direction = direction
-				_actions_log.append([OS.get_ticks_msec() - _start_time, "Aim", direction])
-		else:
-			if ((_previous_move_direction - direction).abs()).length() > min_direction_step:
-				_previous_move_direction = direction
-				_actions_log.append([OS.get_ticks_msec() - _start_time, "Move", direction])
-		
+func _item_used(pressed) -> void:
+	_log_action("item_used", {"pressed": pressed})
 
 
-func log_button(button_descriptor: String, pressed: bool) -> void:
-	
+func _item_dropped() -> void:
+	_log_action("item_dropped")
+
+
+func _item_picked(item_id) -> void:
+	_log_action("item_picked", {"item_id": item_id})
+
+
+func _movement_direction_changed(direction) -> void:
 	if is_logging:
-	
-		_actions_log.append([OS.get_ticks_msec() - _start_time, button_descriptor, pressed])
+		if ((_previous_move_direction - direction).abs()).length() > MIN_DIRECTION_STEP * 5:
+			_previous_move_direction = direction
+			_actions_log.append([OS.get_ticks_msec() - _start_time, "Move", {"direction": direction}])
+
+func _arms_direction_changed(direction) -> void:
+	if is_logging:
+		if ((_previous_aim_direction - direction).abs()).length() > MIN_DIRECTION_STEP:
+			_previous_aim_direction = direction
+			_actions_log.append([OS.get_ticks_msec() - _start_time, "Aim", {"direction": direction}])
+
+
+func _log_action(action_descriptor: String, args = {}) -> void:
+	if is_logging:
+		_actions_log.append([OS.get_ticks_msec() - _start_time, action_descriptor, args])
+
 
 func get_log() -> Array:
 	return [_actions_log, _movements_log]

@@ -12,4 +12,3 @@ script = ExtResource( 1 )
 [node name="RightHandlePosition" type="Position2D" parent="."]
 
 [node name="LeftHandlePosition" type="Position2D" parent="."]
-

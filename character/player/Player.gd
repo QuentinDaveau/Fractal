@@ -1,9 +1,6 @@
 extends Character
 class_name Player
 
-
-signal device_set(device_id)
-
 var _motion_acceleration: float
 var _max_velocity: float
 var _desired_direction = Vector2(0.0, 0.0)
@@ -12,7 +9,6 @@ var _jump: bool = false
 
 
 func _ready():
-	emit_signal("device_set", get_property("DEVICE_ID"))
 	$GroundedCheckers/GroundedCheckOnGround.add_collision_exception(_body_parts_list)
 	$GroundedCheckers/GroundedCheckInAir.add_collision_exception(_body_parts_list)
 

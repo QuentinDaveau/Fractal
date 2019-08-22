@@ -12,10 +12,11 @@
 [ext_resource path="res://character/nodes/movement_manager.gd" type="Script" id=10]
 [ext_resource path="res://character/nodes/DEPRECATED/StateMachine.gd" type="Script" id=11]
 [ext_resource path="res://character/nodes/animation_player.gd" type="Script" id=12]
-[ext_resource path="res://character/player/nodes/arms_state_machine.gd" type="Script" id=13]
+[ext_resource path="res://character/nodes/arms_state_machine.gd" type="Script" id=13]
 [ext_resource path="res://Character/Scripts/ActionManager.gd" type="Script" id=14]
 [ext_resource path="res://character/nodes/item_manager.gd" type="Script" id=15]
 [ext_resource path="res://character/nodes/DEPRECATED/ActionLogger.gd" type="Script" id=16]
+
 
 
 

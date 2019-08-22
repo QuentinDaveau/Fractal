@@ -110,8 +110,6 @@ func become_inert(exceptions: Array = []):
 		if !exceptions.has(body):
 			remove_collision_exception_with(body)
 			body.clear_exception_with(self)
-			
-	print(get_collision_exceptions(), "   r")
 
 
 func _die():
@@ -119,7 +117,6 @@ func _die():
 	var exceptions = []
 	
 	for child in get_children():
-		print(child.get_name())
 		if child is PinJoint2D:
 			if child.get_node(child.node_a).get_instance_id() == get_instance_id():
 				child.node_a = ""

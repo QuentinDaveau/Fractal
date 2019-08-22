@@ -1,5 +1,7 @@
 extends Node
 
+signal grab_item(id)
+
 export(Array) var _actions_log: Array
 
 onready var animation_manager: Node = owner.get_node("AnimationManager")
@@ -29,9 +31,9 @@ func set_actions_log(actions_log: Array) -> void:
 
 
 func _check_position(time: int) -> void:
-	if _current_movement_step + 2 < _actions_log[1].size():
+	if _current_movement_step + 3 < _actions_log[1].size():
 		if _actions_log[1][_current_movement_step][0] * _input_scaling_coeff <= time:
-			get_parent().update_movement(_actions_log[1][_current_movement_step][1], _actions_log[1][_current_movement_step + 1][1], (_actions_log[1][_current_movement_step + 1][0] - _actions_log[1][_current_movement_step][0]) * _input_scaling_coeff, (_actions_log[1][_current_movement_step + 2][0] - _actions_log[1][_current_movement_step + 1][0]) * _input_scaling_coeff)
+			get_parent().update_movement(_actions_log[1][_current_movement_step + 1][1], _actions_log[1][_current_movement_step + 2][1], (_actions_log[1][_current_movement_step + 2][0] - _actions_log[1][_current_movement_step + 1][0]) * _input_scaling_coeff, (_actions_log[1][_current_movement_step + 3][0] - _actions_log[1][_current_movement_step + 2][0]) * _input_scaling_coeff)
 			_current_movement_step += 1
 
 
@@ -46,30 +48,41 @@ func _check_action_log(time: int):
 func _do_action(action_array: Array):
 	match action_array[1]:
 		
-#		"Aim":
-#			arms_manager.update_arms_direction(action_array[2])
-#
+		"Aim":
+			var event = InputEventJoypadMotion.new()
+			event.axis_value = action_array[2].direction.x
+			event.axis = 2
+			event.device = owner.get_property("DEVICE_ID")
+			Input.parse_input_event(event)
+			event.axis_value = action_array[2].direction.y
+			event.axis = 3
+			Input.parse_input_event(event)
+			
 		"Move":
-#			movement_manager.update_movement(action_array[2])
-			animation_manager.move(action_array[2].x)
-#
-#		"game_jump":
-#			if action_array[2]:
-#				movement_manager.jump()
-#			else:
-#				movement_manager.jump_released()
+			animation_manager.move(action_array[2].direction)
 		
-		"game_shoot":
-			if action_array[2]:
-				item_manager.use_item()
-		
-		"game_grab_item":
-			if action_array[2]:
+		"item_used":
+			if action_array[2].pressed:
 				var event = InputEventAction.new()
-				event.action = "game_grab_item"
+				event.action = "game_shoot"
 				event.pressed = true
 				event.device = owner.get_property("DEVICE_ID")
 				Input.parse_input_event(event)
+		
+		"item_picked":
+			print("grab")
+			emit_signal("grab_item", action_array[2].item_id)
+			var event = InputEventAction.new()
+			event.action = "game_grab_item"
+			event.pressed = true
+			event.device = owner.get_property("DEVICE_ID")
+			Input.parse_input_event(event)
 
+		"item_dropped":
+			var event = InputEventAction.new()
+			event.action = "game_grab_item"
+			event.pressed = true
+			event.device = owner.get_property("DEVICE_ID")
+			Input.parse_input_event(event)
 
 

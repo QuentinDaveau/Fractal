@@ -1,6 +1,7 @@
 extends "../state.gd"
 
 onready var DEAD_ZONE: float = owner.get_property("DEAD_ZONE")
+onready var ANIMATION_MANAGER = owner.get_node("AnimationManager")
 var _input_direction: = Vector2()
 
 func handle_input(event):
@@ -12,8 +13,10 @@ func _update_input_direction(event) -> void:
 		event.axis_value = 0.0
 	if event.axis == 0:
 		_input_direction.x = event.axis_value
+		ANIMATION_MANAGER.move(_input_direction)
 	elif event.axis == 1:
 		_input_direction.y = event.axis_value
+	
 
 func get_input_direction() -> Vector2:
 	return _input_direction
