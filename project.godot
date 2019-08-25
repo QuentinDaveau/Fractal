@@ -24,20 +24,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://character/character.gd"
 }, {
-"base": "PhysicsScaler",
-"class": "Character3",
-"language": "GDScript",
-"path": "res://Archives/Character3.gd"
-}, {
 "base": "Character",
 "class": "Clone",
 "language": "GDScript",
 "path": "res://character/clone/clone.gd"
-}, {
-"base": "Character",
-"class": "Clone_test",
-"language": "GDScript",
-"path": "res://character/nodes/DEPRECATED/Clone.gd"
 }, {
 "base": "PhysicsScaler",
 "class": "Damageable",
@@ -52,7 +42,7 @@ _global_script_classes=[ {
 "base": "LevelScaler",
 "class": "Level",
 "language": "GDScript",
-"path": "res://Levels/Scripts/Level.gd"
+"path": "res://level_manager/level/level.gd"
 }, {
 "base": "Node2D",
 "class": "LevelScaler",
@@ -74,20 +64,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://pickable/pickable.gd"
 }, {
-"base": "RigidBody2D",
-"class": "Pickable2",
-"language": "GDScript",
-"path": "res://TestScene.gd"
-}, {
 "base": "Character",
 "class": "Player",
 "language": "GDScript",
 "path": "res://character/player/Player.gd"
-}, {
-"base": "Position2D",
-"class": "PlayerSpawn",
-"language": "GDScript",
-"path": "res://Levels/Scripts/PlayerSpawn.gd"
 }, {
 "base": "Node",
 "class": "ProjectileSpawner",
@@ -98,19 +78,12 @@ _global_script_classes=[ {
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://pickable/weapon/weapon.gd"
-}, {
-"base": "RigidBody2D",
-"class": "ttt3",
-"language": "GDScript",
-"path": "res://2.gd"
 } ]
 _global_script_class_icons={
 "Barrel": "",
 "BodyPart": "",
 "Character": "",
-"Character3": "",
 "Clone": "",
-"Clone_test": "",
 "Damageable": "",
 "Firearm": "",
 "Level": "",
@@ -118,18 +91,15 @@ _global_script_class_icons={
 "PhysicProjectile": "",
 "PhysicsScaler": "",
 "Pickable": "",
-"Pickable2": "",
 "Player": "",
-"PlayerSpawn": "",
 "ProjectileSpawner": "",
-"Weapon": "",
-"ttt3": ""
+"Weapon": ""
 }
 
 [application]
 
 config/name="Fractal"
-run/main_scene="res://Game manager/Scene/LevelManager.tscn"
+run/main_scene="res://level_manager/LevelManager.tscn"
 config/icon="res://icon.png"
 
 [debug]

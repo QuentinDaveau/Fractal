@@ -1,7 +1,7 @@
 extends Node
 
 signal use_item
-signal drop_item
+signal drop_item(this, that)
 signal item_picked
 
 export(NodePath) var _right_hand_grabPoint_path: NodePath
@@ -53,7 +53,7 @@ func _grab_item():
 
 func _drop_item():
 	_grab_points_drop_item()
-	emit_signal("drop_item")
+	emit_signal("drop_item", self)
 	_has_item = false
 
 func _item_grabbed():

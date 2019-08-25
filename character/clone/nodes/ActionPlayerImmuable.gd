@@ -60,7 +60,7 @@ func _do_action(action_array: Array):
 			
 		"Move":
 			animation_manager.move(action_array[2].direction)
-		
+			
 		"item_used":
 			if action_array[2].pressed:
 				var event = InputEventAction.new()

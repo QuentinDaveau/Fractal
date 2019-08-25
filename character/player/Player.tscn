@@ -103,3 +103,4 @@ ACCELERATION = 7500.0
 script = ExtResource( 9 )
 GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckInAir")
 ACCELERATION = 7500.0
+

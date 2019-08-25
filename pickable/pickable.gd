@@ -84,7 +84,7 @@ func _scale_self() -> void:
 	$CollisionPolygon2D.set_polygon(vertex_buffer)
 
 
-func _drop() -> void:
+func _drop(item_manager) -> void:
 	_update_collision_exceptions(false)
 	_possessor = null
 	_magnet_node = null

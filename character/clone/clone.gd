@@ -19,9 +19,8 @@ var local_start_count: int = 0
 
 
 func setup(properties: Dictionary) -> void:
-	print(properties.replay)
 	$ActionPlayer.set_actions_log(properties.replay)
-	position = properties.position
+	zoom_position = properties.zoom_position
 	for body in _get_all_nodes($BodyParts, []):
 		body.setup(properties)
 	.setup(properties)

@@ -8,6 +8,10 @@ var _jump_velocity: float
 var _jump: bool = false
 
 
+func setup(properties: Dictionary) -> void:
+	.setup(properties)
+
+
 func _ready():
 	$GroundedCheckers/GroundedCheckOnGround.add_collision_exception(_body_parts_list)
 	$GroundedCheckers/GroundedCheckInAir.add_collision_exception(_body_parts_list)

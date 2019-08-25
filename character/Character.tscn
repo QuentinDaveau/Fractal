@@ -213,7 +213,7 @@ node_connections = [ "output", 0, "RunSpeed", "RunSpeed", 0, "TimeScale", "TimeS
 resource_local_to_scene = true
 extents = Vector2( 54.5216, 62.7088 )
 
-[node name="Character" index="0" instance=ExtResource( 1 )]
+[node name="Character" instance=ExtResource( 1 )]
 collision_layer = 0
 collision_mask = 0
 mass = 5.5
@@ -398,27 +398,27 @@ editor/display_folded = true
 position = Vector2( 0, 12.493 )
 
 [node name="TorsoArmAxle" type="Position2D" parent="Ghost/TorsoAxle" index="0"]
-position = Vector2( -1.93715e-07, -22.9125 )
+position = Vector2( -1.93715e-007, -22.9125 )
 
 [node name="ArmTopBotomAxle" type="Position2D" parent="Ghost/TorsoAxle/TorsoArmAxle" index="0"]
 position = Vector2( 0, 10.6509 )
 
 [node name="TorsoArmAxle2" type="Position2D" parent="Ghost/TorsoAxle" index="1"]
-position = Vector2( 1.66893e-06, -22.9125 )
+position = Vector2( 1.66893e-006, -22.9125 )
 
 [node name="ArmTopBotomAxle2" type="Position2D" parent="Ghost/TorsoAxle/TorsoArmAxle2" index="0"]
 position = Vector2( 0, 10.6509 )
 
 [node name="TorsoLegAxle" type="Position2D" parent="Ghost" index="2"]
 editor/display_folded = true
-position = Vector2( -4.17233e-07, 12.4927 )
+position = Vector2( -4.17233e-007, 12.4927 )
 
 [node name="LegTopBottomAxle" type="Position2D" parent="Ghost/TorsoLegAxle" index="0"]
 position = Vector2( 0, 16.907 )
 
 [node name="TorsoLegAxle2" type="Position2D" parent="Ghost" index="3"]
 editor/display_folded = true
-position = Vector2( 5.36442e-07, 12.4927 )
+position = Vector2( 5.36442e-007, 12.4927 )
 
 [node name="LegTopBottomAxle2" type="Position2D" parent="Ghost/TorsoLegAxle2" index="0"]
 position = Vector2( 0, 16.907 )
@@ -460,3 +460,4 @@ shape = SubResource( 13 )
 
 [node name="ArmsStateMachine" type="Node" parent="." index="8"]
 script = ExtResource( 12 )
+

@@ -38,7 +38,7 @@ func _item_used(pressed) -> void:
 	_log_action("item_used", {"pressed": pressed})
 
 
-func _item_dropped() -> void:
+func _item_dropped(item_manager) -> void:
 	_log_action("item_dropped")
 
 
@@ -51,6 +51,7 @@ func _movement_direction_changed(direction) -> void:
 		if ((_previous_move_direction - direction).abs()).length() > MIN_DIRECTION_STEP * 5:
 			_previous_move_direction = direction
 			_actions_log.append([OS.get_ticks_msec() - _start_time, "Move", {"direction": direction}])
+
 
 func _arms_direction_changed(direction) -> void:
 	if is_logging:
