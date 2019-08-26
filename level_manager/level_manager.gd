@@ -6,7 +6,7 @@ export(PackedScene) var START_MAP: PackedScene
 export(PackedScene) var ZOOM_MAP: PackedScene
 
 export(int) var gen: int = 0
-export(float) var scale_mult: float = 1.5
+export(float) var scale_mult: float = 2
 
 var _levels_list: Array = []
 var _levels_layers_length: int = 32

@@ -15,7 +15,7 @@ height = 25.4696
 resource_local_to_scene = true
 extents = Vector2( 54.5216, 62.7088 )
 
-[node name="Clone" instance=ExtResource( 1 )]
+[node name="Clone" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 brakePower = 5.0
 maxAppliableAngularV = 50.0
@@ -23,6 +23,9 @@ movement_acceleration = 5.0
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 1 )
+
+[node name="BodyParts" parent="." index="2"]
+editor/display_folded = false
 
 [node name="ItemManager" parent="." index="6"]
 _right_hand_grabPoint_path = NodePath("../../Clone/BodyParts/ArmTop/ArmBottom/RightGrabPoint")

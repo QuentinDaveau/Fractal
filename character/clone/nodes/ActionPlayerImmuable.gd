@@ -9,7 +9,7 @@ onready var item_manager: Node = owner.get_node("ItemManager")
 
 onready var _start_time: int = OS.get_ticks_msec()
 
-onready var _input_scaling_coeff: float = 2
+var REPLAY_SPEED: float = 0.0
 
 var _current_action_step: int = 0
 var _current_movement_step: int = 0
@@ -30,16 +30,20 @@ func set_actions_log(actions_log: Array) -> void:
 	_actions_log = actions_log
 
 
+func set_replay_speed(speed: float) -> void:
+	REPLAY_SPEED = speed
+
+
 func _check_position(time: int) -> void:
 	if _current_movement_step + 3 < _actions_log[1].size():
-		if _actions_log[1][_current_movement_step][0] * _input_scaling_coeff <= time:
-			get_parent().update_movement(_actions_log[1][_current_movement_step + 1][1], _actions_log[1][_current_movement_step + 2][1], (_actions_log[1][_current_movement_step + 2][0] - _actions_log[1][_current_movement_step + 1][0]) * _input_scaling_coeff, (_actions_log[1][_current_movement_step + 3][0] - _actions_log[1][_current_movement_step + 2][0]) * _input_scaling_coeff)
+		if _actions_log[1][_current_movement_step][0] * REPLAY_SPEED <= time:
+			get_parent().update_movement(_actions_log[1][_current_movement_step + 1][1], _actions_log[1][_current_movement_step + 2][1], (_actions_log[1][_current_movement_step + 2][0] - _actions_log[1][_current_movement_step + 1][0]) * REPLAY_SPEED, (_actions_log[1][_current_movement_step + 3][0] - _actions_log[1][_current_movement_step + 2][0]) * REPLAY_SPEED)
 			_current_movement_step += 1
 
 
 func _check_action_log(time: int):
 	if _current_action_step < _actions_log[0].size():
-		if _actions_log[0][_current_action_step][0] * _input_scaling_coeff <= time:
+		if _actions_log[0][_current_action_step][0] * REPLAY_SPEED <= time:
 				_do_action(_actions_log[0][_current_action_step])
 				_current_action_step += 1
 				_check_action_log(time)

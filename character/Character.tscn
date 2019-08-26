@@ -450,7 +450,6 @@ _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/LeftGrabPo
 one_shot = true
 
 [node name="GrabArea" type="Area2D" parent="." index="7"]
-editor/display_folded = true
 position = Vector2( 0, 20.6906 )
 script = ExtResource( 11 )
 

@@ -19,12 +19,14 @@ var local_start_count: int = 0
 
 
 func setup(properties: Dictionary) -> void:
+	.setup(properties)
+	
 	$ActionPlayer.set_actions_log(properties.replay)
 	ZOOM_POSITION = properties.zoom_position
 	
 	for body in _get_all_nodes($BodyParts, []):
 		body.setup(properties)
-	.setup(properties)
+	
 
 
 func _integrate_forces(state):
@@ -41,7 +43,10 @@ func _integrate_forces(state):
 func _scale_self() -> void:
 	_scale_init_done = false
 	
-	$AnimationManager.set_play_speed(_scale_coeff)
+	$ActionPlayer.set_replay_speed(1/_scale_speed(1.0))
+	_movement_dampening = _scale_speed(_movement_dampening)
+	
+	$AnimationManager.set_play_speed(1/_scale_speed(1.0))
 	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * _scale_coeff)
 	
 	_disable_pins(_get_all_pins($BodyParts, []))
@@ -94,8 +99,12 @@ func _move_player_imm(state: Physics2DDirectBodyState) -> void:
 
 	if position_to_reach != Vector2.ZERO && _positions_array.size() > 0:
 		var velocity_to_reach = (position_to_reach - global_position) * 1000 / (2 * step_milis - (OS.get_ticks_msec() - local_start_count))
-		var velocity_to_add_x = velocity_to_reach.x - state.linear_velocity.x if abs(velocity_to_reach.x - state.linear_velocity.x) < _movement_dampening else _movement_dampening * sign(velocity_to_reach.x - state.linear_velocity.x)
-		var velocity_to_add_y = velocity_to_reach.y - state.linear_velocity.y if abs(velocity_to_reach.y - state.linear_velocity.y) < _movement_dampening else _movement_dampening * sign(velocity_to_reach.y - state.linear_velocity.y)
+		var velocity_to_add_x = (velocity_to_reach.x - state.linear_velocity.x 
+				if abs(velocity_to_reach.x - state.linear_velocity.x) < _movement_dampening 
+				else _movement_dampening * sign(velocity_to_reach.x - state.linear_velocity.x))
+		var velocity_to_add_y = (velocity_to_reach.y - state.linear_velocity.y 
+				if abs(velocity_to_reach.y - state.linear_velocity.y) < _movement_dampening 
+				else _movement_dampening * sign(velocity_to_reach.y - state.linear_velocity.y))
 		state.linear_velocity += Vector2(velocity_to_add_x, velocity_to_add_y)
 
 
