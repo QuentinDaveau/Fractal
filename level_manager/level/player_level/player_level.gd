@@ -20,7 +20,6 @@ func _get_logs() -> Array:
 	for character in _characters_list:
 		if character is Character:
 			characters_log_array.append(character.get_replay())
-			print(character.get_replay()[1][1])
 	return [_level_logs, characters_log_array]
 
 
@@ -31,8 +30,8 @@ func _spawn_players() -> void:
 	player_instance.setup({
 		"position": Vector2(200, 0),
 		"scale_coeff": 1.0,
-		"layer_array": layers_array[0],
-		"mask_array": layers_array[0],
+		"layer_array": layers_array.layer,
+		"mask_array": layers_array.mask,
 		})
 	
 	

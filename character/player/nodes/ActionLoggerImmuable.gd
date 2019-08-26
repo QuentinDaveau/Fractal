@@ -31,7 +31,7 @@ func _physics_process(delta):
 
 
 func _log_movement() -> void:
-	_movements_log.append([OS.get_ticks_msec() - _start_time, get_parent().global_position])
+	_movements_log.append([OS.get_ticks_msec() - _start_time, owner.global_position])
 
 
 func _item_used(pressed) -> void:

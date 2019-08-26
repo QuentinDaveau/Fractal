@@ -3,7 +3,7 @@ class_name Clone
 
 var _movement_dampening: float = 25.0
 
-var zoom_position: Vector2 = Vector2(.0, .0)
+var ZOOM_POSITION: Vector2 = Vector2(.0, .0)
 
 var velocity_to_apply: Vector2 = Vector2(.0, .0)
 
@@ -20,7 +20,8 @@ var local_start_count: int = 0
 
 func setup(properties: Dictionary) -> void:
 	$ActionPlayer.set_actions_log(properties.replay)
-	zoom_position = properties.zoom_position
+	ZOOM_POSITION = properties.zoom_position
+	
 	for body in _get_all_nodes($BodyParts, []):
 		body.setup(properties)
 	.setup(properties)
@@ -119,7 +120,8 @@ func update_movement(new_position: Vector2, next_position: Vector2, delay: int, 
 	cell_count = -1
 	start_count = OS.get_ticks_msec()
 	time_left = delay
+	$Sprite2.global_position = scaled_position
 
 
 func _get_scaled_position(position_to_scale: Vector2) -> Vector2:
-	return zoom_position - ((zoom_position - position_to_scale) * _scale_coeff)
+	return ZOOM_POSITION - ((ZOOM_POSITION - position_to_scale) * _scale_coeff)

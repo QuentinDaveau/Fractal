@@ -13,7 +13,7 @@ func setup(properties: Dictionary) -> void:
 	LEVEL_LOGS = properties.level_logs
 	ZOOM_POSITION = properties.zoom_position
 	LEVEL_SCALE = properties.scale
-	scale *= LEVEL_SCALE
+	scale = Vector2.ONE * LEVEL_SCALE
 	position = ZOOM_POSITION - (ZOOM_POSITION * LEVEL_SCALE)
 	.setup(properties)
 
@@ -42,8 +42,8 @@ func _spawn_clone(character_datas: Array) -> void:
 	clone_instance.setup({
 		"position": _get_scaled_position(character_datas[0]),
 		"scale_coeff": LEVEL_SCALE,
-		"layer_array": layers_array[0],
-		"mask_array": layers_array[0],
+		"layer_array": layers_array.layer,
+		"mask_array": layers_array.mask,
 		"replay": character_datas[1],
 		"zoom_position": ZOOM_POSITION
 		})
