@@ -35,6 +35,7 @@ func _update_state(new_state) -> void:
 func _lock_grab_in_hand(grab_path: NodePath) -> void:
 	if _state == STATES.waiting_grab:
 		disable_collision = true
+		softness = 0.0
 		bias = 0.9
 		set_node_b(grab_path)
 		_update_state(STATES.item_grab)
@@ -43,6 +44,7 @@ func _lock_grab_in_hand(grab_path: NodePath) -> void:
 func grab_surface(grab_path: NodePath) -> void:
 	if _state == STATES.no_grab or _state == STATES.waiting_grab:
 		disable_collision = false
+		softness = 0.9
 		bias = 0.4
 		set_node_b(grab_path)
 		_update_state(STATES.surface_grab)

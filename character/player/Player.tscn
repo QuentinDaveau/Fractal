@@ -19,14 +19,16 @@ radius = 1.44157
 height = 25.4696
 
 [sub_resource type="CircleShape2D" id=7]
-radius = 70.0
+radius = 80.0
 
 [sub_resource type="CircleShape2D" id=3]
+radius = 5.0
 
 [sub_resource type="CircleShape2D" id=8]
-radius = 70.0
+radius = 80.0
 
 [sub_resource type="CircleShape2D" id=5]
+radius = 5.0
 
 [sub_resource type="GDScript" id=6]
 script/source = "# Stores all character settings defined by the player
@@ -49,7 +51,6 @@ targetNodePath = NodePath("../../../Player/Ghost/TorsoAxle/TorsoArmAxle")
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
 
 [node name="RightGrabPoint" parent="BodyParts/ArmTop/ArmBottom" index="3"]
-bias = 0.0
 disable_collision = false
 
 [node name="RightPickArea" parent="BodyParts/ArmTop/ArmBottom" index="4" instance=ExtResource( 3 )]
@@ -77,12 +78,10 @@ editor/display_folded = false
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
 
 [node name="LeftGrabPoint" parent="BodyParts/ArmTop2/ArmBottom2" index="3"]
-bias = 0.0
 disable_collision = false
 
 [node name="LeftPickArea" parent="BodyParts/ArmTop2/ArmBottom2" index="4" instance=ExtResource( 3 )]
 editor/display_folded = true
-visible = false
 position = Vector2( 0, 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop2/ArmBottom2/LeftPickArea" index="0"]
@@ -116,6 +115,7 @@ script = ExtResource( 4 )
 
 [node name="GroundedCheckers" type="Node2D" parent="." index="9"]
 editor/display_folded = true
+visible = false
 
 [node name="GroundedCheckOnGround" parent="GroundedCheckers" index="0" instance=ExtResource( 5 )]
 enabled = true
