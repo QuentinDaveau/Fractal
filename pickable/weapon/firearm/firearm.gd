@@ -11,6 +11,11 @@ func _scale_self() -> void:
 	._scale_self()
 
 
+func _ready():
+	set_collision_layer_bit(0, true)
+	set_collision_mask_bit(0, true)
+
+
 func _attack(state) -> void:
 	if state:
 		for barrel in _barrels_array:

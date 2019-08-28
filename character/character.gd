@@ -2,6 +2,7 @@ extends Damageable
 class_name Character
 
 signal device_set(device_id)
+signal body_parts_list_set(body_parts_list)
 
 #onready var raycast = $RayCast2D
 onready var animationManager = $AnimationManager
@@ -37,6 +38,7 @@ func setup(properties: Dictionary) -> void:
 func _ready():
 	emit_signal("device_set", get_property("DEVICE_ID"))
 	_body_parts_list = _get_all_nodes($BodyParts, _body_parts_list)
+	emit_signal("body_parts_list_set", _body_parts_list)
 	_set_body_parts_layers(_body_parts_list)
 	_set_collision_exception(_body_parts_list)
 
@@ -111,8 +113,6 @@ func _keep_body_straight(state: Physics2DDirectBodyState) -> void:
 	
 	if(abs(angularVToAim) > maxAppliableAngularV):
 		angularVToAim = maxAppliableAngularV * sign(angularVToAim)
-	
-#	print("Différence angle: ",diffAngle,", Torque désiré: ",angularVToAim,", Torque réel: ",applied_torque)
 	
 	if(current_velocity < angularVToAim):
 		

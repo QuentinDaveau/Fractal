@@ -104,7 +104,7 @@ func become_inert(exceptions: Array = []):
 	
 	enabled = false
 	
-	yield(get_tree().create_timer(.5), "timeout")
+#	yield(get_tree().create_timer(.5), "timeout")
 	
 	for body in get_collision_exceptions():
 		if !exceptions.has(body):

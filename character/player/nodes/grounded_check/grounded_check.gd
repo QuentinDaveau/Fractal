@@ -6,6 +6,8 @@ var _grounded: bool = false
 
 func _ready():
 	$GroundedDelay.connect("timeout", self, "_grounded_timeout")
+	owner.connect("body_parts_list_set", self, "_add_collision_exception")
+
 
 func _physics_process(delta):
 	if _grounded:
@@ -16,17 +18,21 @@ func _physics_process(delta):
 		if is_colliding():
 			_grounded = true
 
+
 func is_grounded() -> bool:
 	return _grounded
+
 
 func jumping_disable(delay) -> void:
 	enabled = false
 	_grounded = false
 	$GroundedDelay.start(delay)
 
-func add_collision_exception(bodies_array: Array) -> void:
+
+func _add_collision_exception(bodies_array: Array) -> void:
 	for body in bodies_array:
 		add_exception(body)
+
 
 func _grounded_timeout() -> void:
 	if !enabled:

@@ -1,28 +1,48 @@
 extends PinJoint2D
 
-signal item_grabbed()
+signal state_changed(old_state, state)
 
-var STATE_LIST: Array = ["no_item", "waiting_item", "has_item"]
+enum STATES {no_grab, waiting_grab, surface_grab, item_grab}
 
-var _state: String = "no_item"
+var _state: int = STATES.no_grab
 
-func get_state() -> String:
+
+func get_state() -> int:
 	return _state
 
+
 func pick_item(item) -> void:
-	if _state == "no_item":
-		item.connect("is_on_position", self, "_lock_item_in_hand", [], CONNECT_ONESHOT)
-		_state = "waiting_item"
+	if _state == STATES.no_grab:
+		if not item.is_connected("is_on_position", self, "_lock_grab_in_hand"):
+			item.connect("is_on_position", self, "_lock_grab_in_hand", [], CONNECT_ONESHOT)
+		_update_state(STATES.waiting_grab)
 
-func drop_item() -> void:
-	if _state == "no_item":
+
+func drop() -> void:
+	if _state == STATES.no_grab:
 		return
-	if _state == "has_item":
+	if _state == STATES.surface_grab or _state == STATES.item_grab:
+		disable_collision = false
 		set_node_b("")
-	_state = "no_item"
+	_update_state(STATES.no_grab)
 
-func _lock_item_in_hand(item_path) -> void:
-	if _state == "waiting_item":
-		set_node_b(item_path)
-		emit_signal("item_grabbed")
-		_state = "has_item"
+
+func _update_state(new_state) -> void:
+	emit_signal("state_changed", _state, new_state)
+	_state = new_state
+
+
+func _lock_grab_in_hand(grab_path: NodePath) -> void:
+	if _state == STATES.waiting_grab:
+		disable_collision = true
+		bias = 0.9
+		set_node_b(grab_path)
+		_update_state(STATES.item_grab)
+
+
+func grab_surface(grab_path: NodePath) -> void:
+	if _state == STATES.no_grab or _state == STATES.waiting_grab:
+		disable_collision = false
+		bias = 0.4
+		set_node_b(grab_path)
+		_update_state(STATES.surface_grab)

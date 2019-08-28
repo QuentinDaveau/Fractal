@@ -13,8 +13,9 @@ func setup(properties: Dictionary) -> void:
 
 
 func _ready():
-	$GroundedCheckers/GroundedCheckOnGround.add_collision_exception(_body_parts_list)
-	$GroundedCheckers/GroundedCheckInAir.add_collision_exception(_body_parts_list)
+#	$GroundedCheckers/GroundedCheckOnGround.add_collision_exception(_body_parts_list)
+#	$GroundedCheckers/GroundedCheckInAir.add_collision_exception(_body_parts_list)
+	pass
 
 
 func _integrate_forces(state):
