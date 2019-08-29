@@ -47,7 +47,7 @@ func _scale_self() -> void:
 	_movement_dampening = _scale_speed(_movement_dampening)
 	
 	$AnimationManager.set_play_speed(1/_scale_speed(1.0))
-	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * _scale_coeff)
+#	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * _scale_coeff)
 	
 	_disable_pins(_get_all_pins($BodyParts, []))
 	for pin in _get_all_pins($BodyParts, []):

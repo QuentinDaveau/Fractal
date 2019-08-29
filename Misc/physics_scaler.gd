@@ -1,4 +1,9 @@
-class_name PhysicsScaler extends RigidBody2D
+extends Spawnable
+class_name PhysicsScaler
+
+"""
+Offers basic functions to scale objects and set their collision layer and mask
+"""
 
 const SCALABLE_ID: int = 0
 const LAYERS_LENGTH: int = 32

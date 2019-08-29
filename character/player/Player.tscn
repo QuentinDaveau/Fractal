@@ -18,13 +18,13 @@ resource_local_to_scene = true
 radius = 1.44157
 height = 25.4696
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=2]
 radius = 80.0
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 5.0
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=4]
 radius = 80.0
 
 [sub_resource type="CircleShape2D" id=5]
@@ -40,14 +40,25 @@ var DEAD_ZONE: float = 0.2"
 
 [node name="Player" index="0" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+BOUND_BOX = {
+"height": 100.0,
+"offset_x": 0.0,
+"offset_y": 10.0,
+"width": 50.0
+}
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 1 )
 
+[node name="BodyParts" parent="." index="2"]
+editor/display_folded = true
+
 [node name="ArmTop" parent="BodyParts" index="1"]
+editor/display_folded = true
 targetNodePath = NodePath("../../../Player/Ghost/TorsoAxle/TorsoArmAxle")
 
 [node name="ArmBottom" parent="BodyParts/ArmTop" index="3"]
+editor/display_folded = true
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
 
 [node name="RightGrabPoint" parent="BodyParts/ArmTop/ArmBottom" index="3"]
@@ -59,7 +70,7 @@ visible = false
 position = Vector2( 0, 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop/ArmBottom/RightPickArea" index="0"]
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="RightGrabArea" parent="BodyParts/ArmTop/ArmBottom" index="5" instance=ExtResource( 3 )]
 editor/display_folded = true
@@ -70,11 +81,9 @@ position = Vector2( 0, 16 )
 shape = SubResource( 3 )
 
 [node name="ArmTop2" parent="BodyParts" index="2"]
-editor/display_folded = false
 targetNodePath = NodePath("../../../Player/Ghost/TorsoAxle/TorsoArmAxle2")
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="3"]
-editor/display_folded = false
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
 
 [node name="LeftGrabPoint" parent="BodyParts/ArmTop2/ArmBottom2" index="3"]
@@ -82,10 +91,11 @@ disable_collision = false
 
 [node name="LeftPickArea" parent="BodyParts/ArmTop2/ArmBottom2" index="4" instance=ExtResource( 3 )]
 editor/display_folded = true
+visible = false
 position = Vector2( 0, 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop2/ArmBottom2/LeftPickArea" index="0"]
-shape = SubResource( 8 )
+shape = SubResource( 4 )
 
 [node name="LeftGrabArea" parent="BodyParts/ArmTop2/ArmBottom2" index="5" instance=ExtResource( 3 )]
 editor/display_folded = true

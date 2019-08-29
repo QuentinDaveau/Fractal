@@ -47,17 +47,17 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "LevelScaler",
 "language": "GDScript",
-"path": "res://Misc/Scripts/LevelScaler.gd"
+"path": "res://Misc/level_scaler.gd"
 }, {
 "base": "PhysicsScaler",
 "class": "PhysicProjectile",
 "language": "GDScript",
 "path": "res://projectile/physic_projectile/physic_projectile.gd"
 }, {
-"base": "RigidBody2D",
+"base": "Spawnable",
 "class": "PhysicsScaler",
 "language": "GDScript",
-"path": "res://Misc/Scripts/PhysicsScaler.gd"
+"path": "res://Misc/physics_scaler.gd"
 }, {
 "base": "PhysicsScaler",
 "class": "Pickable",
@@ -73,6 +73,11 @@ _global_script_classes=[ {
 "class": "ProjectileSpawner",
 "language": "GDScript",
 "path": "res://barrel/projectile_spawner/projectile_spawner.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Spawnable",
+"language": "GDScript",
+"path": "res://Misc/spawnable.gd"
 }, {
 "base": "Pickable",
 "class": "Weapon",
@@ -93,6 +98,7 @@ _global_script_class_icons={
 "Pickable": "",
 "Player": "",
 "ProjectileSpawner": "",
+"Spawnable": "",
 "Weapon": ""
 }
 
