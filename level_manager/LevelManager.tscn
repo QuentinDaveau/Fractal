@@ -3,8 +3,10 @@
 [ext_resource path="res://level_manager/level_manager.gd" type="Script" id=1]
 [ext_resource path="res://level_manager/level/player_level/PlayerLevel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://level_manager/level/clone_level/CloneLevel.tscn" type="PackedScene" id=3]
-[ext_resource path="res://maps/TestLevel.tscn" type="PackedScene" id=4]
-[ext_resource path="res://maps/EmptyLevel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://maps/TestMap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://maps/EmptyMap.tscn" type="PackedScene" id=5]
+
+
 
 [node name="LevelManager" type="Node2D"]
 script = ExtResource( 1 )
