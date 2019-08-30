@@ -36,7 +36,7 @@ func _scale_self() -> void:
 	POWER = _scale_speed(POWER)
 	BRAKE_POWER = _scale_speed(BRAKE_POWER)
 	MAX_AVELOCITY_VARIATION = _scale_speed(MAX_AVELOCITY_VARIATION)
-	gravity_scale = _scale_speed(gravity_scale)
+#	gravity_scale = _scale_speed(gravity_scale)
 
 
 func _integrate_forces(state):

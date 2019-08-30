@@ -5,7 +5,7 @@ signal grab_item(id)
 export(Array) var _actions_log: Array
 
 onready var animation_manager: Node = owner.get_node("AnimationManager")
-onready var item_manager: Node = owner.get_node("ItemManager")
+#onready var item_manager: Node = owner.get_node("ItemManager")
 
 onready var _start_time: int = OS.get_ticks_msec()
 

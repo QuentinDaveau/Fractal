@@ -62,7 +62,7 @@ func _scale_self() -> void:
 	power = _scale_speed(power)
 	brakePower = _scale_speed(brakePower)
 	maxAppliableAngularV = _scale_speed(maxAppliableAngularV)
-	gravity_scale = _scale_speed(gravity_scale)
+#	gravity_scale = 0
 
 
 func _disable_pins(pins: Array) -> void:

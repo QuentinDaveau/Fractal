@@ -15,7 +15,7 @@ extents = Vector2( 100, 10 )
 resource_local_to_scene = true
 extents = Vector2( 510, 10 )
 
-[node name="TestLevel" type="Node2D"]
+[node name="TestMap" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 editor/display_folded = true
