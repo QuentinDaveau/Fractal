@@ -13,7 +13,6 @@
 [ext_resource path="res://character/player/nodes/grab_manager.gd" type="Script" id=11]
 [ext_resource path="res://character/player/nodes/item_manager.gd" type="Script" id=12]
 
-
 [sub_resource type="CapsuleShape2D" id=1]
 resource_local_to_scene = true
 radius = 1.44157

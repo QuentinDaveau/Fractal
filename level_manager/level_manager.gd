@@ -46,13 +46,13 @@ func _load_player_level(level_map: PackedScene, level_gen: int, players_datas: A
 	add_child(level_instance)
 
 
-func _load_clone_level(level_map: PackedScene, level_gen: int, level_logs: Array = [[], []]) -> void:
+func _load_clone_level(level_map: PackedScene, level_gen: int, level_logs: Dictionary) -> void:
 	var level_instance = CLONE_LEVEL.instance()
 	level_instance.setup({
 				"level_gen": level_gen,
 				"map": level_map,
-				"characters_logs": level_logs[1],
-				"level_logs": level_logs[0],
+				"characters_logs": level_logs.characters,
+				"level_logs": level_logs.level,
 				"zoom_position": Vector2(250.0, 250.0),
 				"scale": pow(scale_mult, gen - level_gen)
 				})

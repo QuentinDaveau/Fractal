@@ -20,8 +20,8 @@ func disassemble() -> Dictionary:
 	return {}
 
 
-func get_logs() -> Array:
-	return []
+func get_logs() -> Dictionary:
+	return {}
 
 
 func get_layers() -> Dictionary:

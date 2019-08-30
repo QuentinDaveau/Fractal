@@ -31,8 +31,8 @@ func _integrate_forces(state):
 	._integrate_forces(state)
 
 
-func get_replay() -> Array:
-	return [$ActionLogger.get_start_position(), $ActionLogger.get_log()]
+func get_replay() -> Dictionary:
+	return {"start_position": $ActionLogger.get_start_position(), "logs": $ActionLogger.get_log(), "id": get_id()}
 
 
 func update_velocity_limitations(max_velocity: float, acceleration: float) -> void:

@@ -1,8 +1,9 @@
 extends Node
 
 onready var spawn_finder = owner.get_node("SpawnFinder")
+onready var id_counter = owner.get_node("IdCounter")
 
-var COOLDOWN_RANGE: Array = [3.0, 8.0]
+var COOLDOWN_RANGE: Array = [3.0, 5.0]
 
 
 func _ready() -> void:
@@ -28,6 +29,7 @@ func _spawn_item() -> void:
 	
 	if item is PhysicsScaler:
 		item.setup({
+				"id": id_counter.get_id(),
 				"scale_coeff": 1.0,
 				"layer_array": layers.layer,
 				"mask_array": layers.mask

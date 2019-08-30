@@ -30,8 +30,20 @@ func _physics_process(delta):
 		_movement_log_step += 1
 
 
+func get_log() -> Dictionary:
+	return {"actions": _actions_log, "movements": _movements_log}
+
+
+func get_movement_log() -> Array:
+	return _movements_log
+
+
+func get_start_position() -> Vector2:
+	return start_position
+
+
 func _log_movement() -> void:
-	_movements_log.append([OS.get_ticks_msec() - _start_time, owner.global_position])
+	_movements_log.append({"time": OS.get_ticks_msec() - _start_time, "position": owner.global_position})
 
 
 func _item_used(pressed) -> void:
@@ -50,33 +62,16 @@ func _movement_direction_changed(direction) -> void:
 	if is_logging:
 		if ((_previous_move_direction - direction).abs()).length() > MIN_DIRECTION_STEP * 5:
 			_previous_move_direction = direction
-			_actions_log.append([OS.get_ticks_msec() - _start_time, "Move", {"direction": direction}])
+			_log_action("move", {"direction": direction})
 
 
 func _arms_direction_changed(direction) -> void:
 	if is_logging:
 		if ((_previous_aim_direction - direction).abs()).length() > MIN_DIRECTION_STEP:
 			_previous_aim_direction = direction
-			_actions_log.append([OS.get_ticks_msec() - _start_time, "Aim", {"direction": direction}])
+			_log_action("aim", {"direction": direction})
 
 
 func _log_action(action_descriptor: String, args = {}) -> void:
 	if is_logging:
-		_actions_log.append([OS.get_ticks_msec() - _start_time, action_descriptor, args])
-
-
-func get_log() -> Array:
-	return [_actions_log, _movements_log]
-
-
-func get_movement_log() -> Array:
-	return _movements_log
-
-
-func get_start_position() -> Vector2:
-	return start_position
-
-
-func print_log():
-	print(_movements_log.size())
-	print(_movements_log)
+		_actions_log.append({"time": OS.get_ticks_msec() - _start_time, "action": action_descriptor, "args": args})

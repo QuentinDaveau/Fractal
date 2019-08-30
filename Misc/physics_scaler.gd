@@ -17,6 +17,7 @@ func setup(properties: Dictionary) -> void:
 	_scale_coeff = properties.scale_coeff
 	_layer_array = properties.layer_array
 	_mask_array = properties.mask_array
+	.setup(properties)
 
 
 func _ready():

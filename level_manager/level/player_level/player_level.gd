@@ -11,16 +11,16 @@ func _ready():
 
 func disassemble() -> Dictionary:
 	queue_free()
-	return {"logs": _get_logs(), "gen": LEVEL_GEN, "map": MAP}
+	return {"logs": get_logs(), "gen": LEVEL_GEN, "map": MAP}
 
 
-func _get_logs() -> Array:
-	var characters_log_array: Array = []
+func get_logs() -> Dictionary:
+	var characters_log: Array = []
 	
 	for character in _characters_list:
 		if character is Character:
-			characters_log_array.append(character.get_replay())
-	return [_level_logs, characters_log_array]
+			characters_log.append(character.get_replay())
+	return {"level": _level_logs, "characters": characters_log}
 
 
 func _spawn_player() -> void:
@@ -28,6 +28,7 @@ func _spawn_player() -> void:
 	var layers_array = get_layers()
 	
 	player_instance.setup({
+		"id": $IdCounter.get_id(),
 		"position": $SpawnFinder.find_spawn_position(player_instance),
 		"scale_coeff": 1.0,
 		"layer_array": layers_array.layer,

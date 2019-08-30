@@ -26,26 +26,26 @@ func _ready():
 
 func disassemble() -> Dictionary:
 	queue_free()
-	return {"logs": [LEVEL_LOGS, CHARACTER_LOGS], "gen": LEVEL_GEN, "map": MAP}
+	return {"logs": {"level": LEVEL_LOGS, "characters": CHARACTER_LOGS}, "gen": LEVEL_GEN, "map": MAP}
 
 
-func get_logs() -> Array:
-	return [LEVEL_LOGS, CHARACTER_LOGS]
+func get_logs() -> Dictionary:
+	return {"level": LEVEL_LOGS, "characters": CHARACTER_LOGS}
 
 
-func _spawn_clone(character_datas: Array) -> void:
+func _spawn_clone(character_datas: Dictionary) -> void:
 	
 	var clone_instance = CLONE_SCENE.instance()
 	clone_instance.scale = Vector2.ONE / LEVEL_SCALE
 	var layers_array = get_layers()
-	print(character_datas[0])
 	
 	clone_instance.setup({
-		"position": character_datas[0],
+		"id": character_datas.id,
+		"position": character_datas.start_position,
 		"scale_coeff": LEVEL_SCALE,
 		"layer_array": layers_array.layer,
 		"mask_array": layers_array.mask,
-		"replay": character_datas[1],
+		"replay": character_datas.logs,
 		"zoom_position": ZOOM_POSITION
 		})
 	

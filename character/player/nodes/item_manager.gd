@@ -2,7 +2,7 @@ extends Node
 
 signal use_item
 signal drop_item(this)
-signal item_picked
+signal item_picked(item_id)
 
 export(NodePath) var _right_hand_grabPoint_path: NodePath
 export(NodePath) var _left_hand_grabPoint_path: NodePath
