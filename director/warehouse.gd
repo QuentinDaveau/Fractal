@@ -13,3 +13,7 @@ func get_random_item(type: String = "weapon") -> PackedScene:
 	while not ITEMS.enabled[ITEMS.enabled.keys()[random]].type == type:
 		random = randi()%(ITEMS.enabled.size()+1)
 	return ITEMS.enabled[ITEMS.enabled.keys()[random]].path
+
+
+func get_item(item_name: String) -> PackedScene:
+	return ITEMS.enabled.get(item_name).path

@@ -20,7 +20,7 @@ func get_logs() -> Dictionary:
 	for character in _characters_list:
 		if character is Character:
 			characters_log.append(character.get_replay())
-	return {"level": _level_logs, "characters": characters_log}
+	return {"level": $Logger.get_level_log(), "characters": characters_log}
 
 
 func _spawn_player() -> void:

@@ -1,5 +1,7 @@
 extends Node
 
+signal item_spawned(name, id, position)
+
 onready var spawn_finder = owner.get_node("SpawnFinder")
 onready var id_counter = owner.get_node("IdCounter")
 
@@ -34,4 +36,6 @@ func _spawn_item() -> void:
 				"layer_array": layers.layer,
 				"mask_array": layers.mask
 				})
+	
+	emit_signal("item_spawned", item.get_entity_name(), item.get_id(), item.position)
 	owner.add_child(item)

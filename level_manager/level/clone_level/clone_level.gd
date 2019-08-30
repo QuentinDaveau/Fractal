@@ -3,18 +3,18 @@ extends Level
 export(PackedScene) var CLONE_SCENE: PackedScene
 
 var CHARACTER_LOGS: Array = []
-var LEVEL_LOGS: Array = []
 var ZOOM_POSITION: Vector2
 var LEVEL_SCALE: float = 1.0
 
 
 func setup(properties: Dictionary) -> void:
 	CHARACTER_LOGS = properties.characters_logs
-	LEVEL_LOGS = properties.level_logs
+	$LogChecker.set_level_log(properties.level_logs)
 	ZOOM_POSITION = properties.zoom_position
 	LEVEL_SCALE = properties.scale
 	scale = Vector2.ONE * LEVEL_SCALE
 	position = ZOOM_POSITION - (ZOOM_POSITION * LEVEL_SCALE)
+	$LogChecker.set_replay_speed(pow(LEVEL_SCALE, 2))
 	.setup(properties)
 
 
@@ -26,11 +26,11 @@ func _ready():
 
 func disassemble() -> Dictionary:
 	queue_free()
-	return {"logs": {"level": LEVEL_LOGS, "characters": CHARACTER_LOGS}, "gen": LEVEL_GEN, "map": MAP}
+	return {"logs": {"level": $LogChecker.get_level_log(), "characters": CHARACTER_LOGS}, "gen": LEVEL_GEN, "map": MAP}
 
 
 func get_logs() -> Dictionary:
-	return {"level": LEVEL_LOGS, "characters": CHARACTER_LOGS}
+	return {"level": $LogChecker.get_level_log(), "characters": CHARACTER_LOGS}
 
 
 func _spawn_clone(character_datas: Dictionary) -> void:

@@ -11,7 +11,7 @@ position = Vector2( 4.07813, 1.42735 )
 collision_layer = 0
 collision_mask = 0
 mass = 0.2
-SHOW_BOX = true
+OBJECT_NAME = "test_gun"
 BOUND_BOX = {
 "height": 30.0,
 "offset_x": 0.0,
