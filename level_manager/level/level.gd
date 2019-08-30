@@ -24,7 +24,7 @@ func get_logs() -> Array:
 	return []
 
 
-func _get_character_layers() -> Dictionary:
+func get_layers() -> Dictionary:
 	var character_layers: = {"layer": [LEVEL_GEN], "mask": []}
 	
 	for i in range(LEVEL_GEN + 1):

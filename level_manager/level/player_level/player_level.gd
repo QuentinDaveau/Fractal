@@ -25,7 +25,7 @@ func _get_logs() -> Array:
 
 func _spawn_player() -> void:
 	var player_instance = PlayerScene.instance()
-	var layers_array = _get_character_layers()
+	var layers_array = get_layers()
 	
 	player_instance.setup({
 		"position": $SpawnFinder.find_spawn_position(player_instance),

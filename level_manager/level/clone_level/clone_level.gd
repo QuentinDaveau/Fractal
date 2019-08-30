@@ -37,7 +37,7 @@ func _spawn_clone(character_datas: Array) -> void:
 	
 	var clone_instance = CLONE_SCENE.instance()
 	clone_instance.scale = Vector2.ONE / LEVEL_SCALE
-	var layers_array = _get_character_layers()
+	var layers_array = get_layers()
 	print(character_datas[0])
 	
 	clone_instance.setup({

@@ -108,6 +108,10 @@ config/name="Fractal"
 run/main_scene="res://level_manager/LevelManager.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Director="*res://director/Director.tscn"
+
 [debug]
 
 gdscript/warnings/unused_variable=false
