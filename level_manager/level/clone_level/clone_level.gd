@@ -36,9 +36,9 @@ func get_logs() -> Dictionary:
 func _spawn_clone(character_datas: Dictionary) -> void:
 	
 	var clone_instance = CLONE_SCENE.instance()
-	clone_instance.scale = Vector2.ONE / LEVEL_SCALE
 	var layers_array = get_layers()
 	
+	clone_instance.scale = Vector2.ONE / LEVEL_SCALE
 	clone_instance.setup({
 		"id": character_datas.id,
 		"position": character_datas.start_position,
@@ -46,12 +46,11 @@ func _spawn_clone(character_datas: Dictionary) -> void:
 		"layer_array": layers_array.layer,
 		"mask_array": layers_array.mask,
 		"replay": character_datas.logs,
-		"zoom_position": ZOOM_POSITION
+		"zoom_position": ZOOM_POSITION,
+		"level_warehouse": $ItemManager
 		})
-	
-	clone_instance
-	
 	add_child(clone_instance)
+
 
 func _get_scaled_position(position_to_scale: Vector2) -> Vector2:
 	return ZOOM_POSITION - ((ZOOM_POSITION - position_to_scale) * LEVEL_SCALE)

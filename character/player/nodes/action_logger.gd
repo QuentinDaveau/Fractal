@@ -20,6 +20,7 @@ func _ready() -> void:
 	owner.get_node("ItemManager").connect("use_item", self, "_item_used")
 	owner.get_node("ItemManager").connect("drop_item", self, "_item_dropped")
 	owner.get_node("ItemManager").connect("item_picked", self, "_item_picked")
+	owner.get_node("ItemManager").connect("grabbing_item", self, "_grabbing_item")
 	owner.get_node("ArmsStateMachine").connect("direction_changed", self, "_arms_direction_changed")
 	owner.get_node("AnimationManager").connect("direction_changed", self, "_movement_direction_changed")
 
@@ -56,6 +57,10 @@ func _item_dropped(item_manager) -> void:
 
 func _item_picked(item_id) -> void:
 	_log_action("item_picked", {"item_id": item_id})
+
+
+func _grabbing_item(item_id) -> void:
+	_log_action("grabbing_item", {"item_id": item_id})
 
 
 func _movement_direction_changed(direction) -> void:

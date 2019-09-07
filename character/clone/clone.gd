@@ -22,6 +22,7 @@ func setup(properties: Dictionary) -> void:
 	.setup(properties)
 	
 	$ActionPlayer.set_actions_log(properties.replay)
+	$ActionPlayer.LEVEL_WAREHOUSE = properties.level_warehouse
 	ZOOM_POSITION = properties.zoom_position
 	
 	for body in _get_all_nodes($BodyParts, []):

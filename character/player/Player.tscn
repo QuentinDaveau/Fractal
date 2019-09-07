@@ -167,11 +167,7 @@ _right_hand_grabPoint_path = NodePath("../BodyParts/ArmTop/ArmBottom/RightGrabPo
 _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint")
 
 [node name="ItemManager" type="Node" parent="." index="12"]
-editor/display_folded = true
 script = ExtResource( 12 )
 _right_hand_grabPoint_path = NodePath("../BodyParts/ArmTop/ArmBottom/RightGrabPoint")
 _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint")
-
-[node name="ItemPickingTimer" type="Timer" parent="ItemManager" index="0"]
-one_shot = true
 

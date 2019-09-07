@@ -3,6 +3,7 @@ extends Node
 signal use_item
 signal drop_item(this)
 signal item_picked(item_id)
+signal grabbing_item(item_id)
 
 export(NodePath) var _right_hand_grabPoint_path: NodePath
 export(NodePath) var _left_hand_grabPoint_path: NodePath
@@ -20,7 +21,6 @@ var _grabbed_item_id: int = 0
 
 
 func _ready():
-	$ItemPickingTimer.connect("timeout", self, "_item_picking_timeout")
 	for grab_point in GRAB_POINTS:
 		grab_point.connect("state_changed", self, "_state_changed")
 
@@ -41,21 +41,15 @@ func _unhandled_input(event):
 			emit_signal("use_item", false)
 
 
-func allow_item_picking(value: bool) -> void:
-	_can_grab_items = value
-	if not value:
-		_drop_item()
-
-
 func _pick_item():
 	if _check_grab_points_state(STATES.no_grab):
 		var item_to_grab: Pickable = _find_closest_item(GRAB_POINTS[0].global_position)
 		if not item_to_grab:
 			return
 		item_to_grab.pick(owner, self, GRAB_POINTS[0])
+		emit_signal("grabbing_item", item_to_grab.get_id())
 		_grab_points_pick_item(item_to_grab)
 		_grabbed_item_id = item_to_grab.get_id()
-		$ItemPickingTimer.start()
 
 
 func _drop_item():
@@ -65,19 +59,12 @@ func _drop_item():
 
 
 func _state_changed(old_state, new_state) -> void:
-	if old_state == STATES.waiting_grab && new_state == STATES.item_grab:
-		if not $ItemPickingTimer.is_stopped():
-			$ItemPickingTimer.stop()
-			emit_signal("item_picked", _grabbed_item_id)
-			_has_item = true
+	if not _has_item and old_state == STATES.waiting_grab && new_state == STATES.item_grab:
+		emit_signal("item_picked", _grabbed_item_id)
+		_has_item = true
 	if new_state == STATES.surface_grab:
-		$ItemPickingTimer.stop()
 		emit_signal("drop_item", self)
 		_has_item = false
-
-
-func _item_picking_timeout():
-	_drop_item()
 
 
 func _check_grab_points_state(state):

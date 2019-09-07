@@ -4,42 +4,38 @@ signal is_on_position(pickable_path)
 
 enum STATES {FREE, MAGNETIZED, PICKED}
 
-var MAGNETIZATION_POWER: float = 400.0
-var SNAP_DISTANCE: float = 10.0
 var ROTATION_POWER: float = 100.0
 var MAX_ROTATION_ACCELERATION: float = 30.0
 var MAX_ROTATION_VELOCITY: float = 15.0
 
-var _current_state = STATES.FREE
+var TELEPORT_DELAY: float = 1.0
+
+var _state = STATES.FREE
 var _possessor: Character
 var _magnet_node: Node2D
-var _previous_magnet_position: Vector2 = Vector2(0.0, 0.0)
+
+var _teleport: bool = false
+var _teleport_position: Vector2
 
 
 func setup(properties: Dictionary) -> void:
 	.setup(properties)
 
 
+func _ready() -> void:
+	$TeleportTimer.connect("timeout", self, "_teleport_delay_timeout")
+
+
 func _integrate_forces(state) -> void:
-	
-	if _current_state == STATES.FREE:
-		return
-	
-	if _current_state == STATES.MAGNETIZED:
-		
+	if _state == STATES.PICKED:
+		_set_rotation(state, _magnet_node.global_rotation + PI/2)
+	if _teleport:
 		var aimed_position = global_position + ($RightHandlePosition.position.rotated(global_rotation))
-		var dist_vector = _magnet_node.global_position - aimed_position
-		
-		if dist_vector.length() <= SNAP_DISTANCE:
-			state.set_transform(state.get_transform().translated(((2 * _magnet_node.global_position) -aimed_position - _previous_magnet_position).rotated(-global_rotation)))
-			emit_signal("is_on_position", get_path())
-			_current_state = STATES.PICKED
-			return
-		
-		state.linear_velocity = dist_vector.normalized() * ease(inverse_lerp(0, MAGNETIZATION_POWER, dist_vector.length()), 0.008) * MAGNETIZATION_POWER
-		_previous_magnet_position = _magnet_node.global_position
-	
-	_set_rotation(state, _magnet_node.global_rotation + (PI/2))
+		state.set_transform(state.get_transform().translated(
+		(_magnet_node.global_position - aimed_position).rotated(- global_rotation)))
+		emit_signal("is_on_position", get_path())
+		_state = STATES.PICKED
+		_teleport = false
 
 
 func get_id() -> int:
@@ -47,29 +43,34 @@ func get_id() -> int:
 
 
 func is_free() -> bool:
-	if _current_state == STATES.FREE:
+	if _state == STATES.FREE:
 		return true
 	return false
 
 
-func pick(possessor: Character, item_manager, grab_point: Node2D) -> void:
-	if not _current_state == STATES.FREE:
+func pick(possessor: Character, item_manager, grab_point: Node2D, teleport_delay: float = TELEPORT_DELAY) -> void:
+	if not _state == STATES.FREE:
 		return
 	_possessor = possessor
-	_update_collision_exceptions(true)
 	_magnet_node = grab_point
-	_previous_magnet_position = _magnet_node.global_position
 	item_manager.connect("drop_item", self, "_drop", [], CONNECT_ONESHOT)
-	_current_state = STATES.MAGNETIZED
+	_state = STATES.MAGNETIZED
+	$TeleportTimer.start(teleport_delay)
+
+
+func _teleport_delay_timeout() -> void:
+	if not _state == STATES.MAGNETIZED:
+		return
+	_update_collision_exceptions(true)
+	_teleport = true
 
 
 func _scale_self() -> void:
 	
-	MAGNETIZATION_POWER = _scale_speed(MAGNETIZATION_POWER)
-	SNAP_DISTANCE = _scale_vector(SNAP_DISTANCE)
 	ROTATION_POWER = _scale_speed(ROTATION_POWER)
 	MAX_ROTATION_ACCELERATION = _scale_speed(MAX_ROTATION_ACCELERATION)
 	MAX_ROTATION_VELOCITY = _scale_speed(MAX_ROTATION_VELOCITY)
+	TELEPORT_DELAY = _scale_speed(TELEPORT_DELAY)
 	
 	mass = _scale_mass(mass)
 	gravity_scale = _scale_speed(gravity_scale)
@@ -88,7 +89,7 @@ func _drop(item_manager) -> void:
 	_update_collision_exceptions(false)
 	_possessor = null
 	_magnet_node = null
-	_current_state = STATES.FREE
+	_state = STATES.FREE
 
 
 func _update_collision_exceptions(add: bool) -> void:

@@ -1,12 +1,11 @@
 extends Node
 
-signal event_triggered(id, type, args)
-
 onready var animation_manager: Node = owner.get_node("AnimationManager")
-
+onready var item_manager = owner.get_node("ItemManager")
 onready var _start_time: int = OS.get_ticks_msec()
 
 var REPLAY_SPEED: float = 0.0
+var LEVEL_WAREHOUSE: Node
 
 var _actions_log: Dictionary = {}
 var _current_action_step: int = 0
@@ -76,18 +75,12 @@ func _do_action(action: Dictionary):
 				Input.parse_input_event(event)
 		
 		"item_picked":
-			emit_signal("event_triggered", owner.get_id(), "grab_item", {"item_id": action.args.item_id})
-			var event = InputEventAction.new()
-			event.action = "game_grab_item"
-			event.pressed = true
-			event.device = owner.get_property("DEVICE_ID")
-			Input.parse_input_event(event)
+			item_manager.pick_item(LEVEL_WAREHOUSE.get_item(action.args.item_id))
 
 		"item_dropped":
-			var event = InputEventAction.new()
-			event.action = "game_grab_item"
-			event.pressed = true
-			event.device = owner.get_property("DEVICE_ID")
-			Input.parse_input_event(event)
+			item_manager.drop_item()
+		
+		"grabbing_item":
+			item_manager.start_grab_item(LEVEL_WAREHOUSE.get_item(action.args.item_id))
 
 
