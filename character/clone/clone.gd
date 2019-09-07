@@ -40,11 +40,15 @@ func _integrate_forces(state):
 	._integrate_forces(state)
 
 
+func get_event_source() -> Node:
+	return $ActionPlayer
+
+
 func _scale_self() -> void:
 	_scale_init_done = false
 	
 	$ActionPlayer.set_replay_speed(1/_scale_speed(1.0))
-	_movement_dampening = _scale_speed(_movement_dampening)
+	_movement_dampening = _scale_vector(_movement_dampening)
 	
 	$AnimationManager.set_play_speed(1/_scale_speed(1.0))
 #	$GrabArea/CollisionShape2D.get_shape().set_extents($GrabArea/CollisionShape2D.get_shape().get_extents() * _scale_coeff)

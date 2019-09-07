@@ -49,6 +49,8 @@ func _spawn_clone(character_datas: Dictionary) -> void:
 		"zoom_position": ZOOM_POSITION
 		})
 	
+	clone_instance
+	
 	add_child(clone_instance)
 
 func _get_scaled_position(position_to_scale: Vector2) -> Vector2:

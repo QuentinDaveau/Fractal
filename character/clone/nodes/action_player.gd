@@ -1,6 +1,6 @@
 extends Node
 
-signal grab_item(id)
+signal event_triggered(id, type, args)
 
 onready var animation_manager: Node = owner.get_node("AnimationManager")
 
@@ -76,8 +76,7 @@ func _do_action(action: Dictionary):
 				Input.parse_input_event(event)
 		
 		"item_picked":
-			print("grab")
-			emit_signal("grab_item", action.args.item_id)
+			emit_signal("event_triggered", owner.get_id(), "grab_item", {"item_id": action.args.item_id})
 			var event = InputEventAction.new()
 			event.action = "game_grab_item"
 			event.pressed = true

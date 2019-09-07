@@ -1,6 +1,7 @@
 extends Node
 
 onready var _start_time: int = OS.get_ticks_msec()
+onready var _item_manager = owner.get_node("ItemManager")
 
 var LEVEL_LOG: Array = []
 var REPLAY_SPEED: float = 0.0
@@ -33,25 +34,10 @@ func _check_spawn_log(time: int):
 
 
 func _do_action(action: Dictionary):
-	print(action)
 	match action.action:
 		"item_spawned":
-			_spawn_item(action.args.id, action.args.name, action.args.position)
+			_item_manager.spawn_item(action.args.id, action.args.name, action.args.position)
 
 
-func _spawn_item(item_id, item_name, item_position) -> void:
-	var layers = owner.get_layers()
-	var item = load(Director.WAREHOUSE.get_item(item_name)).instance()
-	
-	item.position = item_position
-	
-	if item is PhysicsScaler:
-		item.setup({
-				"id": item_id,
-				"scale_coeff": owner.LEVEL_SCALE,
-				"layer_array": layers.layer,
-				"mask_array": layers.mask
-				})
-	
-	owner.add_child(item)
+
 	
