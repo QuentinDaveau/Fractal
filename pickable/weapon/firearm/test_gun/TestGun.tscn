@@ -10,7 +10,7 @@
 position = Vector2( 4.07813, 1.42735 )
 collision_layer = 0
 collision_mask = 0
-mass = 0.2
+mass = 0.4
 OBJECT_NAME = "test_gun"
 BOUND_BOX = {
 "height": 30.0,
@@ -38,5 +38,5 @@ knockback = Vector2( 100, 200 )
 
 [node name="PhysicSpawner" parent="SingleFireBarrel" index="1" instance=ExtResource( 4 )]
 PROJECTILE = ExtResource( 5 )
-VELOCITY = 1000.0
+VELOCITY = 500.0
 

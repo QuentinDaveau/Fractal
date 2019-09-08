@@ -5,7 +5,6 @@ class_name PhysicsScaler
 Offers basic functions to scale objects and set their collision layer and mask
 """
 
-const SCALABLE_ID: int = 0
 const LAYERS_LENGTH: int = 32
 
 var _scale_coeff: float = 1.0
@@ -23,6 +22,10 @@ func setup(properties: Dictionary) -> void:
 func _ready():
 	_scale_self()
 	_define_layers()
+
+
+func get_scale_coeff() -> float:
+	return _scale_coeff
 
 
 func update_layers_and_masks(layer_array: Array = [], mask_array: Array = []) -> void:
@@ -48,11 +51,15 @@ func _scale_vector(unscaled_vector):
 
 
 func _scale_mass(unscaled_mass: float) -> float:
-	return unscaled_mass * pow(_scale_coeff, 2)
+	return unscaled_mass * pow(_scale_coeff, 3)
 
 
 func _scale_speed(unscaled_speed: float) -> float:
 	return unscaled_speed / pow(_scale_coeff, 2)
+
+
+func _scale_power(unscaled_power: float) -> float:
+	return unscaled_power / _scale_coeff
 
 
 func _define_layers() -> void:

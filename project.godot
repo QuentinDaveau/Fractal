@@ -44,7 +44,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://pickable/weapon/firearm/firearm.gd"
 }, {
-"base": "LevelScaler",
+"base": "Node2D",
 "class": "Level",
 "language": "GDScript",
 "path": "res://level_manager/level/level.gd"

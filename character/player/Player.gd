@@ -54,13 +54,30 @@ func update_jump_gravity(gravity_multiplier: float) -> void:
 
 
 func _define_layers() -> void:
+	
+	for i in range(LAYERS_LENGTH):
+		if _layer_array.has(i):
+			$BodyParts/ArmTop/ArmBottom/RightPickArea.set_collision_layer_bit(i, true)
+			$BodyParts/ArmTop2/ArmBottom2/LeftPickArea.set_collision_layer_bit(i, true)
+			$BodyParts/ArmTop/ArmBottom/RightGrabArea.set_collision_layer_bit(i, true)
+			$BodyParts/ArmTop2/ArmBottom2/LeftGrabArea.set_collision_layer_bit(i, true)
+		else:
+			$BodyParts/ArmTop/ArmBottom/RightPickArea.set_collision_layer_bit(i, false)
+			$BodyParts/ArmTop2/ArmBottom2/LeftPickArea.set_collision_layer_bit(i, false)
+			$BodyParts/ArmTop/ArmBottom/RightGrabArea.set_collision_layer_bit(i, false)
+			$BodyParts/ArmTop2/ArmBottom2/LeftGrabArea.set_collision_layer_bit(i, false)
+	
 	for i in range(LAYERS_LENGTH):
 		if _mask_array.has(i):
 			$GroundedCheckers/GroundedCheckOnGround.set_collision_mask_bit(i, true)
 			$GroundedCheckers/GroundedCheckInAir.set_collision_mask_bit(i, true)
+			$BodyParts/ArmTop/ArmBottom/RightGrabArea.set_collision_mask_bit(i, true)
+			$BodyParts/ArmTop2/ArmBottom2/LeftGrabArea.set_collision_mask_bit(i, true)
 		else:
 			$GroundedCheckers/GroundedCheckOnGround.set_collision_mask_bit(i, false)
 			$GroundedCheckers/GroundedCheckInAir.set_collision_mask_bit(i, false)
+			$BodyParts/ArmTop/ArmBottom/RightGrabArea.set_collision_layer_bit(i, false)
+			$BodyParts/ArmTop2/ArmBottom2/LeftGrabArea.set_collision_layer_bit(i, false)
 	._define_layers()
 
 

@@ -52,15 +52,27 @@ func _grab_points_drop():
 func _get_object() -> PhysicsBody2D:
 	for area in GRAB_AREAS:
 		for body in area.get_other_overlapping_bodies():
-			if not body is Pickable:
+			if _verify_body(body):
 				return body
 	return null
 
 
 func _body_entered(body: PhysicsBody2D) -> void:
-	if not _state == STATES.grabbing or body is Pickable:
+	if not _state == STATES.grabbing or not _verify_body(body):
 		return
 	_grab_points_grab(body)
+
+
+func _verify_body(body: PhysicsBody2D) -> bool:
+	if body is Pickable:
+		print(body.get_scale_coeff(), "   ", owner.get_scale_coeff())
+		if body.get_scale_coeff() != owner.get_scale_coeff():
+			return true
+		if body.is_picked():
+			return true
+	else:
+		return true
+	return false
 
 
 func _state_changed(old_state, new_state):

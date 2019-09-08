@@ -52,6 +52,6 @@ z_index = -1
 polygon = PoolVector2Array( -100, -10, -100, 10, 100, 10, 100, -10 )
 
 [node name="Box" parent="." instance=ExtResource( 1 )]
-position = Vector2( 273.775, 150.527 )
+position = Vector2( 500.825, 39.3768 )
 mass = 10.0
 

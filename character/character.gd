@@ -89,10 +89,6 @@ func _set_body_parts_layers(array: Array) -> void:
 			element.update_layers_and_masks(_layer_array, _mask_array)
 
 
-func _define_layers() -> void:
-	._define_layers()
-
-
 func _keep_body_straight(state: Physics2DDirectBodyState) -> void:
 	
 	var targetAngle = targetNode.rotation

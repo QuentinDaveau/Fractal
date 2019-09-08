@@ -38,12 +38,14 @@ func _integrate_forces(state) -> void:
 		_teleport = false
 
 
-func get_id() -> int:
-	return SCALABLE_ID
-
-
 func is_free() -> bool:
 	if _state == STATES.FREE:
+		return true
+	return false
+
+
+func is_picked() -> bool:
+	if _state == STATES.PICKED:
 		return true
 	return false
 
