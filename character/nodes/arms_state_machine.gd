@@ -8,21 +8,21 @@ export(String, "idle", "aiming", "stagger") var START_STATE: String = "idle"
 onready var DEAD_ZONE: float = owner.get_property("DEAD_ZONE")
 onready var RIGHT_ARM_AXLE: Position2D = owner.get_node("Ghost/TorsoAxle/TorsoArmAxle")
 onready var LEFT_ARM_AXLE: Position2D = owner.get_node("Ghost/TorsoAxle/TorsoArmAxle2")
+onready var DEVICE_ID: int = owner.get_property("DEVICE_ID")
 
 var states_map = ["idle", "aiming", "stagger"]
 var states_stack = []
 var current_state = null
 var _active = false setget set_active
 
-var _device_id: int
 var _input_direction: Vector2
 
 func _ready():
-	owner.connect("device_set", self, "_set_device")
 	initialize(START_STATE)
 
+
 func _unhandled_input(event):
-	if event.device == _device_id:
+	if event.device == DEVICE_ID:
 		match current_state:
 			"idle":
 				_update_input_direction(event)
@@ -38,11 +38,13 @@ func _unhandled_input(event):
 			"stagger":
 				return
 
+
 func initialize(start_state):
 	set_active(true)
 	states_stack.push_front(start_state)
 	current_state = states_stack[0]
 	_enter_current_state()
+
 
 func set_active(value):
 	_active = value
@@ -52,8 +54,6 @@ func set_active(value):
 		states_stack = []
 		current_state = null
 
-func _set_device(device_id):
-	_device_id = device_id
 
 func _change_state(state_name):
 	if not _active:
@@ -72,8 +72,8 @@ func _change_state(state_name):
 	current_state = states_stack[0]
 	
 	emit_signal("state_changed", current_state)
-	
 	_enter_current_state()
+
 
 func _exit_current_state() -> void:
 	match current_state:
@@ -84,6 +84,7 @@ func _exit_current_state() -> void:
 		"stagger":
 			return
 
+
 func _enter_current_state() -> void:
 	match current_state:
 		"idle":
@@ -93,6 +94,7 @@ func _enter_current_state() -> void:
 		"stagger":
 			return
 
+
 func _update_input_direction(event) -> void:
 	if event is InputEventJoypadMotion:
 		if abs(event.axis_value) < DEAD_ZONE:
@@ -101,6 +103,7 @@ func _update_input_direction(event) -> void:
 			_input_direction.x = event.axis_value
 		if event.axis == 3:
 			_input_direction.y = event.axis_value
+
 
 func _update_arms_direction(direction) -> void:
 	emit_signal("direction_changed", direction)

@@ -1,5 +1,9 @@
-extends PhysicsScaler
+extends Projectile
 class_name PhysicProjectile
+
+
+export(PackedScene) var IMPACT_PARTICLE: PackedScene
+
 
 func setup(properties: Dictionary) -> void:
 	.setup(properties)
@@ -9,8 +13,6 @@ func setup(properties: Dictionary) -> void:
 
 
 func _scale_self():
-	print(linear_velocity.length())
-	
 	mass = _scale_mass(mass)
 	gravity_scale = _scale_speed(_scale_power(gravity_scale))
 	

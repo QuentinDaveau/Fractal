@@ -18,17 +18,20 @@ func enter():
 	owner.jump(JUMP_VELOCITY)
 	GROUNDED_CHECK.jumping_disable(GROUND_CHECK_DISABLED_DURATION)
 
+
 func handle_input(event):
 	if event.is_action_released("game_jump"):
 		if owner.linear_velocity.y < 0:
 			owner.update_jump_gravity(RELEASE_GRAVITY_MULTIPLIER)
 	return .handle_input(event)
 
+
 func update(delta):
 	owner.set_velocity(get_input_direction())
 	if owner.linear_velocity.y >= 0 && owner.gravity_scale != 1.0:
 		owner.update_jump_gravity(1.0)
 	.update(delta)
+
 
 func exit():
 	owner.update_jump_gravity(1.0)

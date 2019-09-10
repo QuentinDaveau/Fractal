@@ -54,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Misc/level_scaler.gd"
 }, {
-"base": "PhysicsScaler",
+"base": "Projectile",
 "class": "PhysicProjectile",
 "language": "GDScript",
 "path": "res://projectile/physic_projectile/physic_projectile.gd"
@@ -73,6 +73,11 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://character/player/Player.gd"
+}, {
+"base": "PhysicsScaler",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://projectile/projectile.gd"
 }, {
 "base": "Node",
 "class": "ProjectileSpawner",
@@ -103,6 +108,7 @@ _global_script_class_icons={
 "PhysicsScaler": "",
 "Pickable": "",
 "Player": "",
+"Projectile": "",
 "ProjectileSpawner": "",
 "Spawnable": "",
 "Weapon": ""
@@ -146,17 +152,17 @@ ui_accept={
 }
 game_shoot={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 game_jump={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 game_grab_item={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 

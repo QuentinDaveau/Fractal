@@ -6,7 +6,9 @@ var _characters_list: Array = []
 var _level_logs: Array = []
 
 func _ready():
-	_spawn_player()
+	
+	for i in range(Input.get_connected_joypads().size()):
+		_spawn_player(i)
 
 
 func disassemble() -> Dictionary:
@@ -23,11 +25,12 @@ func get_logs() -> Dictionary:
 	return {"level": $Logger.get_level_log(), "characters": characters_log}
 
 
-func _spawn_player() -> void:
+func _spawn_player(device_id: int) -> void:
 	var player_instance = PlayerScene.instance()
 	var layers_array = get_layers()
 	
 	player_instance.setup({
+		"device_id": device_id,
 		"id": $IdCounter.get_id(),
 		"position": $SpawnFinder.find_spawn_position(player_instance),
 		"scale_coeff": 1.0,

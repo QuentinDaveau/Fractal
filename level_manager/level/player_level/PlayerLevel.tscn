@@ -9,7 +9,7 @@
 [ext_resource path="res://level_manager/level/player_level/id_counter.gd" type="Script" id=7]
 [ext_resource path="res://level_manager/level/player_level/logger.gd" type="Script" id=8]
 
-[node name="PlayerLevel" index="0" instance=ExtResource( 1 )]
+[node name="PlayerLevel" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 PlayerScene = ExtResource( 3 )
 

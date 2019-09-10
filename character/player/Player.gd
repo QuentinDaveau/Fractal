@@ -1,6 +1,7 @@
 extends Character
 class_name Player
 
+
 var _motion_acceleration: float
 var _max_velocity: float
 var _desired_direction = Vector2(0.0, 0.0)
@@ -9,13 +10,8 @@ var _jump: bool = false
 
 
 func setup(properties: Dictionary) -> void:
+	$Properties.DEVICE_ID = properties.device_id
 	.setup(properties)
-
-
-func _ready():
-#	$GroundedCheckers/GroundedCheckOnGround.add_collision_exception(_body_parts_list)
-#	$GroundedCheckers/GroundedCheckInAir.add_collision_exception(_body_parts_list)
-	pass
 
 
 func _integrate_forces(state):

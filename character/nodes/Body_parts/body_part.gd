@@ -96,37 +96,32 @@ func _integrate_forces(state):
 		state.angular_velocity -= tempDamp
 
 
-func clear_exception_with(body: RigidBody2D):
-	remove_collision_exception_with(body)
-
-
 func become_inert(exceptions: Array = []):
 	
 	enabled = false
 	
 #	yield(get_tree().create_timer(.5), "timeout")
-	
-	for body in get_collision_exceptions():
-		if !exceptions.has(body):
-			remove_collision_exception_with(body)
-			body.clear_exception_with(self)
+#
+#	for body in get_collision_exceptions():
+#		if !exceptions.has(body):
+#			remove_collision_exception_with(body)
+#			body.remove_collision_exception_with(self)
 
 
 func _die():
 	
 	var exceptions = []
 	
-	for child in get_children():
-		if child is PinJoint2D:
-			if child.get_node(child.node_a).get_instance_id() == get_instance_id():
-				child.node_a = ""
-			elif child.get_node(child.node_b).get_instance_id() == get_instance_id():
-				child.node_b = ""
-		
-		if child is Damageable:
-			child.become_inert([self])
-			exceptions.append(child)
+#	for child in get_children():
+#		if child is PinJoint2D:
+#			if child.get_node(child.node_a).get_instance_id() == get_instance_id():
+#				child.node_a = ""
+#			elif child.get_node(child.node_b).get_instance_id() == get_instance_id():
+#				child.node_b = ""
+#
+#		if child is Damageable:
+#			child.become_inert([self])
+#			exceptions.append(child)
 	
 	become_inert(exceptions)
-	
 	._die()

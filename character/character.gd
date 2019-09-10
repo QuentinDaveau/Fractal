@@ -1,7 +1,6 @@
 extends Damageable
 class_name Character
 
-signal device_set(device_id)
 signal body_parts_list_set(body_parts_list)
 
 #onready var raycast = $RayCast2D
@@ -36,7 +35,6 @@ func setup(properties: Dictionary) -> void:
 	
 
 func _ready():
-	emit_signal("device_set", get_property("DEVICE_ID"))
 	_body_parts_list = _get_all_nodes($BodyParts, _body_parts_list)
 	emit_signal("body_parts_list_set", _body_parts_list)
 	_set_body_parts_layers(_body_parts_list)

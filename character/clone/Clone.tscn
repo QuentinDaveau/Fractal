@@ -15,25 +15,18 @@ height = 25.4696
 [node name="Clone" instance=ExtResource( 1 )]
 gravity_scale = 0.0
 script = ExtResource( 2 )
-brakePower = 5.0
-maxAppliableAngularV = 50.0
 movement_acceleration = 5.0
 
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 1 )
 
-[node name="BodyParts" parent="." index="2"]
-editor/display_folded = true
-
 [node name="Head" parent="BodyParts" index="0"]
 gravity_scale = 0.0
 
 [node name="ArmTop" parent="BodyParts" index="1"]
-editor/display_folded = true
 gravity_scale = 0.0
 
 [node name="ArmBottom" parent="BodyParts/ArmTop" index="3"]
-editor/display_folded = true
 gravity_scale = 0.0
 
 [node name="ArmTop2" parent="BodyParts" index="2"]
