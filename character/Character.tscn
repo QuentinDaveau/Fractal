@@ -149,7 +149,6 @@ radius = 1.44157
 height = 25.4696
 
 [sub_resource type="PhysicsMaterial" id=1]
-friction = 0.2
 absorbent = true
 
 [sub_resource type="PhysicsMaterial" id=15]

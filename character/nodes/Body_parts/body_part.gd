@@ -64,7 +64,7 @@ func _integrate_forces(state):
 	
 	if(abs(targetAngle - selfAngle) > PI):
 		var angSign = sign(targetAngle - selfAngle)
-		diffAngle = (-PI*angSign)+((targetAngle - selfAngle)+(-PI*angSign))
+		diffAngle = ((targetAngle - selfAngle)+(-PI * angSign * 2))
 	else:
 		diffAngle = targetAngle - selfAngle
 	

@@ -38,5 +38,5 @@ knockback = Vector2( 100, 200 )
 
 [node name="PhysicSpawner" parent="SingleFireBarrel" index="1" instance=ExtResource( 4 )]
 PROJECTILE = ExtResource( 5 )
-VELOCITY = 1000.0
+VELOCITY = 1500.0
 
