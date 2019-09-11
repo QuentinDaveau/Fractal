@@ -14,7 +14,6 @@ script = ExtResource( 2 )
 PlayerScene = ExtResource( 3 )
 
 [node name="SpawnFinder" type="Node" parent="." index="0"]
-editor/display_folded = true
 script = ExtResource( 4 )
 
 [node name="FreeSpaceChecker" type="Node2D" parent="SpawnFinder" index="0"]

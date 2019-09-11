@@ -207,7 +207,7 @@ targetNodePath = NodePath("Ghost/TorsoAxle")
 power = 2.0
 maxAppliedTorque = 50.0
 maxAppliedDamp = 50.0
-brakePower = 3.0
+brakePower = 1.0
 maxAppliableAngularV = 20.0
 
 [node name="CollisionPolygon2D" parent="." index="0"]
@@ -235,6 +235,7 @@ node_a = NodePath("../../..")
 node_b = NodePath("..")
 
 [node name="LegTop" parent="BodyParts" index="1" instance=ExtResource( 4 )]
+editor/display_folded = true
 position = Vector2( 0, 20 )
 collision_layer = 0
 collision_mask = 0
@@ -261,6 +262,7 @@ node_a = NodePath("../..")
 node_b = NodePath("..")
 
 [node name="LegTop2" parent="BodyParts" index="2" instance=ExtResource( 4 )]
+editor/display_folded = true
 position = Vector2( 0, 20 )
 collision_layer = 0
 collision_mask = 0
@@ -301,7 +303,6 @@ node_a = NodePath("../../..")
 node_b = NodePath("..")
 
 [node name="ArmBottom" parent="BodyParts/ArmTop" index="2" instance=ExtResource( 7 )]
-editor/display_folded = true
 position = Vector2( 0, 24 )
 mass = 0.4
 continuous_cd = 1
@@ -330,7 +331,6 @@ node_a = NodePath("../../..")
 node_b = NodePath("..")
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2" instance=ExtResource( 7 )]
-editor/display_folded = true
 position = Vector2( 0, 24 )
 mass = 0.4
 continuous_cd = 1

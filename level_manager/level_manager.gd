@@ -27,6 +27,7 @@ func _new_gen() -> void:
 	_levels_list = []
 	for level in temp_level_list:
 		_regenerate_level(level)
+	
 	_load_player_level(ZOOM_MAP, gen)
 	
 

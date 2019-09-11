@@ -6,9 +6,9 @@ onready var targetNode = get_node(targetNodePath)
 
 export(bool) var enabled: bool = true
 
-export(float) var POWER = 20
-export(float) var MAX_APPLIED_AVELOCITY = 50
-export(float) var MAX_APPLIED_DAMPENING = 50
+export(float) var POWER = 25
+export(float) var MAX_APPLIED_AVELOCITY = 60
+export(float) var MAX_APPLIED_DAMPENING = 60
 export(float) var BRAKE_POWER = 1
 
 export(bool) var ANGLE_RESTRICTION = false
@@ -16,7 +16,7 @@ export(float) var MIN_ANGLE = -0
 export(float) var MAX_ANGLE = -0
 export(float) var RESTRICTION_POWER = 3
 
-export(int) var MAX_AVELOCITY_VARIATION = 10
+export(int) var MAX_AVELOCITY_VARIATION = 15
 
 
 func _scale_self() -> void:

@@ -1,13 +1,13 @@
 extends Node
 
-export(NodePath) var _right_hand_grabPoint_path: NodePath
-export(NodePath) var _left_hand_grabPoint_path: NodePath
-
 onready var GRAB_AREAS = [
 		owner.get_node("BodyParts/ArmTop/ArmBottom/RightGrabArea"), 
 		owner.get_node("BodyParts/ArmTop2/ArmBottom2/LeftGrabArea")]
+onready var GRAB_POINTS = [
+		owner.get_node("BodyParts/ArmTop/ArmBottom/RightGrabPoint"),
+		owner.get_node("BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint")]
 
-onready var GRAB_POINTS = [get_node(_right_hand_grabPoint_path), get_node(_left_hand_grabPoint_path)]
+onready var DEVICE_ID = owner.get_property("DEVICE_ID")
 onready var STATES = GRAB_POINTS[0].STATES
 onready var _state: int = STATES.no_grab
 
@@ -21,11 +21,13 @@ func _ready() -> void:
 
 
 func _unhandled_input(event):
-	if event.is_action_pressed("game_grab_item"):
+	if not event.device == DEVICE_ID:
+		return
+	if event.is_action_pressed("game_shoot"):
 		if _state == STATES.no_grab or _state == STATES.waiting_grab:
 			if not _grab():
 				_state = STATES.grabbing
-	if event.is_action_released("game_grab_item"):
+	if event.is_action_released("game_shoot"):
 		if _state == STATES.surface_grab:
 			_grab_points_drop()
 		_state = STATES.no_grab
@@ -65,7 +67,6 @@ func _body_entered(body: PhysicsBody2D) -> void:
 
 func _verify_body(body: PhysicsBody2D) -> bool:
 	if body is Pickable:
-		print(body.get_scale_coeff(), "   ", owner.get_scale_coeff())
 		if body.get_scale_coeff() != owner.get_scale_coeff():
 			return true
 		if body.is_picked():

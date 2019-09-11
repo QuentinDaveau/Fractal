@@ -3,8 +3,6 @@
 [ext_resource path="res://director/director.gd" type="Script" id=1]
 [ext_resource path="res://director/warehouse.gd" type="Script" id=2]
 
-
-
 [node name="Director" type="Node"]
 script = ExtResource( 1 )
 

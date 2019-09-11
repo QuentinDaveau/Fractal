@@ -5,14 +5,14 @@ signal drop_item(this)
 signal item_picked(item_id)
 signal grabbing_item(item_id)
 
-export(NodePath) var _right_hand_grabPoint_path: NodePath
-export(NodePath) var _left_hand_grabPoint_path: NodePath
-
 onready var PICK_AREAS = {
 		"right": owner.get_node("BodyParts/ArmTop/ArmBottom/RightPickArea"), 
 		"left": owner.get_node("BodyParts/ArmTop2/ArmBottom2/LeftPickArea")}
+onready var GRAB_POINTS = [
+		owner.get_node("BodyParts/ArmTop/ArmBottom/RightGrabPoint"),
+		owner.get_node("BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint")]
 
-onready var GRAB_POINTS = [get_node(_right_hand_grabPoint_path), get_node(_left_hand_grabPoint_path)]
+onready var DEVICE_ID = owner.get_property("DEVICE_ID")
 onready var STATES = GRAB_POINTS[0].STATES
 
 var _can_grab_items: bool = true
@@ -26,7 +26,9 @@ func _ready():
 
 
 func _unhandled_input(event):
-	if not _can_grab_items or event.device != owner.get_property("DEVICE_ID"):
+	if not event.device == DEVICE_ID:
+		return
+	if not _can_grab_items:
 		return
 	if event.is_action_pressed("game_grab_item"):
 		if not _has_item:

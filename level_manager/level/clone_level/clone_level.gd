@@ -20,8 +20,8 @@ func setup(properties: Dictionary) -> void:
 
 func _ready():
 	if CHARACTER_LOGS.size() > 0:
-		for character_datas in CHARACTER_LOGS:
-			_spawn_clone(character_datas)
+		for i in range(CHARACTER_LOGS.size()):
+			_spawn_clone(CHARACTER_LOGS[i], - 100 - i - (LEVEL_GEN * 100))
 
 
 func disassemble() -> Dictionary:
@@ -33,7 +33,7 @@ func get_logs() -> Dictionary:
 	return {"level": $LogChecker.get_level_log(), "characters": CHARACTER_LOGS}
 
 
-func _spawn_clone(character_datas: Dictionary) -> void:
+func _spawn_clone(character_datas: Dictionary, device_id: int) -> void:
 	
 	var clone_instance = CLONE_SCENE.instance()
 	var layers_array = get_layers()
@@ -47,7 +47,8 @@ func _spawn_clone(character_datas: Dictionary) -> void:
 		"mask_array": layers_array.mask,
 		"replay": character_datas.logs,
 		"zoom_position": ZOOM_POSITION,
-		"level_warehouse": $ItemManager
+		"level_warehouse": $ItemManager,
+		"device_id": device_id
 		})
 	add_child(clone_instance)
 
