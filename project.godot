@@ -10,121 +10,127 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Position2D",
-"class": "BarrelExit",
+"class": "Barrel",
 "language": "GDScript",
-"path": "res://Items/Scripts/BarrelExit.gd"
+"path": "res://barrel/barrel.gd"
 }, {
 "base": "Damageable",
 "class": "BodyPart",
 "language": "GDScript",
-"path": "res://Characters/Body_parts/BasicBodyPart.gd"
+"path": "res://character/nodes/Body_parts/body_part.gd"
 }, {
 "base": "Damageable",
 "class": "Character",
 "language": "GDScript",
-"path": "res://Characters/Scripts/Character.gd"
-}, {
-"base": "PhysicsScaler",
-"class": "Character3",
-"language": "GDScript",
-"path": "res://Archives/Character3.gd"
+"path": "res://character/character.gd"
 }, {
 "base": "Character",
 "class": "Clone",
 "language": "GDScript",
-"path": "res://Characters/Scripts/Clone.gd"
-}, {
-"base": "PhysicsScaler",
-"class": "Clone_immuable",
-"language": "GDScript",
-"path": "res://Characters/Scripts/Clone_immuable.gd"
+"path": "res://character/clone/clone.gd"
 }, {
 "base": "PhysicsScaler",
 "class": "Damageable",
 "language": "GDScript",
-"path": "res://Characters/Scripts/Damageable.gd"
+"path": "res://character/nodes/Body_parts/damageable/damageable.gd"
+}, {
+"base": "RigidBody2D",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://Misc/entity.gd"
 }, {
 "base": "Weapon",
-"class": "Gun",
+"class": "Firearm",
 "language": "GDScript",
-"path": "res://Items/Scripts/Gun.gd"
+"path": "res://pickable/weapon/firearm/firearm.gd"
 }, {
-"base": "LevelScaler",
+"base": "Node2D",
 "class": "Level",
 "language": "GDScript",
-"path": "res://Levels/Scripts/Level.gd"
+"path": "res://level_manager/level/level.gd"
 }, {
 "base": "Node2D",
 "class": "LevelScaler",
 "language": "GDScript",
-"path": "res://Misc/Scripts/LevelScaler.gd"
+"path": "res://Misc/level_scaler.gd"
 }, {
-"base": "RigidBody2D",
+"base": "Projectile",
+"class": "PhysicProjectile",
+"language": "GDScript",
+"path": "res://projectile/physic_projectile/physic_projectile.gd"
+}, {
+"base": "Spawnable",
 "class": "PhysicsScaler",
 "language": "GDScript",
-"path": "res://Misc/Scripts/PhysicsScaler.gd"
+"path": "res://Misc/physics_scaler.gd"
 }, {
 "base": "PhysicsScaler",
 "class": "Pickable",
 "language": "GDScript",
-"path": "res://Items/Scripts/Pickable.gd"
-}, {
-"base": "RigidBody2D",
-"class": "Pickable2",
-"language": "GDScript",
-"path": "res://TestScene.gd"
+"path": "res://pickable/pickable.gd"
 }, {
 "base": "Character",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Characters/Scripts/Player.gd"
-}, {
-"base": "Position2D",
-"class": "PlayerSpawn",
-"language": "GDScript",
-"path": "res://Levels/Scripts/PlayerSpawn.gd"
+"path": "res://character/player/Player.gd"
 }, {
 "base": "PhysicsScaler",
 "class": "Projectile",
 "language": "GDScript",
-"path": "res://Items/Scripts/Projectile.gd"
+"path": "res://projectile/projectile.gd"
+}, {
+"base": "Node",
+"class": "ProjectileSpawner",
+"language": "GDScript",
+"path": "res://barrel/projectile_spawner/projectile_spawner.gd"
+}, {
+"base": "Entity",
+"class": "Spawnable",
+"language": "GDScript",
+"path": "res://Misc/spawnable.gd"
 }, {
 "base": "Pickable",
 "class": "Weapon",
 "language": "GDScript",
-"path": "res://Items/Scripts/Weapon.gd"
-}, {
-"base": "RigidBody2D",
-"class": "ttt3",
-"language": "GDScript",
-"path": "res://2.gd"
+"path": "res://pickable/weapon/weapon.gd"
 } ]
 _global_script_class_icons={
-"BarrelExit": "",
+"Barrel": "",
 "BodyPart": "",
 "Character": "",
-"Character3": "",
 "Clone": "",
-"Clone_immuable": "",
 "Damageable": "",
-"Gun": "",
+"Entity": "",
+"Firearm": "",
 "Level": "",
 "LevelScaler": "",
+"PhysicProjectile": "",
 "PhysicsScaler": "",
 "Pickable": "",
-"Pickable2": "",
 "Player": "",
-"PlayerSpawn": "",
 "Projectile": "",
-"Weapon": "",
-"ttt3": ""
+"ProjectileSpawner": "",
+"Spawnable": "",
+"Weapon": ""
 }
 
 [application]
 
 config/name="Fractal"
-run/main_scene="res://Game manager/Scene/LevelManager.tscn"
+run/main_scene="res://level_manager/LevelManager.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Director="*res://director/Director.tscn"
+
+[debug]
+
+gdscript/warnings/unused_variable=false
+gdscript/warnings/unused_class_variable=false
+gdscript/warnings/unused_argument=false
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
 
 [display]
 
@@ -146,17 +152,17 @@ ui_accept={
 }
 game_shoot={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":7,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 game_jump={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 game_grab_item={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 
