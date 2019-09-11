@@ -58,11 +58,11 @@ func _scale_self() -> void:
 	for pin in _get_all_pins($BodyParts, []):
 		pin.position = _scale_vector(pin.position)
 
-	$CollisionShape2D.get_shape().set_height(_scale_vector($CollisionShape2D.get_shape().get_height()))
-	$CollisionShape2D.get_shape().set_radius(_scale_vector($CollisionShape2D.get_shape().get_radius()))
-	$CollisionShape2D.position = _scale_vector($CollisionShape2D.position)
-	$Sprite.scale = _scale_vector($Sprite.scale)
-	$Sprite.position = _scale_vector($Sprite.position)
+	var vertex_buffer: = []
+	for vertex in $CollisionPolygon2D.polygon:
+		vertex_buffer.append(_scale_vector(vertex))
+	$CollisionPolygon2D.set_polygon(vertex_buffer)
+	
 	mass = _scale_mass(mass)
 	power = _scale_speed(power)
 	brakePower = _scale_speed(brakePower)

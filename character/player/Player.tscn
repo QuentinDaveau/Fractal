@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://character/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://character/player/Player.gd" type="Script" id=2]
@@ -13,158 +13,24 @@
 [ext_resource path="res://character/player/nodes/grab_manager.gd" type="Script" id=11]
 [ext_resource path="res://character/player/nodes/item_manager.gd" type="Script" id=12]
 
-[sub_resource type="CapsuleShape2D" id=1]
-resource_local_to_scene = true
-radius = 1.44157
-height = 25.4696
-
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=1]
 radius = 80.0
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=2]
 radius = 5.0
 
-[sub_resource type="PhysicsMaterial" id=7]
+[sub_resource type="PhysicsMaterial" id=3]
 friction = 0.2
 absorbent = true
 
-[sub_resource type="GDScript" id=8]
-script/source = "extends Damageable
-class_name BodyPart
-
-export(NodePath) var targetNodePath
-onready var targetNode = get_node(targetNodePath)
-
-export(bool) var enabled: bool = true
-
-export(float) var POWER = 20
-export(float) var MAX_APPLIED_AVELOCITY = 100
-export(float) var MAX_APPLIED_DAMPENING = 100
-export(float) var BRAKE_POWER = 1
-
-export(bool) var ANGLE_RESTRICTION = false
-export(float) var MIN_ANGLE = -0
-export(float) var MAX_ANGLE = -0
-export(float) var RESTRICTION_POWER = 5
-
-export(int) var MAX_AVELOCITY_VARIATION = 15
-
-
-func _scale_self() -> void:
-	var collision_shape = get_node(\"./CollisionShape2D\").get_shape()
-	if collision_shape is CapsuleShape2D:
-		collision_shape.set_height(_scale_vector(collision_shape.get_height()))
-		collision_shape.set_radius(_scale_vector(collision_shape.get_radius()))
-	elif collision_shape is CircleShape2D:
-		collision_shape.set_radius(_scale_vector(collision_shape.get_radius()))
-
-	get_node(\"./CollisionShape2D\").position = _scale_vector(get_node(\"./CollisionShape2D\").position)
-	get_node(\"Sprite\").scale = _scale_vector(get_node(\"Sprite\").scale)
-	get_node(\"Sprite\").position = _scale_vector(get_node(\"Sprite\").position)
-
-	position = _scale_vector(position)
-	mass = _scale_mass(mass)
-	POWER = _scale_speed(POWER)
-	BRAKE_POWER = _scale_speed(BRAKE_POWER)
-	MAX_AVELOCITY_VARIATION = _scale_speed(MAX_AVELOCITY_VARIATION)
-#	gravity_scale = _scale_speed(gravity_scale)
-
-
-func _integrate_forces(state):
-	
-	if !enabled:
-		return
-	
-	var targetAngle = targetNode.rotation
-	var selfAngle = rotation
-	
-	var current_velocity = state.angular_velocity
-	var temp_power = POWER
-	
-	if(ANGLE_RESTRICTION):
-		if(MIN_ANGLE < MAX_ANGLE):
-			if(selfAngle < MIN_ANGLE):
-				temp_power += RESTRICTION_POWER * abs(abs(MIN_ANGLE) - abs(selfAngle))
-			elif(selfAngle > MAX_ANGLE):
-				temp_power += RESTRICTION_POWER * abs(abs(MIN_ANGLE) - abs(selfAngle))
-		else:
-			if(selfAngle < MIN_ANGLE && selfAngle > MAX_ANGLE):
-				temp_power += RESTRICTION_POWER * abs(abs(MIN_ANGLE) - abs(selfAngle))
-	
-	var diffAngle = 0
-	
-	if(abs(targetAngle - selfAngle) > PI):
-		var angSign = sign(targetAngle - selfAngle)
-		diffAngle = (-PI*angSign)+((targetAngle - selfAngle)+(-PI*angSign))
-	else:
-		diffAngle = targetAngle - selfAngle
-	
-	var angularVToAim = sign(diffAngle) * ease(inverse_lerp(0, 3.14, abs(diffAngle)), 0.2) * temp_power
-	
-	if(sign(angularVToAim) != sign(angular_velocity)):
-		angularVToAim += BRAKE_POWER * (abs(abs(angularVToAim) - abs(angular_velocity))) * sign(angularVToAim)
-	
-	if(abs(angularVToAim) > MAX_AVELOCITY_VARIATION):
-		angularVToAim = MAX_AVELOCITY_VARIATION * sign(angularVToAim)
-	
-	
-	if(current_velocity < angularVToAim):
-		
-		var tempVelocity = angularVToAim - current_velocity
-	
-		if tempVelocity > MAX_APPLIED_AVELOCITY:
-			tempVelocity = MAX_APPLIED_AVELOCITY
-	
-		state.angular_velocity += tempVelocity
-	
-	elif(current_velocity > angularVToAim):
-	
-		var tempDamp = current_velocity - angularVToAim
-	
-		if tempDamp > MAX_APPLIED_DAMPENING:
-			tempDamp = MAX_APPLIED_DAMPENING
-	
-		state.angular_velocity -= tempDamp
-
-
-func become_inert(exceptions: Array = []):
-	
-	enabled = false
-	
-#	yield(get_tree().create_timer(.5), \"timeout\")
-#
-#	for body in get_collision_exceptions():
-#		if !exceptions.has(body):
-#			remove_collision_exception_with(body)
-#			body.remove_collision_exception_with(self)
-
-
-func _die():
-	
-	var exceptions = []
-	
-#	for child in get_children():
-#		if child is PinJoint2D:
-#			if child.get_node(child.node_a).get_instance_id() == get_instance_id():
-#				child.node_a = \"\"
-#			elif child.get_node(child.node_b).get_instance_id() == get_instance_id():
-#				child.node_b = \"\"
-#
-#		if child is Damageable:
-#			child.become_inert([self])
-#			exceptions.append(child)
-	
-	become_inert(exceptions)
-	._die()"
-
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=5]
 radius = 80.0
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=6]
 resource_local_to_scene = true
 radius = 5.0
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="GDScript" id=7]
 script/source = "# Stores all character settings defined by the player
 extends Node
 
@@ -182,89 +48,89 @@ BOUND_BOX = {
 "width": 50.0
 }
 
-[node name="CollisionShape2D" parent="." index="1"]
-shape = SubResource( 1 )
-
 [node name="Head" parent="BodyParts" index="0"]
-continuous_cd = 2
-
-[node name="ArmTop" parent="BodyParts" index="1"]
 editor/display_folded = false
 continuous_cd = 2
 
-[node name="ArmBottom" parent="BodyParts/ArmTop" index="3"]
+[node name="LegTop" parent="BodyParts" index="1"]
+editor/display_folded = false
+continuous_cd = 2
+
+[node name="LegBottom" parent="BodyParts/LegTop" index="2"]
+continuous_cd = 2
+
+[node name="LegTop2" parent="BodyParts" index="2"]
+editor/display_folded = false
+continuous_cd = 2
+
+[node name="LegBottom2" parent="BodyParts/LegTop2" index="2"]
+continuous_cd = 2
+
+[node name="ArmTop" parent="BodyParts" index="3"]
+editor/display_folded = false
+continuous_cd = 2
+
+[node name="ArmBottom" parent="BodyParts/ArmTop" index="2"]
 continuous_cd = 2
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle/ArmTopBotomAxle")
 
-[node name="RightGrabPoint" parent="BodyParts/ArmTop/ArmBottom" index="3"]
+[node name="RightGrabPoint" parent="BodyParts/ArmTop/ArmBottom" index="2"]
 disable_collision = false
 
-[node name="RightPickArea" parent="BodyParts/ArmTop/ArmBottom" index="4" instance=ExtResource( 3 )]
+[node name="RightPickArea" parent="BodyParts/ArmTop/ArmBottom" index="3" instance=ExtResource( 3 )]
+editor/display_folded = true
 visible = false
 position = Vector2( 0, 16 )
 collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop/ArmBottom/RightPickArea" index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
-[node name="RightGrabArea" parent="BodyParts/ArmTop/ArmBottom" index="5" instance=ExtResource( 3 )]
+[node name="RightGrabArea" parent="BodyParts/ArmTop/ArmBottom" index="4" instance=ExtResource( 3 )]
+editor/display_folded = true
 visible = false
 position = Vector2( 0, 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop/ArmBottom/RightGrabArea" index="0"]
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
-[node name="ArmTop2" parent="BodyParts" index="2"]
+[node name="ArmTop2" parent="BodyParts" index="4"]
 editor/display_folded = false
-physics_material_override = SubResource( 7 )
+physics_material_override = SubResource( 3 )
 continuous_cd = 2
-script = SubResource( 8 )
 
-[node name="ArmBottom2" parent="BodyParts/ArmTop2" index="3"]
+[node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2"]
 continuous_cd = 2
 targetNodePath = NodePath("../../../../Player/Ghost/TorsoAxle/TorsoArmAxle2/ArmTopBotomAxle2")
 
-[node name="LeftGrabPoint" parent="BodyParts/ArmTop2/ArmBottom2" index="3"]
+[node name="LeftGrabPoint" parent="BodyParts/ArmTop2/ArmBottom2" index="2"]
 disable_collision = false
 
-[node name="LeftPickArea" parent="BodyParts/ArmTop2/ArmBottom2" index="4" instance=ExtResource( 3 )]
+[node name="LeftPickArea" parent="BodyParts/ArmTop2/ArmBottom2" index="3" instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0, 16 )
 collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop2/ArmBottom2/LeftPickArea" index="0"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
-[node name="LeftGrabArea" parent="BodyParts/ArmTop2/ArmBottom2" index="5" instance=ExtResource( 3 )]
+[node name="LeftGrabArea" parent="BodyParts/ArmTop2/ArmBottom2" index="4" instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0, 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop2/ArmBottom2/LeftGrabArea" index="0"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
-[node name="LegTop" parent="BodyParts" index="3"]
-editor/display_folded = false
-continuous_cd = 2
+[node name="Properties" type="Node" parent="." index="6"]
+script = SubResource( 7 )
 
-[node name="LegBottom" parent="BodyParts/LegTop" index="3"]
-continuous_cd = 2
-
-[node name="LegTop2" parent="BodyParts" index="4"]
-editor/display_folded = false
-continuous_cd = 2
-
-[node name="LegBottom2" parent="BodyParts/LegTop2" index="3"]
-continuous_cd = 2
-
-[node name="Properties" type="Node" parent="." index="7"]
-script = SubResource( 6 )
-
-[node name="ActionLogger" type="Node" parent="." index="8"]
+[node name="ActionLogger" type="Node" parent="." index="7"]
 script = ExtResource( 4 )
 
-[node name="GroundedCheckers" type="Node2D" parent="." index="9"]
+[node name="GroundedCheckers" type="Node2D" parent="." index="8"]
+editor/display_folded = true
 visible = false
 
 [node name="GroundedCheckOnGround" parent="GroundedCheckers" index="0" instance=ExtResource( 5 )]
@@ -275,7 +141,8 @@ cast_to = Vector2( 0, 70 )
 enabled = true
 cast_to = Vector2( 0, 55 )
 
-[node name="StateMachine" type="Node" parent="." index="10"]
+[node name="StateMachine" type="Node" parent="." index="9"]
+editor/display_folded = true
 script = ExtResource( 6 )
 START_STATE = NodePath("Idle")
 
@@ -300,12 +167,12 @@ script = ExtResource( 10 )
 GROUNDED_CHECK_PATH = NodePath("../../GroundedCheckers/GroundedCheckInAir")
 ACCELERATION = 7500.0
 
-[node name="GrabManager" type="Node" parent="." index="11"]
+[node name="GrabManager" type="Node" parent="." index="10"]
 script = ExtResource( 11 )
 _right_hand_grabPoint_path = NodePath("../BodyParts/ArmTop/ArmBottom/RightGrabPoint")
 _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint")
 
-[node name="ItemManager" type="Node" parent="." index="12"]
+[node name="ItemManager" type="Node" parent="." index="11"]
 script = ExtResource( 12 )
 _right_hand_grabPoint_path = NodePath("../BodyParts/ArmTop/ArmBottom/RightGrabPoint")
 _left_hand_grabPoint_path = NodePath("../BodyParts/ArmTop2/ArmBottom2/LeftGrabPoint")
