@@ -11,7 +11,7 @@
 [ext_resource path="res://character/nodes/animation_player.gd" type="Script" id=9]
 [ext_resource path="res://character/nodes/arms_state_machine.gd" type="Script" id=10]
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=1]
 tracks/0/type = "value"
 tracks/0/path = NodePath("TorsoLegAxle:rotation_degrees")
 tracks/0/interp = 1
@@ -61,7 +61,7 @@ tracks/3/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=2]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -113,7 +113,7 @@ tracks/3/keys = {
 "values": [ 60.0, 80.0, 45.0, 10.0, 30.0, 15.0, 10.0, 30.0 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=3]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -165,37 +165,37 @@ tracks/3/keys = {
 "values": [ -60.0, -80.0, -45.0, -10.0, -30.0, -15.0, -10.0, -30.0 ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=4]
 animation = "Running"
 
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "RunningLeft"
 
-[sub_resource type="AnimationNodeAnimation" id=14]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=15]
-blend_point_0/node = SubResource( 12 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=7]
+blend_point_0/node = SubResource( 4 )
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource( 13 )
+blend_point_1/node = SubResource( 5 )
 blend_point_1/pos = -1.0
-blend_point_2/node = SubResource( 14 )
+blend_point_2/node = SubResource( 6 )
 blend_point_2/pos = 0.0
 
-[sub_resource type="AnimationNodeTimeScale" id=16]
+[sub_resource type="AnimationNodeTimeScale" id=8]
 
-[sub_resource type="AnimationNodeTimeScale" id=17]
+[sub_resource type="AnimationNodeTimeScale" id=9]
 
-[sub_resource type="AnimationNodeBlendTree" id=18]
+[sub_resource type="AnimationNodeBlendTree" id=10]
 graph_offset = Vector2( 0, -63.5 )
-nodes/BlendSpace1D/node = SubResource( 15 )
+nodes/BlendSpace1D/node = SubResource( 7 )
 nodes/BlendSpace1D/position = Vector2( 60, -20 )
-nodes/RunSpeed/node = SubResource( 16 )
+nodes/RunSpeed/node = SubResource( 8 )
 nodes/RunSpeed/position = Vector2( 500, 20 )
-nodes/TimeScale/node = SubResource( 17 )
+nodes/TimeScale/node = SubResource( 9 )
 nodes/TimeScale/position = Vector2( 300, 0 )
 nodes/output/position = Vector2( 740, 20 )
-node_connections = [ "output", 0, "RunSpeed", "TimeScale", 0, "BlendSpace1D", "RunSpeed", 0, "TimeScale" ]
+node_connections = [ "output", 0, "RunSpeed", "RunSpeed", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
 
 [node name="Character" instance=ExtResource( 1 )]
 collision_layer = 0
@@ -220,7 +220,6 @@ polygon = PoolVector2Array( -4, -26, -2, -28, 2, -28, 4, -26, 4, 18, 2, 20, -2, 
 [node name="BodyParts" type="Node2D" parent="." index="1"]
 
 [node name="Head" parent="BodyParts" index="0" instance=ExtResource( 3 )]
-editor/display_folded = true
 position = Vector2( 0, -28 )
 collision_layer = 0
 collision_mask = 0
@@ -233,9 +232,9 @@ visible = false
 position = Vector2( 0, 0.00039959 )
 node_a = NodePath("../../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="LegTop" parent="BodyParts" index="1" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 0, 20 )
 collision_layer = 0
 collision_mask = 0
@@ -247,9 +246,9 @@ visible = false
 position = Vector2( 0, -0.000200272 )
 node_a = NodePath("../../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="LegBottom" parent="BodyParts/LegTop" index="2" instance=ExtResource( 5 )]
-editor/display_folded = true
 position = Vector2( 0, 32 )
 mass = 0.6
 continuous_cd = 1
@@ -260,9 +259,9 @@ visible = false
 position = Vector2( 0, 0.000200272 )
 node_a = NodePath("../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="LegTop2" parent="BodyParts" index="2" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 0, 20 )
 collision_layer = 0
 collision_mask = 0
@@ -274,9 +273,9 @@ visible = false
 position = Vector2( 0, -0.000200272 )
 node_a = NodePath("../../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="LegBottom2" parent="BodyParts/LegTop2" index="2" instance=ExtResource( 5 )]
-editor/display_folded = true
 position = Vector2( 0, 32 )
 mass = 0.6
 continuous_cd = 1
@@ -287,6 +286,7 @@ visible = false
 position = Vector2( 0, 0.000200272 )
 node_a = NodePath("../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="ArmTop" parent="BodyParts" index="3" instance=ExtResource( 6 )]
 position = Vector2( 0, -22 )
@@ -301,6 +301,7 @@ visible = false
 position = Vector2( 0, 0.000300407 )
 node_a = NodePath("../../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="ArmBottom" parent="BodyParts/ArmTop" index="2" instance=ExtResource( 7 )]
 position = Vector2( 0, 24 )
@@ -313,6 +314,7 @@ visible = false
 position = Vector2( 0, -1.90735e-006 )
 node_a = NodePath("../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="RightGrabPoint" parent="BodyParts/ArmTop/ArmBottom" index="2" instance=ExtResource( 8 )]
 position = Vector2( 0, 28 )
@@ -329,6 +331,7 @@ targetNodePath = NodePath("../../Ghost/TorsoAxle/TorsoArmAxle2")
 visible = false
 node_a = NodePath("../../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2" instance=ExtResource( 7 )]
 position = Vector2( 0, 24 )
@@ -341,6 +344,7 @@ visible = false
 position = Vector2( 0, 0.000404477 )
 node_a = NodePath("../..")
 node_b = NodePath("..")
+bias = 0.9
 
 [node name="LeftGrabPoint" parent="BodyParts/ArmTop2/ArmBottom2" index="2" instance=ExtResource( 8 )]
 position = Vector2( 0, 28 )
@@ -387,13 +391,13 @@ position = Vector2( 0, 45.0003 )
 [node name="AnimationManager" type="AnimationPlayer" parent="." index="3"]
 root_node = NodePath("../Ghost")
 playback_process_mode = 0
-anims/Idle = SubResource( 9 )
-anims/Running = SubResource( 10 )
-anims/RunningLeft = SubResource( 11 )
+anims/Idle = SubResource( 1 )
+anims/Running = SubResource( 2 )
+anims/RunningLeft = SubResource( 3 )
 script = ExtResource( 9 )
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="4"]
-tree_root = SubResource( 18 )
+tree_root = SubResource( 10 )
 anim_player = NodePath("../AnimationManager")
 active = true
 process_mode = 0

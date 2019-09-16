@@ -12,10 +12,13 @@ var _actions_log: Dictionary = {}
 var _current_action_step: int = 0
 var _current_movement_step: int = 0
 
+var _time_count: float = 0
+
 
 func _process(delta):
-	_check_action_log(OS.get_ticks_msec() - _start_time)
-	_check_position(OS.get_ticks_msec() - _start_time)
+	_time_count += delta * 1000.0
+	_check_action_log(int(_time_count))
+	_check_position(int(_time_count))
 
 
 func get_actions_log() -> Dictionary:

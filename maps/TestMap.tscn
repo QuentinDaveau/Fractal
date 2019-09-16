@@ -18,7 +18,7 @@ extents = Vector2( 1000, 10 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 editor/display_folded = true
-position = Vector2( 270, 254.379 )
+position = Vector2( 656.359, 306.924 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource( 1 )
@@ -29,7 +29,7 @@ polygon = PoolVector2Array( -100, -10, -100, 10, 100, 10, 100, -10 )
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 editor/display_folded = true
-position = Vector2( 770, 254.379 )
+position = Vector2( 1156.36, 306.924 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 shape = SubResource( 2 )
@@ -39,7 +39,7 @@ z_index = -1
 polygon = PoolVector2Array( -100, -10, -100, 10, 100, 10, 100, -10 )
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
-position = Vector2( 916.582, 880.807 )
+position = Vector2( 916.582, 655.173 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
 shape = SubResource( 3 )

@@ -28,6 +28,9 @@ func _new_gen() -> void:
 	for level in temp_level_list:
 		_regenerate_level(level)
 	
+#	Engine.time_scale = 2.0
+#	yield(get_tree().create_timer(60.0), "timeout")
+#	Engine.time_scale = 1.0
 	_load_player_level(ZOOM_MAP, gen)
 	
 
