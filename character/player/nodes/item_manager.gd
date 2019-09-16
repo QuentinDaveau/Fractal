@@ -15,6 +15,8 @@ onready var GRAB_POINTS = [
 onready var DEVICE_ID = owner.get_property("DEVICE_ID")
 onready var STATES = GRAB_POINTS[0].STATES
 
+var STARTING_ITEM: Pickable
+
 var _can_grab_items: bool = true
 var _has_item: bool = false
 var _grabbed_item_id: int = 0
@@ -23,6 +25,8 @@ var _grabbed_item_id: int = 0
 func _ready():
 	for grab_point in GRAB_POINTS:
 		grab_point.connect("state_changed", self, "_state_changed")
+	if STARTING_ITEM:
+		_force_pick_item(STARTING_ITEM)
 
 
 func _unhandled_input(event):
@@ -41,6 +45,14 @@ func _unhandled_input(event):
 	if event.is_action_released("game_shoot"):
 		if _has_item:
 			emit_signal("use_item", false)
+
+
+func _force_pick_item(item_to_pick: Pickable) -> void:
+	if _check_grab_points_state(STATES.no_grab):
+		if not item_to_pick:
+			return
+		item_to_pick.pick(owner, self, GRAB_POINTS[0], 0.01)
+		_grab_points_pick_item(item_to_pick)
 
 
 func _pick_item():

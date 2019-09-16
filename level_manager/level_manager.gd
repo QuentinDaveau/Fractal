@@ -8,6 +8,8 @@ export(PackedScene) var ZOOM_MAP: PackedScene
 export(int) var gen: int = 0
 export(float) var scale_mult: float = 1.5
 
+var PLAYERS_STARTING_WEAPON: String = "test_gun"
+
 var _levels_list: Array = []
 var _levels_layers_length: int = 32
 
@@ -45,6 +47,7 @@ func _load_player_level(level_map: PackedScene, level_gen: int, players_datas: A
 	level_instance.setup({
 				"level_gen": level_gen,
 				"map": level_map,
+				"players_starting_weapon": PLAYERS_STARTING_WEAPON
 				})
 	_levels_list.append(level_instance)
 	add_child(level_instance)
