@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://character/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://character/clone/clone.gd" type="Script" id=2]
@@ -7,7 +7,21 @@
 [ext_resource path="res://character/clone/item_manager.gd" type="Script" id=5]
 [ext_resource path="res://icon.png" type="Texture" id=6]
 
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.6
+rough = true
+absorbent = true
+
+[sub_resource type="GDScript" id=2]
+script/source = "tool
+extends CollisionPolygon2D
+
+func set_polygon(value):
+	.set_polygon(value)
+	$Polygon2D.set_polygon(value)"
+
 [node name="Clone" instance=ExtResource( 1 )]
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 script = ExtResource( 2 )
@@ -19,43 +33,55 @@ BOUND_BOX = {
 }
 movement_acceleration = 2.0
 
+[node name="CollisionPolygon2D" parent="." index="0"]
+script = SubResource( 2 )
+
 [node name="Head" parent="BodyParts" index="0"]
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="LegTop" parent="BodyParts" index="1"]
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="LegBottom" parent="BodyParts/LegTop" index="2"]
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="LegTop2" parent="BodyParts" index="2"]
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="LegBottom2" parent="BodyParts/LegTop2" index="2"]
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmTop" parent="BodyParts" index="3"]
 editor/display_folded = true
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmBottom" parent="BodyParts/ArmTop" index="2"]
 editor/display_folded = true
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmTop2" parent="BodyParts" index="4"]
 editor/display_folded = true
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2"]
 editor/display_folded = true
+physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 

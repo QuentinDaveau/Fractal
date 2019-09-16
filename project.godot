@@ -32,12 +32,12 @@ _global_script_classes=[ {
 "base": "PhysicsScaler",
 "class": "Damageable",
 "language": "GDScript",
-"path": "res://character/nodes/Body_parts/damageable/damageable.gd"
+"path": "res://Misc/damageable.gd"
 }, {
 "base": "RigidBody2D",
 "class": "Entity",
 "language": "GDScript",
-"path": "res://Misc/entity.gd"
+"path": "res://Misc/entity/entity.gd"
 }, {
 "base": "Weapon",
 "class": "Firearm",
