@@ -76,7 +76,6 @@ func _scale_self() -> void:
 	
 	mass = _scale_mass(mass)
 	gravity_scale = _scale_speed(gravity_scale)
-	$Sprite.scale = _scale_vector($Sprite.scale)
 	
 	$RightHandlePosition.position = _scale_vector($RightHandlePosition.position)
 	$LeftHandlePosition.position = _scale_vector($LeftHandlePosition.position)
