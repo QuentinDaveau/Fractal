@@ -58,7 +58,7 @@ func _apply_knockback() -> void:
 		rotated_knockback *= -1
 	
 	if parent is RigidBody2D:
-		parent.apply_impulse(position, rotated_knockback.rotated(global_rotation))
+		parent.apply_impulse(position, rotated_knockback.rotated(global_rotation) * SCALE_COEFF)
 
 
 func _on_cooldown_timeout():

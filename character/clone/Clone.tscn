@@ -62,25 +62,21 @@ gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmTop" parent="BodyParts" index="3"]
-editor/display_folded = true
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmBottom" parent="BodyParts/ArmTop" index="2"]
-editor/display_folded = true
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmTop2" parent="BodyParts" index="4"]
-editor/display_folded = true
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2"]
-editor/display_folded = true
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 continuous_cd = 2

@@ -26,22 +26,22 @@ func set_polygon(value):
 	.set_polygon(value)
 	$Polygon2D.set_polygon(value)"
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=3]
 radius = 120.0
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=4]
 
-[sub_resource type="PhysicsMaterial" id=3]
+[sub_resource type="PhysicsMaterial" id=5]
 friction = 0.2
 absorbent = true
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=6]
 radius = 120.0
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=7]
 resource_local_to_scene = true
 
-[sub_resource type="GDScript" id=6]
+[sub_resource type="GDScript" id=8]
 script/source = "# Stores all character settings defined by the player
 extends Node
 
@@ -85,7 +85,6 @@ physics_material_override = SubResource( 1 )
 continuous_cd = 2
 
 [node name="ArmTop" parent="BodyParts" index="3"]
-editor/display_folded = true
 physics_material_override = SubResource( 1 )
 continuous_cd = 2
 
@@ -106,7 +105,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop/ArmBottom/RightPickArea" index="0"]
-shape = SubResource( 7 )
+shape = SubResource( 3 )
 
 [node name="RightGrabArea" parent="BodyParts/ArmTop/ArmBottom" index="4" instance=ExtResource( 3 )]
 editor/display_folded = true
@@ -114,11 +113,10 @@ visible = false
 position = Vector2( -4.17233e-007, 24 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop/ArmBottom/RightGrabArea" index="0"]
-shape = SubResource( 8 )
+shape = SubResource( 4 )
 
 [node name="ArmTop2" parent="BodyParts" index="4"]
-editor/display_folded = true
-physics_material_override = SubResource( 3 )
+physics_material_override = SubResource( 5 )
 continuous_cd = 2
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2"]
@@ -138,7 +136,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop2/ArmBottom2/LeftPickArea" index="0"]
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 
 [node name="LeftGrabArea" parent="BodyParts/ArmTop2/ArmBottom2" index="4" instance=ExtResource( 3 )]
 editor/display_folded = true
@@ -146,10 +144,10 @@ visible = false
 position = Vector2( -4.17233e-007, 24 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyParts/ArmTop2/ArmBottom2/LeftGrabArea" index="0"]
-shape = SubResource( 5 )
+shape = SubResource( 7 )
 
 [node name="Properties" type="Node" parent="." index="6"]
-script = SubResource( 6 )
+script = SubResource( 8 )
 
 [node name="ActionLogger" type="Node" parent="." index="7"]
 script = ExtResource( 4 )

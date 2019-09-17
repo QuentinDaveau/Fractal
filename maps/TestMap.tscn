@@ -1,6 +1,4 @@
-[gd_scene load_steps=5 format=2]
-
-[ext_resource path="res://Objects/Scenes/Box.tscn" type="PackedScene" id=1]
+[gd_scene load_steps=4 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 resource_local_to_scene = true
@@ -49,8 +47,4 @@ position = Vector2( -3.05176e-005, 0 )
 scale = Vector2( 5.1, 1 )
 z_index = -1
 polygon = PoolVector2Array( -196.008, -10.1852, -196.088, 9.79773, 196.247, 9.51288, 196.186, -10.158 )
-
-[node name="Box" parent="." instance=ExtResource( 1 )]
-position = Vector2( 500.825, 39.3768 )
-mass = 10.0
 

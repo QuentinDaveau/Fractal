@@ -3,8 +3,8 @@
 [ext_resource path="res://Misc/entity/Entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://projectile/physic_projectile/physic_projectile.gd" type="Script" id=2]
 
-[node name="PhysicProjectile" instance=ExtResource( 1 )]
-continuous_cd = 1
+[node name="PhysicProjectile" index="0" instance=ExtResource( 1 )]
+z_index = -1
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )

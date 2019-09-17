@@ -52,6 +52,8 @@ func _force_pick_item(item_to_pick: Pickable) -> void:
 		if not item_to_pick:
 			return
 		item_to_pick.pick(owner, self, GRAB_POINTS[0], 0.01)
+		emit_signal("grabbing_item", item_to_pick.get_id())
+		_grabbed_item_id = item_to_pick.get_id()
 		_grab_points_pick_item(item_to_pick)
 
 

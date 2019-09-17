@@ -241,7 +241,6 @@ node_b = NodePath("..")
 bias = 0.9
 
 [node name="LegTop" parent="BodyParts" index="1" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 0, 20 )
 collision_layer = 0
 collision_mask = 0
@@ -272,7 +271,6 @@ node_b = NodePath("..")
 bias = 0.9
 
 [node name="LegTop2" parent="BodyParts" index="2" instance=ExtResource( 4 )]
-editor/display_folded = true
 position = Vector2( 0, 20 )
 collision_layer = 0
 collision_mask = 0
@@ -338,6 +336,7 @@ bias = 0.9
 position = Vector2( 0, 26 )
 
 [node name="ArmTop2" parent="BodyParts" index="4" instance=ExtResource( 6 )]
+editor/display_folded = true
 position = Vector2( 0, -22 )
 collision_layer = 0
 collision_mask = 0
@@ -353,6 +352,7 @@ node_b = NodePath("..")
 bias = 0.9
 
 [node name="ArmBottom2" parent="BodyParts/ArmTop2" index="2" instance=ExtResource( 7 )]
+editor/display_folded = true
 position = Vector2( 0, 24 )
 mass = 0.4
 physics_material_override = SubResource( 1 )

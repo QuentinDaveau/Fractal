@@ -4,6 +4,7 @@
 [ext_resource path="res://Misc/entity/collision_polygon.gd" type="Script" id=2]
 
 [node name="Entity" type="RigidBody2D"]
+continuous_cd = 1
 script = ExtResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

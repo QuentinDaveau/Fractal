@@ -11,7 +11,7 @@ var _jump: bool = false
 
 func setup(properties: Dictionary) -> void:
 	$Properties.DEVICE_ID = properties.device_id
-	if properties.starting_weapon:
+	if properties.get("starting_weapon"):
 		$ItemManager.STARTING_ITEM = properties.starting_weapon
 	.setup(properties)
 

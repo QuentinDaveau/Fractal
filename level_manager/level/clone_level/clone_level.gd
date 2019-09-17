@@ -2,14 +2,14 @@ extends Level
 
 export(PackedScene) var CLONE_SCENE: PackedScene
 
-var CHARACTER_LOGS: Array = []
 var ZOOM_POSITION: Vector2
 var LEVEL_SCALE: float = 1.0
 
+var _clone_spawn_count: int = 0
+
 
 func setup(properties: Dictionary) -> void:
-	CHARACTER_LOGS = properties.characters_logs
-	$LogChecker.set_level_log(properties.level_logs)
+	$LogChecker.set_logs(properties.level_logs, properties.characters_logs)
 	ZOOM_POSITION = properties.zoom_position
 	LEVEL_SCALE = properties.scale
 	scale = Vector2.ONE * LEVEL_SCALE
@@ -18,22 +18,16 @@ func setup(properties: Dictionary) -> void:
 	.setup(properties)
 
 
-func _ready():
-	if CHARACTER_LOGS.size() > 0:
-		for i in range(CHARACTER_LOGS.size()):
-			_spawn_clone(CHARACTER_LOGS[i], - 100 - i - (LEVEL_GEN * 100))
-
-
 func disassemble() -> Dictionary:
 	queue_free()
-	return {"logs": {"level": $LogChecker.get_level_log(), "characters": CHARACTER_LOGS}, "gen": LEVEL_GEN, "map": MAP}
+	return {"logs": {"level": $LogChecker.get_level_log(), "characters": $LogChecker.get_characters_log()}, "gen": LEVEL_GEN, "map": MAP}
 
 
 func get_logs() -> Dictionary:
-	return {"level": $LogChecker.get_level_log(), "characters": CHARACTER_LOGS}
+	return {"level": $LogChecker.get_level_log(), "characters": $LogChecker.get_characters_log()}
 
 
-func _spawn_clone(character_datas: Dictionary, device_id: int) -> void:
+func spawn_clone(character_datas: Dictionary) -> void:
 	
 	var clone_instance = CLONE_SCENE.instance()
 	var layers_array = get_layers()
@@ -48,8 +42,10 @@ func _spawn_clone(character_datas: Dictionary, device_id: int) -> void:
 		"replay": character_datas.logs,
 		"zoom_position": ZOOM_POSITION,
 		"level_warehouse": $ItemManager,
-		"device_id": device_id
+		"device_id": - 100 - _clone_spawn_count - (LEVEL_GEN * 100)
 		})
+	
+	_clone_spawn_count += 1
 	add_child(clone_instance)
 
 

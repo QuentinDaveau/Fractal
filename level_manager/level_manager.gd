@@ -31,7 +31,7 @@ func _new_gen() -> void:
 		_regenerate_level(level)
 	
 #	Engine.time_scale = 2.0
-#	yield(get_tree().create_timer(60.0), "timeout")
+#	yield(get_tree().create_timer(0.1), "timeout")
 #	Engine.time_scale = 1.0
 	_load_player_level(ZOOM_MAP, gen)
 	
@@ -60,7 +60,7 @@ func _load_clone_level(level_map: PackedScene, level_gen: int, level_logs: Dicti
 				"map": level_map,
 				"characters_logs": level_logs.characters,
 				"level_logs": level_logs.level,
-				"zoom_position": Vector2(250.0, 250.0),
+				"zoom_position": Vector2(500.0, 500.0),
 				"scale": pow(scale_mult, gen - level_gen)
 				})
 	
