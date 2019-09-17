@@ -52,8 +52,13 @@ func _shoot_projectile() -> void:
 
 func _apply_knockback() -> void:
 	var parent = get_parent()
+	var rotated_knockback = -knockback
+	
+	if global_rotation < -PI/2 or global_rotation > PI/2:
+		rotated_knockback *= -1
+	
 	if parent is RigidBody2D:
-		parent.apply_impulse(position, -knockback.rotated(global_rotation) / SCALE_COEFF)
+		parent.apply_impulse(position, rotated_knockback.rotated(global_rotation))
 
 
 func _on_cooldown_timeout():

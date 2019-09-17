@@ -11,7 +11,6 @@ collision_layer = 0
 collision_mask = 0
 mass = 0.4
 OBJECT_NAME = "test_gun"
-SHOW_BOX = true
 BOUND_BOX = {
 "height": 30.0,
 "offset_x": 0.0,
@@ -34,8 +33,7 @@ position = Vector2( -24.0781, -1.42735 )
 position = Vector2( -24.0781, -1.42735 )
 
 [node name="SingleFireBarrel" parent="." index="4" instance=ExtResource( 2 )]
-editor/display_folded = true
-position = Vector2( 15.2947, -4.24601 )
+position = Vector2( 20.9219, -1.42735 )
 knockback = Vector2( 100, 200 )
 
 [node name="PhysicSpawner" parent="SingleFireBarrel" index="1" instance=ExtResource( 3 )]

@@ -12,8 +12,8 @@ var TELEPORT_DELAY: float = 1.0
 
 var _state = STATES.FREE
 var _possessor: Character
+
 var _magnet_node: Node2D
-var magnet_node_velocity: Vector2 = Vector2.ZERO
 
 var _teleport: bool = false
 var _teleport_position: Vector2
