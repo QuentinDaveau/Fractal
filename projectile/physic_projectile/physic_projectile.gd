@@ -1,6 +1,7 @@
-extends Projectile
+extends PhysicsScaler
 class_name PhysicProjectile
 
+const DAMAGE: float = 1.0
 
 export(PackedScene) var IMPACT_PARTICLE: PackedScene
 
@@ -16,9 +17,11 @@ func _scale_self():
 	mass = _scale_mass(mass)
 	gravity_scale = _scale_speed(_scale_power(gravity_scale))
 	
-	$Sprite.scale = _scale_vector($Sprite.scale)
-	
 	var vertex_buffer: = []
 	for vertex in $CollisionPolygon2D.polygon:
 		vertex_buffer.append(_scale_vector(vertex))
 	$CollisionPolygon2D.set_polygon(vertex_buffer)
+
+
+func _die() -> void:
+	pass

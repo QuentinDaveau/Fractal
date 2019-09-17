@@ -54,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Misc/level_scaler.gd"
 }, {
-"base": "Projectile",
+"base": "PhysicsScaler",
 "class": "PhysicProjectile",
 "language": "GDScript",
 "path": "res://projectile/physic_projectile/physic_projectile.gd"
@@ -73,11 +73,6 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://character/player/Player.gd"
-}, {
-"base": "PhysicsScaler",
-"class": "Projectile",
-"language": "GDScript",
-"path": "res://projectile/projectile.gd"
 }, {
 "base": "Node",
 "class": "ProjectileSpawner",
@@ -108,7 +103,6 @@ _global_script_class_icons={
 "PhysicsScaler": "",
 "Pickable": "",
 "Player": "",
-"Projectile": "",
 "ProjectileSpawner": "",
 "Spawnable": "",
 "Weapon": ""
