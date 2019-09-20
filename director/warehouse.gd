@@ -7,6 +7,12 @@ var ITEMS: Dictionary = {
 		}
 
 
+var CHARACTERS: Dictionary = {
+		"player": {"path": "res://character/player/Player.tscn", "type": "character"},
+		"clone": {"path": "res://character/clone/Clone.tscn", "type": "character"}
+		}
+
+
 func get_random_item(type: String = "weapon") -> PackedScene:
 	var random = randi()%(ITEMS.enabled.size())
 	randomize()
