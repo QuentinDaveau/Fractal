@@ -11,4 +11,3 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Polygon2D" type="Polygon2D" parent="CollisionPolygon2D"]
-
