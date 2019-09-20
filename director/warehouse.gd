@@ -23,3 +23,7 @@ func get_random_item(type: String = "weapon") -> PackedScene:
 
 func get_item(item_name: String) -> PackedScene:
 	return ITEMS.enabled.get(item_name).path
+
+
+func get_character(character_name: String) -> PackedScene:
+	return CHARACTERS.get(character_name)

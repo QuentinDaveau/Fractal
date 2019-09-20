@@ -1,6 +1,6 @@
 extends Level
 
-export(PackedScene) var CLONE_SCENE: PackedScene
+onready var CLONE_SCENE = Director.WAREHOUSE.get_character("clone")
 
 var ZOOM_POSITION: Vector2
 var LEVEL_SCALE: float = 1.0

@@ -2,7 +2,7 @@ extends Level
 
 signal player_spawned(player_datas)
 
-export(PackedScene) var PlayerScene: PackedScene
+onready var PLAYER_SCENE = Director.WAREHOUSE.get_character("player")
 
 var PLAYERS_STARTING_WEAPON: String
 
@@ -34,7 +34,7 @@ func get_logs() -> Dictionary:
 
 
 func _spawn_player(device_id: int) -> void:
-	var player_instance = PlayerScene.instance()
+	var player_instance = PLAYER_SCENE.instance()
 	var layers_array = get_layers()
 	var player_weapon: Pickable
 	var player_id = $IdCounter.get_id()
