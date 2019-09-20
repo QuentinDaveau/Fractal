@@ -24,6 +24,10 @@ func get_logs() -> Dictionary:
 	return {}
 
 
+func spawn_entity_instance(entity: Node) -> void:
+	$Entities.add_child(entity)
+
+
 func get_layers() -> Dictionary:
 	var character_layers: = {"layer": [LEVEL_GEN], "mask": []}
 	

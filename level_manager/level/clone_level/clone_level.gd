@@ -46,7 +46,7 @@ func spawn_clone(character_datas: Dictionary) -> void:
 		})
 	
 	_clone_spawn_count += 1
-	add_child(clone_instance)
+	spawn_entity_instance(clone_instance)
 
 
 func _get_scaled_position(position_to_scale: Vector2) -> Vector2:

@@ -54,4 +54,4 @@ func _spawn_player(device_id: int) -> void:
 	
 	emit_signal("player_spawned", {"player_id": player_id})
 	_characters_list[player_id] = player_instance
-	add_child(player_instance)
+	spawn_entity_instance(player_instance)

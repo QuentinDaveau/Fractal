@@ -12,4 +12,3 @@ PLAYER_LEVEL = ExtResource( 2 )
 CLONE_LEVEL = ExtResource( 3 )
 START_MAP = ExtResource( 4 )
 ZOOM_MAP = ExtResource( 5 )
-

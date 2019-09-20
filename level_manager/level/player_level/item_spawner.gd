@@ -46,6 +46,6 @@ func _spawn_item(item: Pickable, item_position: Vector2) -> Pickable:
 			})
 	
 	emit_signal("item_spawned", item.get_entity_name(), item.get_id(), item.position)
-	owner.add_child(item)
+	owner.spawn_entity_instance(item)
 	
 	return item

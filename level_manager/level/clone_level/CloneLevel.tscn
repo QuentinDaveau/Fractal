@@ -15,4 +15,3 @@ script = ExtResource( 4 )
 
 [node name="ItemManager" type="Node" parent="." index="1"]
 script = ExtResource( 5 )
-

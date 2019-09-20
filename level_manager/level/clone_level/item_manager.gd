@@ -21,7 +21,7 @@ func spawn_item(item_id, item_name, item_position) -> void:
 				})
 	
 	_items_list[item_id] = item
-	owner.add_child(item)
+	owner.spawn_entity_instance(item)
 
 
 func get_item(id: int) -> Node:
