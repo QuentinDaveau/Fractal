@@ -22,21 +22,22 @@ func _ready():
 
 
 func _unhandled_input(event):
-	if event.device == DEVICE_ID:
-		match current_state:
-			"idle":
-				_update_input_direction(event)
-				if _input_direction:
-					_change_state("aiming")
-					return
-			"aiming":
-				_update_input_direction(event)
-				if not _input_direction:
-					_change_state("idle")
-					return
-				_update_arms_direction(_input_direction)
-			"stagger":
+	if not event.device == DEVICE_ID:
+		return
+	match current_state:
+		"idle":
+			_update_input_direction(event)
+			if _input_direction:
+				_change_state("aiming")
 				return
+		"aiming":
+			_update_input_direction(event)
+			if not _input_direction:
+				_change_state("idle")
+				return
+			_update_arms_direction(_input_direction)
+		"stagger":
+			return
 
 
 func initialize(start_state):

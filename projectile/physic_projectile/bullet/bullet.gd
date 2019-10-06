@@ -30,6 +30,7 @@ func _integrate_forces(state):
 	elif(current_velocity > angularVToAim):
 		state.angular_velocity -= current_velocity - angularVToAim
 
+
 func _body_entered(body: PhysicsBody2D) -> void:
 	if body is Damageable:
 		body.receive_damage(DAMAGE)

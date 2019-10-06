@@ -1,42 +1,43 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://pickable/weapon/firearm/Firearm.tscn" type="PackedScene" id=1]
-[ext_resource path="res://pickable/weapon/firearm/test_gun/Gun.png" type="Texture" id=2]
-[ext_resource path="res://barrel/trigger_mechanism/single_fire/SingleFireBarrel.tscn" type="PackedScene" id=3]
-[ext_resource path="res://barrel/projectile_spawner/physic_spawner/PhysicSpawner.tscn" type="PackedScene" id=4]
-[ext_resource path="res://projectile/physic_projectile/bullet/Bullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://barrel/trigger_mechanism/single_fire/SingleFireBarrel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://barrel/projectile_spawner/physic_spawner/PhysicSpawner.tscn" type="PackedScene" id=3]
+[ext_resource path="res://projectile/physic_projectile/bullet/Bullet.tscn" type="PackedScene" id=4]
 
 [node name="TestGun" instance=ExtResource( 1 )]
 position = Vector2( 4.07813, 1.42735 )
 collision_layer = 0
 collision_mask = 0
 mass = 0.4
+continuous_cd = 1
 OBJECT_NAME = "test_gun"
 BOUND_BOX = {
 "height": 30.0,
 "offset_x": 0.0,
 "offset_y": 0.0,
-"width": 50.0
+"width": 60.0
 }
 
-[node name="Sprite" parent="." index="0"]
-modulate = Color( 0, 0, 0, 1 )
-texture = ExtResource( 2 )
+[node name="CollisionPolygon2D" parent="." index="0"]
+editor/display_folded = false
+polygon = PoolVector2Array( -29.0781, -11.4274, -29.0781, 8.57265, 15.9219, 8.57265, 20.9219, 3.57265, 20.9219, -6.42735, 15.9219, -11.4274 )
 
-[node name="CollisionPolygon2D" parent="." index="1"]
-polygon = PoolVector2Array( -14.3861, -7.56216, -14.3861, 7.49595, -9.19617, 7.49595, -2.61738, -1.42196, 12.2214, -1.42196, 14.4875, -2.44533, 14.4875, -5.80782, 11.7098, -7.56216 )
+[node name="Polygon2D" parent="CollisionPolygon2D" index="0"]
+color = Color( 0.0352941, 0.0352941, 0.0352941, 1 )
+polygon = PoolVector2Array( -29.0781, -11.4274, -29.0781, 8.57265, 15.9219, 8.57265, 20.9219, 3.57265, 20.9219, -6.42735, 15.9219, -11.4274 )
 
-[node name="RightHandlePosition" parent="." index="2"]
-position = Vector2( -11.8302, 5.33518 )
+[node name="RightHandlePosition" parent="." index="1"]
+position = Vector2( -24.0781, -1.42735 )
 
-[node name="LeftHandlePosition" parent="." index="3"]
-position = Vector2( -11.8302, 5.33518 )
+[node name="LeftHandlePosition" parent="." index="2"]
+position = Vector2( -24.0781, -1.42735 )
 
-[node name="SingleFireBarrel" parent="." index="4" instance=ExtResource( 3 )]
-position = Vector2( 15.2947, -4.24601 )
+[node name="SingleFireBarrel" parent="." index="4" instance=ExtResource( 2 )]
+position = Vector2( 20.9219, -1.42735 )
 knockback = Vector2( 100, 200 )
 
-[node name="PhysicSpawner" parent="SingleFireBarrel" index="1" instance=ExtResource( 4 )]
-PROJECTILE = ExtResource( 5 )
+[node name="PhysicSpawner" parent="SingleFireBarrel" index="1" instance=ExtResource( 3 )]
+PROJECTILE = ExtResource( 4 )
 VELOCITY = 1500.0
 

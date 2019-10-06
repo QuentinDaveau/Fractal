@@ -7,7 +7,7 @@ The spawn finder finds correct places to spawn the players and the items (with p
 var PLAYER_BOUNDS: Dictionary = {"top": 100.0, "bottom": 100.0}
 var ITEM_BOUNDS: Dictionary = {"top": 100.0, "bottom": 100.0}
 
-var TEMP_SIZE: Vector2 = Vector2(1000.0, 500.0)
+var TEMP_SIZE: Vector2 = Vector2(1920.0, 1000.0)
 
 
 func find_spawn_position(spawnable: Spawnable) -> Vector2:

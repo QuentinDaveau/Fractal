@@ -6,17 +6,19 @@ onready var _start_time: int = OS.get_ticks_msec()
 
 var REPLAY_SPEED: float = 0.0
 var LEVEL_WAREHOUSE: Node
+var CURVE: = Curve2D.new()
 
 var _actions_log: Dictionary = {}
 var _current_action_step: int = 0
 var _current_movement_step: int = 0
 
+var _time_count: float = 0
+
 
 func _process(delta):
-	
-	_check_action_log(OS.get_ticks_msec() - _start_time)
-	_check_position(OS.get_ticks_msec() - _start_time)
-	pass
+	_time_count += delta * 1000.0
+	_check_action_log(int(_time_count))
+	_check_position(int(_time_count))
 
 
 func get_actions_log() -> Dictionary:
@@ -25,6 +27,11 @@ func get_actions_log() -> Dictionary:
 
 func set_actions_log(actions_log: Dictionary) -> void:
 	_actions_log = actions_log
+	for i in range(1, _actions_log.movements.size() - 1):
+		var tang = _actions_log.movements[i + 1].position - _actions_log.movements[i - 1].position
+		var left_angle_ratio = abs(tang.tangent().angle_to(_actions_log.movements[i - 1].position - _actions_log.movements[i].position) / PI) / 4
+		var right_angle_ratio = abs(tang.tangent().angle_to(_actions_log.movements[i + 1].position - _actions_log.movements[i].position) / PI) / 4
+		CURVE.add_point(_actions_log.movements[i].position, - tang * left_angle_ratio, tang * right_angle_ratio)
 
 
 func set_replay_speed(speed: float) -> void:
@@ -32,13 +39,15 @@ func set_replay_speed(speed: float) -> void:
 
 
 func _check_position(time: int) -> void:
-	if _current_movement_step + 3 < _actions_log.movements.size():
-		if _actions_log.movements[_current_movement_step].time * REPLAY_SPEED <= time:
-			get_parent().update_movement(_actions_log.movements[_current_movement_step + 1].position,
-					_actions_log.movements[_current_movement_step + 2].position,
-					(_actions_log.movements[_current_movement_step + 2].time - _actions_log.movements[_current_movement_step + 1].time) * REPLAY_SPEED,
-					(_actions_log.movements[_current_movement_step + 3].time - _actions_log.movements[_current_movement_step + 2].time) * REPLAY_SPEED)
+	if _current_movement_step + 2 < _actions_log.movements.size():
+		if time / REPLAY_SPEED > _actions_log.movements[_current_movement_step + 1].time:
 			_current_movement_step += 1
+		
+		owner.update_movement(CURVE.interpolate(_current_movement_step, 
+			inverse_lerp(_actions_log.movements[_current_movement_step].time,
+					_actions_log.movements[_current_movement_step + 1].time,
+					time / REPLAY_SPEED
+			)))
 
 
 func _check_action_log(time: int):
@@ -50,7 +59,6 @@ func _check_action_log(time: int):
 
 
 func _do_action(action: Dictionary):
-	print(action)
 	match action.action:
 		
 		"aim":

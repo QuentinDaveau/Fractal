@@ -12,6 +12,7 @@ var TELEPORT_DELAY: float = 1.0
 
 var _state = STATES.FREE
 var _possessor: Character
+
 var _magnet_node: Node2D
 
 var _teleport: bool = false
@@ -76,7 +77,6 @@ func _scale_self() -> void:
 	
 	mass = _scale_mass(mass)
 	gravity_scale = _scale_speed(gravity_scale)
-	$Sprite.scale = _scale_vector($Sprite.scale)
 	
 	$RightHandlePosition.position = _scale_vector($RightHandlePosition.position)
 	$LeftHandlePosition.position = _scale_vector($LeftHandlePosition.position)

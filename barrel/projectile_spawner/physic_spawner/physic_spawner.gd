@@ -12,6 +12,7 @@ func spawn() -> void:
 		"linear_velocity": VELOCITY,
 		"scale_coeff": parent.SCALE_COEFF,
 		"layer_array": parent.LAYERS.layer,
-		"mask_array": parent.LAYERS.mask
+		"mask_array": parent.LAYERS.mask,
+		"owner": owner
 		})
 	get_tree().get_root().add_child(projectile_instance)

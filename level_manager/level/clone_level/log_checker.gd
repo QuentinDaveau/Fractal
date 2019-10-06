@@ -4,21 +4,30 @@ onready var _start_time: int = OS.get_ticks_msec()
 onready var _item_manager = owner.get_node("ItemManager")
 
 var LEVEL_LOG: Array = []
+var CHARACTERS_LOG: Dictionary = {}
 var REPLAY_SPEED: float = 0.0
 
 var _current_step: int = 0
 
+var _time_count: float = 0.0
+
 
 func _process(delta):
-	_check_spawn_log(OS.get_ticks_msec() - _start_time)
+	_time_count += delta * 1000.0
+	_check_spawn_log(int(_time_count))
 
 
-func set_level_log(level_log: Array) -> void:
+func set_logs(level_log: Array, characters_log: Dictionary) -> void:
 	LEVEL_LOG = level_log
+	CHARACTERS_LOG = characters_log
 
 
 func get_level_log() -> Array:
 	return LEVEL_LOG
+
+
+func get_characters_log() -> Dictionary:
+	return CHARACTERS_LOG
 
 
 func set_replay_speed(speed: float) -> void:
@@ -37,6 +46,9 @@ func _do_action(action: Dictionary):
 	match action.action:
 		"item_spawned":
 			_item_manager.spawn_item(action.args.id, action.args.name, action.args.position)
+		
+		"player_spawned":
+			owner.spawn_clone(CHARACTERS_LOG[action.args.player_id])
 
 
 

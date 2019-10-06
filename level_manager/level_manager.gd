@@ -8,6 +8,8 @@ export(PackedScene) var ZOOM_MAP: PackedScene
 export(int) var gen: int = 0
 export(float) var scale_mult: float = 1.5
 
+var PLAYERS_STARTING_WEAPON: String = "test_gun"
+
 var _levels_list: Array = []
 var _levels_layers_length: int = 32
 
@@ -27,6 +29,10 @@ func _new_gen() -> void:
 	_levels_list = []
 	for level in temp_level_list:
 		_regenerate_level(level)
+	
+#	Engine.time_scale = 2.0
+#	yield(get_tree().create_timer(0.1), "timeout")
+#	Engine.time_scale = 1.0
 	_load_player_level(ZOOM_MAP, gen)
 	
 
@@ -41,6 +47,7 @@ func _load_player_level(level_map: PackedScene, level_gen: int, players_datas: A
 	level_instance.setup({
 				"level_gen": level_gen,
 				"map": level_map,
+				"players_starting_weapon": PLAYERS_STARTING_WEAPON
 				})
 	_levels_list.append(level_instance)
 	add_child(level_instance)
@@ -53,7 +60,7 @@ func _load_clone_level(level_map: PackedScene, level_gen: int, level_logs: Dicti
 				"map": level_map,
 				"characters_logs": level_logs.characters,
 				"level_logs": level_logs.level,
-				"zoom_position": Vector2(250.0, 250.0),
+				"zoom_position": Vector2(500.0, 500.0),
 				"scale": pow(scale_mult, gen - level_gen)
 				})
 	

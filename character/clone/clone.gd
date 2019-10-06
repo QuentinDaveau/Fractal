@@ -1,7 +1,7 @@
 extends Character
 class_name Clone
 
-var _movement_dampening: float = 10.0
+var _movement_dampening: float = 100.0
 
 var ZOOM_POSITION: Vector2 = Vector2(.0, .0)
 
@@ -14,16 +14,18 @@ var step_milis: int = 200
 var _positions_array: Array = []
 var cell_count: int = -1
 
-var position_to_reach: Vector2 = Vector2.ZERO
+var _position_to_reach: Vector2 = Vector2.ZERO
 var local_start_count: int = 0
+
+var _acceleration: float = 600.0
 
 
 func setup(properties: Dictionary) -> void:
 	.setup(properties)
-	
 	$ActionPlayer.set_actions_log(properties.replay)
 	$ActionPlayer.LEVEL_WAREHOUSE = properties.level_warehouse
 	ZOOM_POSITION = properties.zoom_position
+	$Properties.DEVICE_ID = properties.device_id
 	
 	for body in _get_all_nodes($BodyParts, []):
 		body.setup(properties)
@@ -37,12 +39,13 @@ func _integrate_forces(state):
 			body_part.enabled = true
 		_scale_init_done = true
 
-	_move_player_imm(state)
+	_move_clone(state)
 	._integrate_forces(state)
 
 
-func get_event_source() -> Node:
-	return $ActionPlayer
+func update_movement(new_position: Vector2) -> void:
+	_position_to_reach = _get_scaled_position(new_position)
+	$Sprite.global_position = _position_to_reach
 
 
 func _scale_self() -> void:
@@ -58,11 +61,11 @@ func _scale_self() -> void:
 	for pin in _get_all_pins($BodyParts, []):
 		pin.position = _scale_vector(pin.position)
 
-	$CollisionShape2D.get_shape().set_height(_scale_vector($CollisionShape2D.get_shape().get_height()))
-	$CollisionShape2D.get_shape().set_radius(_scale_vector($CollisionShape2D.get_shape().get_radius()))
-	$CollisionShape2D.position = _scale_vector($CollisionShape2D.position)
-	$Sprite.scale = _scale_vector($Sprite.scale)
-	$Sprite.position = _scale_vector($Sprite.position)
+	var vertex_buffer: = []
+	for vertex in $CollisionPolygon2D.polygon:
+		vertex_buffer.append(_scale_vector(vertex))
+	$CollisionPolygon2D.set_polygon(vertex_buffer)
+	
 	mass = _scale_mass(mass)
 	power = _scale_speed(power)
 	brakePower = _scale_speed(brakePower)
@@ -92,49 +95,12 @@ func _get_all_pins(node:Node, array:Array) -> Array:
 	return array
 
 
-func _move_player_imm(state: Physics2DDirectBodyState) -> void:
-
-	if (time_left - (OS.get_ticks_msec() - start_count)) <= 10:
-		return
-
-	if (_positions_array.size() - 2) - (float(time_left - (OS.get_ticks_msec() - start_count))/step_milis) + 1 != cell_count:
-		position_to_reach = _positions_array[(_positions_array.size() - 2) - (float(time_left - (OS.get_ticks_msec() - start_count))/step_milis) + 1]
-		local_start_count = OS.get_ticks_msec()
-		cell_count += 1
-
-	if position_to_reach != Vector2.ZERO && _positions_array.size() > 0:
-		var velocity_to_reach = (position_to_reach - global_position) * 1000 / (2 * step_milis - (OS.get_ticks_msec() - local_start_count))
-		var velocity_to_add_x = (velocity_to_reach.x - state.linear_velocity.x 
-				if abs(velocity_to_reach.x - state.linear_velocity.x) < _movement_dampening 
-				else _movement_dampening * sign(velocity_to_reach.x - state.linear_velocity.x))
-		var velocity_to_add_y = (velocity_to_reach.y - state.linear_velocity.y 
-				if abs(velocity_to_reach.y - state.linear_velocity.y) < _movement_dampening 
-				else _movement_dampening * sign(velocity_to_reach.y - state.linear_velocity.y))
-		state.linear_velocity += Vector2(velocity_to_add_x, velocity_to_add_y)
-
-
-func update_movement(new_position: Vector2, next_position: Vector2, delay: int, next_delay: int) -> void:
-
-	if not next_delay:
-		return
-
-	var scaled_position = _get_scaled_position(new_position)
-	var tmp_positions_array: Array = []
-	var step = float(delay) / step_milis
-	var dist_pos = scaled_position - global_position
-
-	for i in range (step):
-		tmp_positions_array.append(global_position + (dist_pos / step) * i)
-
-	tmp_positions_array.append(scaled_position)
-	tmp_positions_array.append(scaled_position + ((_get_scaled_position(next_position) - scaled_position) / (float(next_delay) / step_milis)))
-	tmp_positions_array.append(scaled_position + (2 * (_get_scaled_position(next_position) - scaled_position) / ((float(next_delay) / step_milis))))
-
-	_positions_array = tmp_positions_array
-	cell_count = -1
-	start_count = OS.get_ticks_msec()
-	time_left = delay
-	$Sprite2.global_position = scaled_position
+func _move_clone(state: Physics2DDirectBodyState) -> void:
+	if _position_to_reach != Vector2.ZERO:
+		var velocity_to_reach_x = sign(_position_to_reach.x - global_position.x) * ease(inverse_lerp(0, _acceleration, abs(_position_to_reach.x - global_position.x)), 0.2) * _acceleration
+		var velocity_to_reach_y = sign(_position_to_reach.y - global_position.y) * ease(inverse_lerp(0, _acceleration, abs(_position_to_reach.y - global_position.y)), 0.2) * _acceleration
+		
+		state.linear_velocity = Vector2(velocity_to_reach_x, velocity_to_reach_y)
 
 
 func _get_scaled_position(position_to_scale: Vector2) -> Vector2:

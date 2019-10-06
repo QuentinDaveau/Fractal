@@ -1,20 +1,26 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://projectile/physic_projectile/PhysicProjectile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://projectile/physic_projectile/bullet/bullet.gd" type="Script" id=2]
 [ext_resource path="res://effects/particles/projectiles/physics/BulletImpact.tscn" type="PackedScene" id=3]
-[ext_resource path="res://projectile/physic_projectile/bullet/Bullet.png" type="Texture" id=4]
 
 [node name="Bullet" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+BOUND_BOX = {
+"height": 0.0,
+"offset_x": 0.0,
+"offset_y": 0.0,
+"width": 0.0
+}
 IMPACT_PARTICLE = ExtResource( 3 )
 
-[node name="SpawnOrigin" parent="." index="0"]
-position = Vector2( -3.63499, 0 )
-
-[node name="CollisionPolygon2D" parent="." index="1"]
+[node name="CollisionPolygon2D" parent="." index="0"]
 polygon = PoolVector2Array( -3.54955, -2.58813, -3.51439, 2.5588, 2.76598, 2.5588, 3.59546, 1.80831, 3.55596, -1.90461, 3.00297, -2.53659 )
 
-[node name="Sprite" parent="." index="2"]
-texture = ExtResource( 4 )
+[node name="Polygon2D" parent="CollisionPolygon2D" index="0"]
+color = Color( 0.658824, 0.658824, 0.658824, 1 )
+polygon = PoolVector2Array( -3.54955, -2.58813, -3.51439, 2.5588, 2.76598, 2.5588, 3.59546, 1.80831, 3.55596, -1.90461, 3.00297, -2.53659 )
+
+[node name="SpawnOrigin" parent="." index="1"]
+position = Vector2( 3.69484, 0 )
 

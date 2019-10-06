@@ -6,30 +6,24 @@ onready var targetNode = get_node(targetNodePath)
 
 export(bool) var enabled: bool = true
 
-export(float) var POWER = 20
-export(float) var MAX_APPLIED_AVELOCITY = 100
-export(float) var MAX_APPLIED_DAMPENING = 100
+export(float) var POWER = 25
+export(float) var MAX_APPLIED_AVELOCITY = 60
+export(float) var MAX_APPLIED_DAMPENING = 60
 export(float) var BRAKE_POWER = 1
 
 export(bool) var ANGLE_RESTRICTION = false
 export(float) var MIN_ANGLE = -0
 export(float) var MAX_ANGLE = -0
-export(float) var RESTRICTION_POWER = 5
+export(float) var RESTRICTION_POWER = 3
 
 export(int) var MAX_AVELOCITY_VARIATION = 15
 
 
 func _scale_self() -> void:
-	var collision_shape = get_node("./CollisionShape2D").get_shape()
-	if collision_shape is CapsuleShape2D:
-		collision_shape.set_height(_scale_vector(collision_shape.get_height()))
-		collision_shape.set_radius(_scale_vector(collision_shape.get_radius()))
-	elif collision_shape is CircleShape2D:
-		collision_shape.set_radius(_scale_vector(collision_shape.get_radius()))
-
-	get_node("./CollisionShape2D").position = _scale_vector(get_node("./CollisionShape2D").position)
-	get_node("Sprite").scale = _scale_vector(get_node("Sprite").scale)
-	get_node("Sprite").position = _scale_vector(get_node("Sprite").position)
+	var vertex_buffer: = []
+	for vertex in $CollisionPolygon2D.polygon:
+		vertex_buffer.append(_scale_vector(vertex))
+	$CollisionPolygon2D.set_polygon(vertex_buffer)
 
 	position = _scale_vector(position)
 	mass = _scale_mass(mass)

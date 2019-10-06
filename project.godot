@@ -32,12 +32,12 @@ _global_script_classes=[ {
 "base": "PhysicsScaler",
 "class": "Damageable",
 "language": "GDScript",
-"path": "res://character/nodes/Body_parts/damageable/damageable.gd"
+"path": "res://Misc/damageable.gd"
 }, {
 "base": "RigidBody2D",
 "class": "Entity",
 "language": "GDScript",
-"path": "res://Misc/entity.gd"
+"path": "res://Misc/entity/entity.gd"
 }, {
 "base": "Weapon",
 "class": "Firearm",
@@ -54,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Misc/level_scaler.gd"
 }, {
-"base": "Projectile",
+"base": "PhysicsScaler",
 "class": "PhysicProjectile",
 "language": "GDScript",
 "path": "res://projectile/physic_projectile/physic_projectile.gd"
@@ -73,11 +73,6 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://character/player/Player.gd"
-}, {
-"base": "PhysicsScaler",
-"class": "Projectile",
-"language": "GDScript",
-"path": "res://projectile/projectile.gd"
 }, {
 "base": "Node",
 "class": "ProjectileSpawner",
@@ -108,7 +103,6 @@ _global_script_class_icons={
 "PhysicsScaler": "",
 "Pickable": "",
 "Player": "",
-"Projectile": "",
 "ProjectileSpawner": "",
 "Spawnable": "",
 "Weapon": ""
@@ -174,4 +168,6 @@ game_grab_item={
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=1
 environment/default_environment="res://default_env.tres"

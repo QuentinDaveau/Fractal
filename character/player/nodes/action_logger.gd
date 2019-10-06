@@ -7,6 +7,8 @@ export(float) var position_log_delay_ms: float = 100
 onready var start_position: Vector2 = get_parent().global_position
 onready var _start_time: int = OS.get_ticks_msec()
 
+var MIN_POSITION_STEP: int = 10
+
 var _actions_log: Array = []
 var _movements_log: Array = []
 
@@ -44,6 +46,9 @@ func get_start_position() -> Vector2:
 
 
 func _log_movement() -> void:
+	if _movements_log.size() > 0:
+		if (owner.global_position - _movements_log[-1].position).length() < MIN_POSITION_STEP:
+			return
 	_movements_log.append({"time": OS.get_ticks_msec() - _start_time, "position": owner.global_position})
 
 
