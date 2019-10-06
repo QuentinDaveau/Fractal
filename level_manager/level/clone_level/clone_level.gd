@@ -1,6 +1,6 @@
 extends Level
 
-onready var CLONE_SCENE = Director.WAREHOUSE.get_character("clone")
+onready var CLONE_SCENE = Director.WAREHOUSE.get_character("clone").path
 
 var ZOOM_POSITION: Vector2
 var LEVEL_SCALE: float = 1.0
@@ -29,7 +29,7 @@ func get_logs() -> Dictionary:
 
 func spawn_clone(character_datas: Dictionary) -> void:
 	
-	var clone_instance = CLONE_SCENE.instance()
+	var clone_instance = load(CLONE_SCENE).instance()
 	var layers_array = get_layers()
 	
 	clone_instance.scale = Vector2.ONE / LEVEL_SCALE
